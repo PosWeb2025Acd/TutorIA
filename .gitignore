@@ -194,3 +194,5 @@ cython_debug/
 .cursorindexingignore
 
 ACD/v1/rag_db
+.idea/
+hugging_face_token

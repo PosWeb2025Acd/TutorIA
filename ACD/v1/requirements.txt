@@ -9,3 +9,6 @@ langgraph
 langchain-huggingface
 langchain-core
 langchain-ollama
+langchain-chroma
+
+chromadb
