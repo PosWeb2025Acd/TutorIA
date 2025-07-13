@@ -1,6 +1,5 @@
 import os
 
-from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from process_files import load_pages, create_pages_chunks, create_chunk_ids
@@ -18,22 +17,15 @@ def load_huggingface_token():
 
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = load_huggingface_token()
 
-def _create_in_memory_db(chunks, embedding):
-    if os.path.exists(MEMORY_DB_PATH):
-        db = InMemoryVectorStore.load(path=MEMORY_DB_PATH, embedding=embedding)
-        print(f"Loaded existing database from {MEMORY_DB_PATH}")
-    else:
-        db = InMemoryVectorStore(embedding=embedding)
-        ids = [chunk.metadata["page_id"] for chunk in chunks]
-        db.add_documents(chunks, ids)
-        db.dump(MEMORY_DB_PATH)
-
-def _create_chroma_db(chunks, embedding):
-    db = Chroma(
+def _get_chroma_db(embedding):
+    return Chroma(
         collection_name=DATABASE_TUTOR_IA_ACD_COLLECTION,
         embedding_function=embedding,
         persist_directory=CHROMA_DB_PATH,
     )
+
+def _add_chunks_to_db(chunks, embedding):
+    db = _get_chroma_db(embedding)
     ids = [chunk.metadata["page_id"] for chunk in chunks]
     chunks_found = db.get_by_ids(ids)
     chunks_to_add = []
@@ -50,33 +42,8 @@ def _create_chroma_db(chunks, embedding):
 
     return db
 
-def _add_chunks_to_db(chunks, embedding, in_memory=True):
-    if in_memory:
-        return _create_in_memory_db(chunks, embedding)
-
-    return _create_chroma_db(chunks, embedding)
-
-def _get_in_memory_db(embedding):
-    if os.path.exists(MEMORY_DB_PATH):
-        db = InMemoryVectorStore.load(path=MEMORY_DB_PATH, embedding=embedding)
-        print(f"Loaded existing database from {MEMORY_DB_PATH}")
-    else:
-        db = InMemoryVectorStore(embedding=embedding)
-
-    return db
-
-def _get_chroma_db(embedding):
-    return Chroma(
-        collection_name=DATABASE_TUTOR_IA_ACD_COLLECTION,
-        embedding_function=embedding,
-        persist_directory=CHROMA_DB_PATH,
-    )
-
-def get_db(in_memory=True):
+def get_db():
     emebedding_model = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
-    if in_memory:
-        return _get_in_memory_db(emebedding_model)
-    
     return _get_chroma_db(emebedding_model)
 
 if __name__ == "__main__":
@@ -89,5 +56,5 @@ if __name__ == "__main__":
     chunks = create_chunk_ids(chunks)
 
     print("Adding chunks to database...")
-    _add_chunks_to_db(chunks, emebedding_model, in_memory=False)
+    _add_chunks_to_db(chunks, emebedding_model)
     print("Database created successfully.")

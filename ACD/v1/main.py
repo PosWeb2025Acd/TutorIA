@@ -7,7 +7,7 @@ from model import question_to_model
 
 if __name__ == "__main__":
 
-    db = get_db(in_memory=False)
+    db = get_db()
     if db is None:
         print("Erro ao criar ou carregar o banco de dados.")
     else:
