@@ -15,6 +15,7 @@ def prompt_template():
     Context: \n\n{context}\n\n\
     Think this step by step and provide a concise answer.
     """
+
     return ChatPromptTemplate.from_messages(
         [
             ("system", prompt),

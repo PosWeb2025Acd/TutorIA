@@ -6,14 +6,6 @@ CHROMA_DB_PATH = os.getcwd() + '/tutor_ia_acd_db'
 EMBEDDING_MODEL = "sentence-transformers/all-mpnet-base-v2"
 DATABASE_NAME = "tutor_ia"
 DATABASE_TUTOR_IA_ACD_COLLECTION = "acd_collection"
-MEMORY_DB_PATH = os.getcwd() + '/rag_db'
-HUGGING_FACE_TOKEN_PATH = os.getcwd() + '/hugging_face_token'
-
-def load_huggingface_token():
-    with open(HUGGING_FACE_TOKEN_PATH, 'r') as file:
-        return file.read().strip()
-
-os.environ["HUGGINGFACEHUB_API_TOKEN"] = load_huggingface_token()
 
 def add_chunks_to_db(chunks, embedding):
     db = get_db(embedding)
