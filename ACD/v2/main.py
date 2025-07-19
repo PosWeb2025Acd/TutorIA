@@ -3,6 +3,7 @@
 # -- Modelo cria um vetores com 384 dimensões
 
 from db import get_db
+from langchain_core.chat_history import InMemoryChatMessageHistory
 from model import question_to_model
 from process_files import embedding_model
 
@@ -15,6 +16,8 @@ if __name__ == "__main__":
 
     print ("Seja bem vindo!. Esse é o nosso TutorIA, agente especializado em responder perguntas sobre conceitos de POO.")
 
+    db_retriever = db.as_retriever()
+    chat_history_store = InMemoryChatMessageHistory()
     question_data = "Digite a sua pergunta: "
     while True:
         if question_data != "":
@@ -24,7 +27,7 @@ if __name__ == "__main__":
         print ("Pensando...")
 
         try:
-            awnser, sources = question_to_model(db.as_retriever(), user_question)
+            awnser, sources = question_to_model(user_question, db_retriever, chat_history_store)
             formated_response = f"Resposta: {awnser}\nFontes:\n{"\n".join(sources)}"
             print(f"🤖 {formated_response}")
         except Exception as e:
