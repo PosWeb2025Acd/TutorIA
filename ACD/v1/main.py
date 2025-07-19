@@ -27,4 +27,4 @@ if __name__ == "__main__":
         response, sources = question_to_model(result_from_db, question)
 
         formated_response = f"Resposta: {response[0].answer}\nFontes:\n{"\n".join(sources)}"
-        # print(f"🤖 {formated_response}")
+        print(f"🤖 {formated_response}")
