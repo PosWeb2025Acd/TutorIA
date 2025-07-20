@@ -8,8 +8,14 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 
 MODEL = "deepseek-r1:8b"
 
+def contextualize_question_chain(llm, db_retriever):
+    """
+    This function creates a chain that reformulates the user's question
+    to be more suitable for retrieval, taking into account the chat history.
+    It uses a language model to understand the context of the conversation
+    and reformulate the question accordingly.
+    """
 
-def contextualize_question_prompt():
     prompt_context = (
         "Given a chat history and the latest user question "
         "which might reference context in the chat history, "
@@ -17,15 +23,16 @@ def contextualize_question_prompt():
         "without the chat history. Do NOT answer the question, "
         "just reformulate it if needed and otherwise return it as is."
     )
-    return ChatPromptTemplate.from_messages(
+    propmt = ChatPromptTemplate.from_messages(
         [
             ("system", prompt_context),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}"),
         ]
     )
+    return create_history_aware_retriever(llm, db_retriever, propmt)
 
-def question_prompt():
+def question_chain(llm):
     prompt = """
     You are an assistant for question-answering tasks related to computer science.
     Use the following pieces of retrieved context to answer the question.
@@ -34,13 +41,15 @@ def question_prompt():
     Think this step by step and provide a concise answer.
     """
 
-    return ChatPromptTemplate.from_messages(
+    prompt_template = ChatPromptTemplate.from_messages(
         [
             ("system", prompt),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}"),
         ]
     )
+
+    return create_stuff_documents_chain(llm, prompt_template)
 
 def remove_think_set_from_awnser(answer):
     if "</think>" in answer:
@@ -53,13 +62,9 @@ def remove_think_set_from_awnser(answer):
 def question_to_model(question, db_retriever, chat_history_store):
     llm = OllamaLLM(model=MODEL, verbose=False, temperature=0.0)
 
-    prompt_contextualize_question = contextualize_question_prompt()
-    history_aware_retrieve = create_history_aware_retriever(llm, db_retriever, prompt_contextualize_question)
-    
-    prompt = question_prompt()
-    combine_docs_chain = create_stuff_documents_chain(llm, prompt)
-
-    rag_chain = create_retrieval_chain(history_aware_retrieve, combine_docs_chain)
+    history_aware_retrieve = contextualize_question_chain(llm, db_retriever)
+    user_question_chain = question_chain(llm)
+    rag_chain = create_retrieval_chain(history_aware_retrieve, user_question_chain)
 
     model_with_history = RunnableWithMessageHistory(
         rag_chain,
