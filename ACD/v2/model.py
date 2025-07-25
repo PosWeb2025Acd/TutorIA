@@ -33,6 +33,15 @@ def contextualize_question_chain(llm, db_retriever):
     return create_history_aware_retriever(llm, db_retriever, propmt)
 
 def question_chain(llm):
+    """
+    This function create creates the chain that process the user question wih
+    a context and returns the answer. The context is the most important part of the
+    RAG system, as it provides the necessary information to answer the question.
+    The context is based on the retrieved information from the vector database.
+    The chat history is also part of the prompt template, allowing the model to
+    take into account the previous interactions in the conversation.
+    """
+
     prompt = """
     You are an assistant for question-answering tasks related to computer science.
     Use the following pieces of retrieved context to answer the question.
@@ -66,6 +75,8 @@ def question_to_model(question, db_retriever, chat_history_store):
     user_question_chain = question_chain(llm)
     rag_chain = create_retrieval_chain(history_aware_retrieve, user_question_chain)
 
+    # This is the final part of the chain, which combines the retrieval rag chain
+    # with the chat history to provide a complete answer.
     model_with_history = RunnableWithMessageHistory(
         rag_chain,
         lambda _ : chat_history_store, # lambda transaforma parametro numa função anonima
