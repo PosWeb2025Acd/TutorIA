@@ -1,0 +1,108 @@
+from langchain_core.documents import Document
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_ollama.llms import OllamaLLM
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph import END, START, StateGraph
+from typing_extensions import List, TypedDict
+
+from db import get_db
+from process_files import embedding_model
+
+MODEL = "deepseek-r1:7b"
+
+"""
+StateGraph (RagState): StateMachine that represents the workflow
+Nodes: Represents llm or functions at the workflow. Typically regular python functions
+    Each node receives the current state and can return an updated state
+Edges: Specify how the agent transit between nodes
+"""
+
+class RagState(TypedDict):
+    """
+    The state of our application controls what data is input to the application, transferred between steps, and output by the application.
+    It is typically a TypedDict, but can also be a Pydantic BaseModel.
+    """
+
+    question: str
+    context: List[Document]
+    sources: List[str]  # List of source document IDs or titles
+    anwser: str
+
+def create_prompt():
+    prompt = """
+    You are an assistant for question-answering tasks related to computer science.
+    Use the following pieces of retrieved context to answer the question.
+    If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
+    Context: {context}
+    Question: {question}
+    Think this step by step and provide a concise answer.
+    """
+
+    return ChatPromptTemplate.from_template(prompt)
+
+def retrieve_context(state: RagState, config: dict):
+    """
+    Step to retrieve the context from the vector database based on the user question.
+    """
+
+    print(f"🤖 Recuperando contexto baseado nos documentos para uma melhor resposta...")
+    vector_store = config["configurable"]["vector_store"]
+    retrived_context = vector_store.similarity_search(state["question"], k=3)
+    print(f"🤖 Contexto recuperado com sucesso...")
+
+    return {"context": retrived_context, "sources": [doc.id for doc in retrived_context]}
+
+def generate_answer(state: RagState, config: dict):
+    """
+    Step to generate the answer based on the retrieved context and the user question.
+    """
+    print(f"🤖 Pensando sobre a resposta...")
+
+    llm = config["configurable"]["llm"]
+
+    context = "\n\n".join([doc.page_content for doc in state["context"]])
+    prompt_template = create_prompt()
+    prompt_messages = prompt_template.invoke({"question": state["question"], "context": context})
+
+    llm_response = llm.invoke(prompt_messages)
+
+    return {"anwser": remove_think_set_from_awnser(llm_response)}
+
+def remove_think_set_from_awnser(answer):
+    if "</think>" in answer:
+        start = answer.index("</think>")
+        end = start + len("</think>")
+        return answer[end:].strip()
+
+    return answer.strip()
+
+if __name__ == "__main__":
+    llm = OllamaLLM(model=MODEL, verbose=False, temperature=0.0)
+    vector_store = get_db(embedding_model())
+
+    graph_builder = StateGraph(RagState).add_sequence([retrieve_context, generate_answer])
+    
+    graph_builder.add_edge(START, "retrieve_context") # Entrypoint: Each time the graph is invoked, it starts from this node
+    graph_builder.add_edge("generate_answer", END) # Workflow finishes when it reaches this node
+
+    graph = graph_builder.compile()
+
+    while True:
+        user_question = input("👤 Digite a sua pergunta (Para finalizar, digite \"sair\"): ")
+        if not user_question.strip():
+            print("Por favor, digite uma pergunta.")
+            continue
+
+        if user_question.strip().lower() == "sair":
+            print("🤖 Saindo do assistente. Até logo!")
+            break
+
+        result = graph.invoke(
+            {"question": user_question},
+            {"configurable": {"thread_id": "1", "vector_store": vector_store, "llm": llm}},
+        )
+        answer = result["anwser"]
+        sources = result["sources"]
+
+        formated_response = f"Resposta: {answer}\nFontes:\n{"\n".join(sources)}"
+        print(f"🤖 {formated_response}")
