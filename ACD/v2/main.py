@@ -2,10 +2,14 @@
 # Embedding model: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2 (Modelo especializado em busca por similaridade de texto)
 # -- Modelo cria um vetores com 384 dimensões
 
-from db import get_db
 from langchain_core.chat_history import InMemoryChatMessageHistory
+from langchain_ollama import ChatOllama
+
+from db import get_db
 from model import question_to_model
 from process_files import embedding_model
+
+MODEL = "deepseek-r1:8b"
 
 if __name__ == "__main__":
 
@@ -18,20 +22,24 @@ if __name__ == "__main__":
 
     db_retriever = db.as_retriever()
     chat_history_store = InMemoryChatMessageHistory()
-    question_data = "Digite a sua pergunta: "
+    llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0)
+
     while True:
-        if question_data != "":
-            print (question_data)
- 
-        user_question = input("👤 ")
-        print ("Pensando...")
+        user_question = input("👤 Digite a sua pergunta (Para finalizar, digite \"sair\"): ")
+        if not user_question.strip():
+            print("Por favor, digite uma pergunta.")
+            continue
+
+        if user_question.strip().lower() == "sair":
+            print("🤖 Saindo do assistente. Até logo!")
+            break
+
+        print ("🤖 Pensando...")
 
         try:
-            awnser, sources = question_to_model(user_question, db_retriever, chat_history_store)
+            awnser, sources = question_to_model(user_question, db_retriever, chat_history_store, llm)
             formated_response = f"Resposta: {awnser}\nFontes:\n{"\n".join(sources)}"
             print(f"🤖 {formated_response}")
         except Exception as e:
             print(f"Erro ao processar a pergunta: {e}")
             continue
-
-        question_data = ""

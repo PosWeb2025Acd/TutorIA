@@ -3,10 +3,7 @@ from langchain.chains.history_aware_retriever import create_history_aware_retrie
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import MessagesPlaceholder
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama.llms import OllamaLLM
 from langchain_core.runnables.history import RunnableWithMessageHistory
-
-MODEL = "deepseek-r1:8b"
 
 def contextualize_question_chain(llm, db_retriever):
     """
@@ -68,9 +65,7 @@ def remove_think_set_from_awnser(answer):
 
     return answer.strip()
 
-def question_to_model(question, db_retriever, chat_history_store):
-    llm = OllamaLLM(model=MODEL, verbose=False, temperature=0.0)
-
+def question_to_model(question, db_retriever, chat_history_store, llm):
     history_aware_retrieve = contextualize_question_chain(llm, db_retriever)
     user_question_chain = question_chain(llm)
     rag_chain = create_retrieval_chain(history_aware_retrieve, user_question_chain)
