@@ -1,14 +1,17 @@
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama.llms import OllamaLLM
+from langchain_ollama import ChatOllama
 from langgraph.checkpoint.memory import InMemorySaver
-from langgraph.graph import END, START, StateGraph
+from langgraph.graph import END, START, StateGraph, MessagesState
 from typing_extensions import List, TypedDict
 
 from db import get_db
 from process_files import embedding_model
 
-MODEL = "deepseek-r1:7b"
+MODEL = "deepseek-r1:8b"
+
+llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0)
+vector_store = get_db(embedding_model())
 
 """
 StateGraph (RagState): StateMachine that represents the workflow
@@ -40,25 +43,22 @@ def create_prompt():
 
     return ChatPromptTemplate.from_template(prompt)
 
-def retrieve_context(state: RagState, config: dict):
+def retrieve_context(state: RagState):
     """
     Step to retrieve the context from the vector database based on the user question.
     """
 
     print(f"🤖 Recuperando contexto baseado nos documentos para uma melhor resposta...")
-    vector_store = config["configurable"]["vector_store"]
     retrived_context = vector_store.similarity_search(state["question"], k=3)
     print(f"🤖 Contexto recuperado com sucesso...")
 
     return {"context": retrived_context, "sources": [doc.id for doc in retrived_context]}
 
-def generate_answer(state: RagState, config: dict):
+def generate_answer(state: RagState):
     """
     Step to generate the answer based on the retrieved context and the user question.
     """
     print(f"🤖 Pensando sobre a resposta...")
-
-    llm = config["configurable"]["llm"]
 
     context = "\n\n".join([doc.page_content for doc in state["context"]])
     prompt_template = create_prompt()
@@ -66,7 +66,7 @@ def generate_answer(state: RagState, config: dict):
 
     llm_response = llm.invoke(prompt_messages)
 
-    return {"anwser": remove_think_set_from_awnser(llm_response)}
+    return {"anwser": llm_response}
 
 def remove_think_set_from_awnser(answer):
     if "</think>" in answer:
@@ -77,15 +77,13 @@ def remove_think_set_from_awnser(answer):
     return answer.strip()
 
 if __name__ == "__main__":
-    llm = OllamaLLM(model=MODEL, verbose=False, temperature=0.0)
-    vector_store = get_db(embedding_model())
-
     graph_builder = StateGraph(RagState).add_sequence([retrieve_context, generate_answer])
     
     graph_builder.add_edge(START, "retrieve_context") # Entrypoint: Each time the graph is invoked, it starts from this node
     graph_builder.add_edge("generate_answer", END) # Workflow finishes when it reaches this node
 
-    graph = graph_builder.compile()
+    memory = InMemorySaver()
+    graph = graph_builder.compile(checkpointer=memory)
 
     while True:
         user_question = input("👤 Digite a sua pergunta (Para finalizar, digite \"sair\"): ")
@@ -99,10 +97,10 @@ if __name__ == "__main__":
 
         result = graph.invoke(
             {"question": user_question},
-            {"configurable": {"thread_id": "1", "vector_store": vector_store, "llm": llm}},
+            {"configurable": {"thread_id": "abc123"}},
         )
         answer = result["anwser"]
         sources = result["sources"]
 
-        formated_response = f"Resposta: {answer}\nFontes:\n{"\n".join(sources)}"
+        formated_response = f"Resposta: {remove_think_set_from_awnser(answer.content)}\nFontes:\n{"\n".join(sources)}"
         print(f"🤖 {formated_response}")
