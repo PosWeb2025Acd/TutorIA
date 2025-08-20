@@ -1,16 +1,16 @@
-from langchain_core.documents import Document
-from langchain_core.messages import SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.tools import tool
 from langchain_ollama import ChatOllama
-from langchain.tools.retriever import create_retriever_tool
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph, MessagesState
-from typing_extensions import List
+from langgraph.prebuilt import ToolNode, tools_condition
+from typing_extensions import List, TypedDict
 
 from db import get_db
 from process_files import embedding_model
 
-MODEL = "deepseek-r1:8b"
+# THIS MODEL DOES NOT ACCEPTS TOLLS
+MODEL = "llama3.1:8b"
 
 llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0)
 vector_store = get_db(embedding_model())
@@ -28,8 +28,6 @@ class RagState(MessagesState):
     It is typically a TypedDict, but can also be a Pydantic BaseModel.
     """
 
-    # question: str
-    context: List[Document]
     sources: List[str]  # List of source document IDs or titles
 
 def create_prompt():
@@ -43,40 +41,60 @@ def create_prompt():
 
     return ChatPromptTemplate.from_messages([("system", prompt)])
 
-def retrieve_context(state: RagState):
+@tool(response_format="content_and_artifact")
+def retrieve_context(query: str):
     """
     Step to retrieve the context from the vector database based on the user question.
     """
 
     print(f"🤖 Recuperando contexto baseado nos documentos para uma melhor resposta...")
-
-    question = state["messages"][-1]
-    retrived_context = vector_store.similarity_search(question.content, k=3)
-
+    retrived_context = vector_store.similarity_search(query, k=3)
+    serialized = "\n\n".join((f"Content: {doc.page_content}") for doc in retrived_context)
+    sources = [doc.id for doc in retrived_context]
     print(f"🤖 Contexto recuperado com sucesso...")
 
-    return {"context": retrived_context, "sources": [doc.id for doc in retrived_context]}
+    return serialized, sources
 
-def generate_answer(state: RagState):
+def retrieve_data_or_respond(state: RagState):
     """
     Step to generate the answer based on the retrieved context and the user question.
     """
-    print(f"🤖 Pensando sobre a resposta...")
 
-    context = "\n\n".join([doc.page_content for doc in state["context"]])
-    prompt_template = create_prompt()
-    prompt_value = prompt_template.invoke({"question": state["messages"][-1].content, "context": context})
+    llm_with_tools = llm.bind_tools([retrieve_context])
+    llm_response = llm_with_tools.invoke(state["messages"])
+
+    # Appending messages to the state
+    return {"messages": [llm_response]}
+
+def generate_answer(state: RagState):
+    print(f"🤖 Gerando a sua resposta...")
+
+    message_tools = []
+    for message in reversed(state["messages"]):
+        if message.type == "tool":
+            message_tools.append(message)
+        else:
+            break
+
+    sources = message_tools[-1].artifact
+    message_tools = message_tools[::-1]
+    retrived_content = "\n\n".join(doc.content for doc in message_tools)
+    prompt = create_prompt()
+    prompt_messages = prompt.invoke({"context": retrived_content})
+
     conversation = [
         message
         for message in state["messages"]
         if message.type in ("human", "system")
-        or (message.type == "ai" and message.content not in state["context"])
+        or (message.type == "ai" and not message.tool_calls)
     ]
-    prompt = prompt_value.to_messages() + conversation
 
-    llm_response = llm.invoke(prompt)
+    prompt = prompt_messages.to_messages() + conversation
 
-    return {"messages": [llm_response]}
+    response = llm.invoke(prompt)
+    
+    return {"messages": [response], "sources": sources}
+
 
 def remove_think_set_from_awnser(answer):
     if "</think>" in answer:
@@ -86,33 +104,23 @@ def remove_think_set_from_awnser(answer):
 
     return answer.strip()
 
-if __name__ == "__main__":
-    graph_builder = StateGraph(RagState).add_sequence([retrieve_context, generate_answer])
+def create_graph():
+    tools = ToolNode([retrieve_context])
+    graph_builder = StateGraph(RagState)
+    graph_builder.add_node(retrieve_data_or_respond)
+    graph_builder.add_node("retrieve", tools)
+    graph_builder.add_node(generate_answer)
 
-    graph_builder.add_edge(START, "retrieve_context") # Entrypoint: Each time the graph is invoked, it starts from this node
-    graph_builder.add_edge("generate_answer", END) # Workflow finishes when it reaches this node
+    graph_builder.set_entry_point("retrieve_data_or_respond")
+    graph_builder.add_conditional_edges(
+        "retrieve_data_or_respond",
+        tools_condition,
+        {END: END, "tools": "retrieve"}
+    )
+    graph_builder.add_edge("retrieve", "generate_answer")
+    graph_builder.add_edge("generate_answer", END)
 
     memory = InMemorySaver()
     graph = graph_builder.compile(checkpointer=memory)
 
-    while True:
-        user_question = input("👤 Digite a sua pergunta (Para finalizar, digite \"sair\"): ")
-        if not user_question.strip():
-            print("Por favor, digite uma pergunta.")
-            continue
-
-        if user_question.strip().lower() == "sair":
-            print("🤖 Saindo do assistente. Até logo!")
-            break
-
-        result = graph.invoke(
-            {"messages": [{"role": "user", "content": user_question}]},
-            {"configurable": {"thread_id": "abc123"}},
-        )
-
-        answer = result["messages"][-1]
-        sources = result["sources"]
-
-        formated_response = f"Resposta: {remove_think_set_from_awnser(answer.content)}\nFontes:\n{"\n".join(sources)}"
-
-        print(f"🤖 {formated_response}")
+    return graph
