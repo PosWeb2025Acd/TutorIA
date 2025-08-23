@@ -4,6 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_core.documents import Document
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_ollama import ChatOllama
+from langchain.schema import Document
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph, MessagesState
 from typing_extensions import List
@@ -14,14 +15,6 @@ from db import get_db
 # THIS MODEL DOES NOT ACCEPTS TOLLS
 MODEL = "llama3.1:8b"
 TAVILIY_API_KEY_PATH = os.getcwd() + '/tavily_token'
-RELEVANT_DOCUMENTS_THRESHOLD = 95
-NOT_RELEVANT_DOCUMENTS_THRESHOLD = 80
-
-tavily_token = ""
-with open(TAVILIY_API_KEY_PATH, 'r') as file:
-    tavily_token = file.read().strip()
-
-tavily_client = TavilyClient(api_key=tavily_token)
 
 llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0)
 vector_store = get_db()
@@ -80,6 +73,10 @@ def retrieve_context(state: RagState):
     return {"documents": documents, "sources": [doc.id for doc in documents]}
 
 def retrieved_context_evaluator(state: RagState):
+    """
+    Step that evaluates the quality of the retrieved context.
+    """
+
     print (f"🤖 Avaliando a qualidade do contexto recuperado...")
 
     prompt_data = """
@@ -87,8 +84,8 @@ def retrieved_context_evaluator(state: RagState):
     Given a user question and retrieved document, determine if the document provider has sufficient context to answer the question accurately.
     To evaluate if the document is relevant, you can check if the document contains keywords related to the user question.
     It does not need to be a stringent test. The goal is to filter out erroneous retrievals
-    Give a binary score 'relevant' or 'not_relevant' to indicate wheter the document is relevant to the question
-    Provide the binary score as a JSON with a single key 'evaluation' and no premable or explaination
+    Give a score 'relevant', 'partially_relevant' or 'not_relevant' to indicate wheter the document is relevant to the question
+    Provide the score as a JSON with a single key 'evaluation' and no premable or explaination
     Document to be used for evaluation: {documents}
     Here is the user question: {question}
     """
@@ -98,6 +95,9 @@ def retrieved_context_evaluator(state: RagState):
     question = state["messages"][-1].content
 
     filtered_documents = []
+    relevant_documents = []
+    partially_relevant_documents = []
+
     for doc in state["documents"]:
         result = retrieval_grader.invoke({
             "question": question,
@@ -105,12 +105,15 @@ def retrieved_context_evaluator(state: RagState):
         })
 
         evaluation = result['evaluation'].lower()
-        print(f"🤖 Avaliação do documento {doc.id}: {evaluation}")
 
-        if evaluation in ['relevant', 'partially_relevant']:
-            filtered_documents.append(doc)
+        if evaluation == 'relevant':
+            relevant_documents.append(doc)
+        if evaluation == 'partially_relevant':
+            partially_relevant_documents.append(doc)
 
-    web_search_recomended = False if len(filtered_documents) > 0 else True
+    filtered_documents = relevant_documents + partially_relevant_documents
+
+    web_search_recomended = False if len(relevant_documents) > 0 else True
 
     return {"documents": filtered_documents, "sources": [doc.id for doc in filtered_documents], "web_search_recomended": web_search_recomended}
 
@@ -118,6 +121,7 @@ def decision_based_on_evaluation(state: RagState):
     """
     Step to decide whether to generate an answer based on the retrieved context or to perform a web search.
     """
+
     web_search_recomended = state["web_search_recomended"]
     if web_search_recomended:
         print("🤖 A avaliação do contexto recuperado indicou que uma busca na web pode ser útil para complementar a resposta.")
@@ -126,7 +130,38 @@ def decision_based_on_evaluation(state: RagState):
     print("🤖 A avaliação do contexto recuperado indicou que é possível gerar uma resposta com o contexto disponível.")
     return "generate_answer"
 
+def web_search(state: RagState):
+    """
+    Step that permorms a web search using the Tavily API to complement the answer or to gather the necessary context.
+    """
+
+    print (f"🤖 Realizando uma busca na web para complementar a resposta...")
+
+    tavily_token = ""
+    with open(TAVILIY_API_KEY_PATH, 'r') as file:
+        tavily_token = file.read().strip()
+
+    tavily_client = TavilyClient(api_key=tavily_token)
+    question = state["messages"][-1].content
+    response = tavily_client.search(question, max_results=5)
+
+    results = response["results"] if "results" in response else []
+    web_documents = []
+    sources = []
+
+    for web_result in results:
+        web_documents.append(Document(page_content=web_result["content"], metadata={"source": web_result["url"], "title": web_result["title"]}))
+        sources.append(web_result["url"])
+
+    print (f"🤖 Busca na web finalizada...")
+
+    return {"documents": state["documents"] + web_documents, "sources": state["sources"] + sources}
+
 def generate_answer(state: RagState):
+    """
+    Step that generates the final answer using the LLM based on the retrieved context.
+    """
+
     print(f"🤖 Gerando a sua resposta...")
 
     prompt_text = """
@@ -161,13 +196,6 @@ def generate_answer(state: RagState):
     response = llm.invoke(prompt)
     
     return {"messages": [response], "sources": sources}
-
-def web_search(state: RagState):
-    print (f"🤖 Realizando uma busca na web para complementar a resposta...")
-
-    print (f"🤖 A busca pode demorar um pouco, por favor aguarde...")
-
-    print (f"🤖 Busca na web finalizada...")
 
 def remove_think_set_from_awnser(answer):
     if "</think>" in answer:
