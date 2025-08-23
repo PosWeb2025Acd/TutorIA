@@ -2,6 +2,7 @@
 # Embedding model: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2 (Modelo especializado em busca por similaridade de texto)
 # -- Modelo cria um vetores com 384 dimensões
 
+# from model_graph import create_graph
 from model_graph import create_graph
 
 MODEL = "deepseek-r1:8b"
@@ -25,7 +26,7 @@ if __name__ == "__main__":
         )
 
         answer = result["messages"][-1]
-        sources = result["sources"]
+        sources = result["sources"] if "sources" in result else []
 
         formated_response = f"Resposta: {answer.content}\nFontes:\n{"\n".join(sources)}"
         print(f"🤖 {formated_response}")

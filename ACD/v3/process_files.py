@@ -1,21 +1,11 @@
 import os
 
 from langchain_community.document_loaders import PyPDFLoader
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from db import add_chunks_to_db
 
 # Download ollama to import models curl -fsSL https://ollama.com/install.sh | sh
 # DOwnload deepseek model. ollama pull deepseek-r1:8b
-
-EMBEDDING_MODEL = "sentence-transformers/all-mpnet-base-v2"
-HUGGING_FACE_TOKEN_PATH = os.getcwd() + '/hugging_face_token'
-
-def load_huggingface_token():
-    with open(HUGGING_FACE_TOKEN_PATH, 'r') as file:
-        return file.read().strip()
-
-os.environ["HUGGINGFACEHUB_API_TOKEN"] = load_huggingface_token()
 
 file_path = [
     os.getcwd() + '/../documents/conceitos_basicos_poo.pdf',
@@ -62,9 +52,6 @@ def _create_chunk_ids(chunks):
 
     return chunks
 
-def embedding_model():
-    return HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
-
 if __name__ == "__main__":
     print("Loading pages...")
     pages = _load_pages()
@@ -73,5 +60,5 @@ if __name__ == "__main__":
     chunks = _create_chunk_ids(chunks)
 
     print("Adding chunks to database...")
-    add_chunks_to_db(chunks, embedding_model())
+    add_chunks_to_db(chunks)
     print("Chunks added to database successfully.")

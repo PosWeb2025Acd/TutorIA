@@ -12,3 +12,5 @@ langchain-ollama
 langchain-chroma
 
 chromadb
+
+tavily-python

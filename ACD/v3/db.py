@@ -1,14 +1,22 @@
 import os
 
 from langchain_chroma import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings
 
 CHROMA_DB_PATH = os.getcwd() + '/tutor_ia_acd_db'
 EMBEDDING_MODEL = "sentence-transformers/all-mpnet-base-v2"
 DATABASE_NAME = "tutor_ia"
 DATABASE_TUTOR_IA_ACD_COLLECTION = "acd_collection"
+HUGGING_FACE_TOKEN_PATH = os.getcwd() + '/hugging_face_token'
 
-def add_chunks_to_db(chunks, embedding):
-    db = get_db(embedding)
+def load_huggingface_token():
+    with open(HUGGING_FACE_TOKEN_PATH, 'r') as file:
+        return file.read().strip()
+
+os.environ["HUGGINGFACEHUB_API_TOKEN"] = load_huggingface_token()
+
+def add_chunks_to_db(chunks):
+    db = get_db()
     ids = [chunk.metadata["page_id"] for chunk in chunks]
     chunks_found = db.get_by_ids(ids)
     chunks_to_add = []
@@ -25,7 +33,9 @@ def add_chunks_to_db(chunks, embedding):
 
     return db
 
-def get_db(embedding_model):
+def get_db():
+    embedding_model = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
+
     return Chroma(
         collection_name=DATABASE_TUTOR_IA_ACD_COLLECTION,
         embedding_function=embedding_model,

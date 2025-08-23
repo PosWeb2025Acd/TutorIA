@@ -29,6 +29,7 @@ class RagState(MessagesState):
     """
 
     sources: List[str]  # List of source document IDs or titles
+    documents: List[str]  # List of document contents
 
 def create_prompt():
     prompt = """
