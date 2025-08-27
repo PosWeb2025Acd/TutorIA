@@ -4,17 +4,17 @@ from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_core.documents import Document
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_ollama import ChatOllama
-from langchain.schema import Document
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, StateGraph, MessagesState
 from typing_extensions import List
 from tavily import TavilyClient
 
-from rag.db import get_db
+from ACD.rag.db import get_db
 
-# THIS MODEL DOES NOT ACCEPTS TOLLS
 MODEL = "llama3.1:8b"
-TAVILIY_API_KEY_PATH = os.getcwd() + '/tavily_token'
+TAVILIY_API_KEY_PATH = os.getcwd() + '/ACD/tavily_token'
+EVALUATION_RELEVANT = "relevant"
+EVALUATION_PARTIALLY_RELEVANT = "partially_relevant"
 
 llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0)
 vector_store = get_db()
@@ -36,7 +36,7 @@ class RagState(MessagesState):
     documents: List[Document]  # List of document contents
     web_search_recomended: bool
 
-def __router_choice(state: RagState):
+def __router_choice__(state: RagState):
     """
     Step to decide whether to use the vector store or the LLM based on the user question.
     """
@@ -58,7 +58,7 @@ def __router_choice(state: RagState):
 
     return router.invoke({"question": question})['choice']
 
-def __retrieve_context(state: RagState):
+def __retrieve_context__(state: RagState):
     """
     Step to retrieve the context from the vector database based on the user question.
     """
@@ -72,7 +72,7 @@ def __retrieve_context(state: RagState):
 
     return {"documents": documents, "sources": [doc.id for doc in documents]}
 
-def __retrieved_context_evaluator(state: RagState):
+def __retrieved_context_evaluator__(state: RagState):
     """
     Step that evaluates the quality of the retrieved context.
     """
@@ -94,7 +94,6 @@ def __retrieved_context_evaluator(state: RagState):
     retrieval_grader = prompt | llm | JsonOutputParser()
     question = state["messages"][-1].content
 
-    filtered_documents = []
     relevant_documents = []
     partially_relevant_documents = []
 
@@ -106,31 +105,31 @@ def __retrieved_context_evaluator(state: RagState):
 
         evaluation = result['evaluation'].lower()
 
-        if evaluation == 'relevant':
+        if evaluation == EVALUATION_RELEVANT:
             relevant_documents.append(doc)
-        if evaluation == 'partially_relevant':
+        if evaluation == EVALUATION_PARTIALLY_RELEVANT:
             partially_relevant_documents.append(doc)
 
     filtered_documents = relevant_documents + partially_relevant_documents
 
-    web_search_recomended = False if len(relevant_documents) > 0 else True
+    web_search_recommended = False if len(relevant_documents) > 0 else True
 
-    return {"documents": filtered_documents, "sources": [doc.id for doc in filtered_documents], "web_search_recomended": web_search_recomended}
+    return {"documents": filtered_documents, "sources": [doc.id for doc in filtered_documents], "web_search_recomended": web_search_recommended}
 
-def __decision_based_on_evaluation(state: RagState):
+def __decision_based_on_evaluation__(state: RagState):
     """
     Step to decide whether to generate an answer based on the retrieved context or to perform a web search.
     """
 
-    web_search_recomended = state["web_search_recomended"]
-    if web_search_recomended:
+    web_search_recommended = state["web_search_recomended"]
+    if web_search_recommended:
         print("🤖 A avaliação do contexto recuperado indicou que uma busca na web pode ser útil para complementar a resposta.")
         return "web_search"
 
     print("🤖 A avaliação do contexto recuperado indicou que é possível gerar uma resposta com o contexto disponível.")
     return "generate_answer"
 
-def __web_search(state: RagState):
+def __web_search__(state: RagState):
     """
     Step that permorms a web search using the Tavily API to complement the answer or to gather the necessary context.
     """
@@ -157,7 +156,7 @@ def __web_search(state: RagState):
 
     return {"documents": state["documents"] + web_documents, "sources": state["sources"] + sources}
 
-def __generate_answer(state: RagState):
+def __generate_answer__(state: RagState):
     """
     Step that generates the final answer using the LLM based on the retrieved context.
     """
@@ -181,8 +180,8 @@ def __generate_answer(state: RagState):
 
     sources = state["sources"] if "sources" in state else []
     message_tools = message_tools[::-1]
-    retrived_content = "\n\n".join(doc for doc in message_tools)
-    prompt_messages = prompt.invoke({"context": retrived_content})
+    retrieved_content = "\n\n".join(doc for doc in message_tools)
+    prompt_messages = prompt.invoke({"context": retrieved_content})
 
     conversation = [
         message
@@ -194,21 +193,21 @@ def __generate_answer(state: RagState):
     prompt = prompt_messages.to_messages() + conversation
 
     response = llm.invoke(prompt)
-    
+
     return {"messages": [response], "sources": sources}
 
 def create_graph():
     graph_builder = StateGraph(RagState)
-    graph_builder.add_node("retrieve_context", __retrieve_context)
-    graph_builder.add_node("generate_answer", __generate_answer)
-    graph_builder.add_node("retrieved_context_evaluator", __retrieved_context_evaluator)
-    graph_builder.add_node("web_search", __web_search)
+    graph_builder.add_node("retrieve_context", __retrieve_context__)
+    graph_builder.add_node("generate_answer", __generate_answer__)
+    graph_builder.add_node("retrieved_context_evaluator", __retrieved_context_evaluator__)
+    graph_builder.add_node("web_search", __web_search__)
 
-    graph_builder.set_conditional_entry_point(__router_choice, {"vectorstore": "retrieve_context", "llm": "generate_answer"})
+    graph_builder.set_conditional_entry_point(__router_choice__, {"vectorstore": "retrieve_context", "llm": "generate_answer"})
     graph_builder.add_edge("retrieve_context", "retrieved_context_evaluator")
     graph_builder.add_conditional_edges(
         "retrieved_context_evaluator",
-        __decision_based_on_evaluation,
+        __decision_based_on_evaluation__,
         {
             "web_search": "web_search",
             "generate_answer": "generate_answer",

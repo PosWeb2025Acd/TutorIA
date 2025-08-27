@@ -1,4 +1,4 @@
-from rag.rag import create_graph
+from ACD.rag.rag import create_graph
 
 if __name__ == "__main__":
     graph = create_graph()
