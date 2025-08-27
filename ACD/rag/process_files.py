@@ -8,10 +8,10 @@ from db import add_chunks_to_db
 # DOwnload deepseek model. ollama pull deepseek-r1:8b
 
 file_path = [
-    os.getcwd() + '/../documents/conceitos_basicos_poo.pdf',
-    os.getcwd() + '/../documents/poo_c_plus_plus.pdf',
-    os.getcwd() + '/../documents/poo_java.pdf',
-    os.getcwd() + '/../documents/revisao_poo.pdf',
+    os.getcwd() + '/documents/conceitos_basicos_poo.pdf',
+    os.getcwd() + '/documents/poo_c_plus_plus.pdf',
+    os.getcwd() + '/documents/poo_java.pdf',
+    os.getcwd() + '/documents/revisao_poo.pdf',
 ]
 
 def _load_pages():

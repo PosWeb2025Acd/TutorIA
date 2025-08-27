@@ -6,7 +6,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_ollama import ChatOllama
 from langchain.schema import Document
 from langgraph.checkpoint.memory import InMemorySaver
-from langgraph.graph import END, START, StateGraph, MessagesState
+from langgraph.graph import END, StateGraph, MessagesState
 from typing_extensions import List
 from tavily import TavilyClient
 
@@ -36,7 +36,7 @@ class RagState(MessagesState):
     documents: List[Document]  # List of document contents
     web_search_recomended: bool
 
-def router_choice(state: RagState):
+def __router_choice(state: RagState):
     """
     Step to decide whether to use the vector store or the LLM based on the user question.
     """
@@ -58,7 +58,7 @@ def router_choice(state: RagState):
 
     return router.invoke({"question": question})['choice']
 
-def retrieve_context(state: RagState):
+def __retrieve_context(state: RagState):
     """
     Step to retrieve the context from the vector database based on the user question.
     """
@@ -72,7 +72,7 @@ def retrieve_context(state: RagState):
 
     return {"documents": documents, "sources": [doc.id for doc in documents]}
 
-def retrieved_context_evaluator(state: RagState):
+def __retrieved_context_evaluator(state: RagState):
     """
     Step that evaluates the quality of the retrieved context.
     """
@@ -117,7 +117,7 @@ def retrieved_context_evaluator(state: RagState):
 
     return {"documents": filtered_documents, "sources": [doc.id for doc in filtered_documents], "web_search_recomended": web_search_recomended}
 
-def decision_based_on_evaluation(state: RagState):
+def __decision_based_on_evaluation(state: RagState):
     """
     Step to decide whether to generate an answer based on the retrieved context or to perform a web search.
     """
@@ -130,7 +130,7 @@ def decision_based_on_evaluation(state: RagState):
     print("🤖 A avaliação do contexto recuperado indicou que é possível gerar uma resposta com o contexto disponível.")
     return "generate_answer"
 
-def web_search(state: RagState):
+def __web_search(state: RagState):
     """
     Step that permorms a web search using the Tavily API to complement the answer or to gather the necessary context.
     """
@@ -157,7 +157,7 @@ def web_search(state: RagState):
 
     return {"documents": state["documents"] + web_documents, "sources": state["sources"] + sources}
 
-def generate_answer(state: RagState):
+def __generate_answer(state: RagState):
     """
     Step that generates the final answer using the LLM based on the retrieved context.
     """
@@ -197,26 +197,18 @@ def generate_answer(state: RagState):
     
     return {"messages": [response], "sources": sources}
 
-def remove_think_set_from_awnser(answer):
-    if "</think>" in answer:
-        start = answer.index("</think>")
-        end = start + len("</think>")
-        return answer[end:].strip()
-
-    return answer.strip()
-
 def create_graph():
     graph_builder = StateGraph(RagState)
-    graph_builder.add_node("retrieve_context", retrieve_context)
-    graph_builder.add_node("generate_answer", generate_answer)
-    graph_builder.add_node("retrieved_context_evaluator", retrieved_context_evaluator)
-    graph_builder.add_node("web_search", web_search)
+    graph_builder.add_node("retrieve_context", __retrieve_context)
+    graph_builder.add_node("generate_answer", __generate_answer)
+    graph_builder.add_node("retrieved_context_evaluator", __retrieved_context_evaluator)
+    graph_builder.add_node("web_search", __web_search)
 
-    graph_builder.set_conditional_entry_point(router_choice, {"vectorstore": "retrieve_context", "llm": "generate_answer"})
+    graph_builder.set_conditional_entry_point(__router_choice, {"vectorstore": "retrieve_context", "llm": "generate_answer"})
     graph_builder.add_edge("retrieve_context", "retrieved_context_evaluator")
     graph_builder.add_conditional_edges(
         "retrieved_context_evaluator",
-        decision_based_on_evaluation,
+        __decision_based_on_evaluation,
         {
             "web_search": "web_search",
             "generate_answer": "generate_answer",
@@ -229,27 +221,3 @@ def create_graph():
     graph = graph_builder.compile(checkpointer=memory)
 
     return graph
-
-if __name__ == "__main__":
-    graph = create_graph()
-
-    while True:
-        user_question = input("👤 Digite a sua pergunta (Para finalizar, digite \"sair\"): ")
-        if not user_question.strip():
-            print("Por favor, digite uma pergunta.")
-            continue
-
-        if user_question.strip().lower() == "sair":
-            print("🤖 Saindo do assistente. Até logo!")
-            break
-
-        result = graph.invoke(
-            {"messages": [{"role": "user", "content": user_question}]},
-            {"configurable": {"thread_id": "abc123"}},
-        )
-
-        answer = result["messages"][-1]
-        sources = result["sources"] if "sources" in result else []
-
-        formated_response = f"Resposta: {answer.content}\nFontes:\n{"\n".join(sources)}"
-        print(f"🤖 {formated_response}")

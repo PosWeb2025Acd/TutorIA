@@ -1,11 +1,4 @@
-# Based on tutorial from the langchain library https://python.langchain.com/docs/tutorials/rag/
-# Embedding model: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2 (Modelo especializado em busca por similaridade de texto)
-# -- Modelo cria um vetores com 384 dimensões
-
-# from model_graph import create_graph
-from model_graph import create_graph
-
-MODEL = "deepseek-r1:8b"
+from rag.llm_graph import create_graph
 
 if __name__ == "__main__":
     graph = create_graph()

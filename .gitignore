@@ -193,7 +193,8 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-ACD/v1/rag_db
 .idea/
 hugging_face_token
 tavily_token
+tutor_ia_acd_db/
+ACD/documents/*.pdf

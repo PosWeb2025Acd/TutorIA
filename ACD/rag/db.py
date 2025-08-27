@@ -34,6 +34,9 @@ def add_chunks_to_db(chunks):
     return db
 
 def get_db():
+    # Based on tutorial from the langchain library https://python.langchain.com/docs/tutorials/rag/
+    # Embedding model: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2 (Modelo especializado em busca por similaridade de texto)
+    # -- Modelo cria um vetores com 384 dimensões
     embedding_model = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
 
     return Chroma(
