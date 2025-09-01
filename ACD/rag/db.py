@@ -3,11 +3,11 @@ import os
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 
-CHROMA_DB_PATH = os.getcwd() + '/ACD/tutor_ia_acd_db'
+CHROMA_DB_PATH = os.path.dirname(__file__) + '/../tutor_ia_acd_db'
 EMBEDDING_MODEL = "sentence-transformers/all-mpnet-base-v2"
 DATABASE_NAME = "tutor_ia"
 DATABASE_TUTOR_IA_ACD_COLLECTION = "acd_collection"
-HUGGING_FACE_TOKEN_PATH = os.getcwd() + '/ACD/hugging_face_token'
+HUGGING_FACE_TOKEN_PATH = os.path.dirname(__file__) + '/../hugging_face_token'
 
 def load_huggingface_token():
     with open(HUGGING_FACE_TOKEN_PATH, 'r') as file:

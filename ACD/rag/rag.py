@@ -9,10 +9,10 @@ from langgraph.graph import END, StateGraph, MessagesState
 from typing_extensions import List
 from tavily import TavilyClient
 
-from ACD.rag.db import get_db
+from rag.db import get_db
 
 MODEL = "llama3.1:8b"
-TAVILIY_API_KEY_PATH = os.getcwd() + '/ACD/tavily_token'
+TAVILIY_API_KEY_PATH = os.path.dirname(__file__) + '/../tavily_token'
 EVALUATION_RELEVANT = "relevant"
 EVALUATION_PARTIALLY_RELEVANT = "partially_relevant"
 
@@ -196,7 +196,7 @@ def __generate_answer__(state: RagState):
 
     return {"messages": [response], "sources": sources}
 
-def create_graph():
+def create_graph(checkpointer):
     graph_builder = StateGraph(RagState)
     graph_builder.add_node("retrieve_context", __retrieve_context__)
     graph_builder.add_node("generate_answer", __generate_answer__)
@@ -216,7 +216,6 @@ def create_graph():
     graph_builder.add_edge("web_search", "generate_answer")
     graph_builder.add_edge("generate_answer", END)
 
-    memory = InMemorySaver()
-    graph = graph_builder.compile(checkpointer=memory)
+    graph = graph_builder.compile(checkpointer=checkpointer)
 
     return graph

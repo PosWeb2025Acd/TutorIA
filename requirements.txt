@@ -10,6 +10,8 @@ langchain-huggingface
 langchain-core
 langchain-ollama
 langchain-chroma
+psycopg[binary,pool]
+langgraph-checkpoint-postgres
 
 chromadb
 

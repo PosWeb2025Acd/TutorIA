@@ -1,25 +1,34 @@
-from ACD.rag.rag import create_graph
+import os
+from dotenv import load_dotenv
+from langgraph.checkpoint.postgres import PostgresSaver
+from rag.rag import create_graph
+
+load_dotenv(os.path.dirname(__file__) + '/../.env')
+POSTGRES_CONNECTION = 'postgresql://' + os.getenv("POSTGRES_USER") + ':' + os.getenv("POSTGRES_PASSWORD") + '@localhost:5432/' + os.getenv("POSTGRES_DB") + '?sslmode=disable'
 
 if __name__ == "__main__":
-    graph = create_graph()
+    with PostgresSaver.from_conn_string(POSTGRES_CONNECTION) as checkpointer:
+        # checkpointer.setup()
 
-    while True:
-        user_question = input("👤 Digite a sua pergunta (Para finalizar, digite \"sair\"): ")
-        if not user_question.strip():
-            print("Por favor, digite uma pergunta.")
-            continue
+        graph = create_graph(checkpointer=checkpointer)
 
-        if user_question.strip().lower() == "sair":
-            print("🤖 Saindo do assistente. Até logo!")
-            break
+        while True:
+            user_question = input("👤 Digite a sua pergunta (Para finalizar, digite \"sair\"): ")
+            if not user_question.strip():
+                print("Por favor, digite uma pergunta.")
+                continue
 
-        result = graph.invoke(
-            {"messages": [{"role": "user", "content": user_question}]},
-            {"configurable": {"thread_id": "abc123"}},
-        )
+            if user_question.strip().lower() == "sair":
+                print("🤖 Saindo do assistente. Até logo!")
+                break
 
-        answer = result["messages"][-1]
-        sources = result["sources"] if "sources" in result else []
+            result = graph.invoke(
+                {"messages": [{"role": "user", "content": user_question}]},
+                {"configurable": {"thread_id": "abc123"}},
+            )
 
-        formated_response = f"Resposta: {answer.content}\nFontes:\n{"\n".join(sources)}"
-        print(f"🤖 {formated_response}")
+            answer = result["messages"][-1]
+            sources = result["sources"] if "sources" in result else []
+
+            formated_response = f"Resposta: {answer.content}\nFontes:\n{"\n".join(sources)}"
+            print(f"🤖 {formated_response}")
