@@ -39,7 +39,7 @@ def acd_upload_files():
     )
 
 
-@service.post("/acd/perguntar")
+@service.post("/acd/responder")
 def acd_ask_and_get_answer():
     request_data = request.get_json()
     question = request_data["question"] if "question" in request_data else ""

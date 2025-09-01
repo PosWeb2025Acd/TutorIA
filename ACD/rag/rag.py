@@ -12,7 +12,6 @@ from tavily import TavilyClient
 from rag.db import get_db
 
 MODEL = "llama3.1:8b"
-TAVILIY_API_KEY_PATH = os.path.dirname(__file__) + '/../tavily_token'
 EVALUATION_RELEVANT = "relevant"
 EVALUATION_PARTIALLY_RELEVANT = "partially_relevant"
 
@@ -136,10 +135,7 @@ def __web_search__(state: RagState):
 
     print (f"🤖 Realizando uma busca na web para complementar a resposta...")
 
-    tavily_token = ""
-    with open(TAVILIY_API_KEY_PATH, 'r') as file:
-        tavily_token = file.read().strip()
-
+    tavily_token = os.getenv("TAVILY_TOKEN")
     tavily_client = TavilyClient(api_key=tavily_token)
     question = state["messages"][-1].content
     response = tavily_client.search(question, max_results=5)
