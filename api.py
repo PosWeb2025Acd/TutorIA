@@ -8,7 +8,7 @@ load_dotenv(os.path.dirname(__file__) + '/.env')
 from ACD.rag.rag import create_graph
 from api.postgres import get_db_connection, POSTGRES_CONNECTION
 from api.users.user_controller import create_user, login_user
-from api.users.user_token import generate_token
+from api.token import generate_token, token_required_as_param
 from flask import Flask, Response, request, jsonify
 from langgraph.checkpoint.postgres import PostgresSaver
 
@@ -104,6 +104,7 @@ def user_login():
         }), 500
 
 @service.post("/acd/enviar-arquivos")
+@token_required_as_param
 def acd_upload_files():
     file = request.files["file_to_upload"]
     if not file:
@@ -121,7 +122,8 @@ def acd_upload_files():
     )
 
 @service.post("/acd/resposta")
-def acd_ask_and_get_answer():
+@token_required_as_param
+def acd_ask_and_get_answer(user_auth_data):
     request_data = request.get_json()
     question = request_data["question"] if "question" in request_data else ""
     if not question:
@@ -135,7 +137,7 @@ def acd_ask_and_get_answer():
         rag = create_graph(checkpointer)
         result = rag.invoke(
             {"messages": [{"role": "user", "content": question}]},
-            {"configurable": {"thread_id": "abc123"}},
+            {"configurable": {"thread_id": user_auth_data["user_id"]}},
         )
 
         answer = result["messages"][-1]
