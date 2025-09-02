@@ -18,3 +18,4 @@ chromadb
 tavily-python
 
 flask
+werkzeug

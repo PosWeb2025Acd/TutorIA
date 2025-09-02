@@ -1,11 +1,18 @@
 import os
+import json
+import logging
+
 from dotenv import load_dotenv
 load_dotenv(os.path.dirname(__file__) + '/.env')
 
-from flask import Flask, Response, request
 from ACD.rag.rag import create_graph
+from api.postgres import get_db_connection, POSTGRES_CONNECTION
+from api.users.user_controller import create_user
+from flask import Flask, Response, request, jsonify
 from langgraph.checkpoint.postgres import PostgresSaver
-import json
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 PROJECT_NAME = "TutorIA"
 INFO = {
@@ -13,7 +20,6 @@ INFO = {
     "version": "0.0.1",
     "description": "API para o assistente TutorIA",
 }
-POSTGRES_CONNECTION = 'postgresql://' + os.getenv("POSTGRES_USER") + ':' + os.getenv("POSTGRES_PASSWORD") + '@localhost:5432/' + os.getenv("POSTGRES_DB") + '?sslmode=disable'
 service = Flask(PROJECT_NAME)
 
 @service.get("/")
@@ -23,6 +29,45 @@ def info():
         status=200,
         mimetype="application/json"
     )
+
+@service.post("/criar-usuario")
+def tutor_ia_create_user():
+    """
+    Endpoint para criar um novo usuário
+    """
+    try:
+        # Obter dados do request
+        data = request.get_json()
+
+        # Validar se foi enviado JSON
+        if not data:
+            return jsonify({
+                'erro': 'Dados não fornecidos. Envie um JSON válido.',
+                'status': 'error'
+            }), 400
+
+        conn = get_db_connection()
+
+        user_created, user_data, message = create_user(conn, data)
+        if user_created:
+            return jsonify({
+                'mensagem': message,
+                'status': 'success',
+                'usuario': user_data
+            }), 200
+
+        return jsonify({
+            "status": "error",
+            "error": message
+        }), 400
+
+    except Exception as e:
+        logger.error(f"Erro interno no servidor: {e}")
+
+        return jsonify({
+            'erro': 'Erro interno do servidor',
+            'status': 'error'
+        }), 500
 
 @service.post("/acd/enviar-arquivos")
 def acd_upload_files():
@@ -41,14 +86,13 @@ def acd_upload_files():
         mimetype="application/json"
     )
 
-
 @service.post("/acd/resposta")
 def acd_ask_and_get_answer():
     request_data = request.get_json()
     question = request_data["question"] if "question" in request_data else ""
     if not question:
         return Response(
-            json.dumps({"status": "error", "message": "Informa a sua pergunta"}),
+            json.dumps({"status": "error", "message": "Informe a sua pergunta"}),
             status=400,
             mimetype="application/json"
         )
