@@ -1,5 +1,5 @@
-from api.users.user_repository import create
-from werkzeug.security import generate_password_hash
+from api.users.user_repository import create, get_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def __validate_user_data__(data):
     """
@@ -33,3 +33,23 @@ def create_user(db_connection, user_data):
     password_hash = generate_password_hash(password)
 
     return create(db_connection, user, password_hash)
+
+def login_user(db_connection, user_data):
+    """
+    Realiza o login do usuário
+    """
+    missing_fields = __validate_user_data__(user_data)
+    if missing_fields:
+        return False, None, f'Campos obrigatórios ausentes: {", ".join(missing_fields)}'
+    
+    user = user_data["usuario"].strip()
+    password = user_data["senha"]
+
+    user_found = get_user(db_connection, user)
+    if not user_found:
+        return False, None, "Credenciais inválidas"
+    
+    if not check_password_hash(user_found["senha"], password):
+        return False, None, "Credenciais inválidas"
+    
+    return True, {"id": user_found["id"], "usuario": user_found["usuario"], "data_criacao": user_found["data_criacao"]}, "Login Feito"

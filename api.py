@@ -7,7 +7,8 @@ load_dotenv(os.path.dirname(__file__) + '/.env')
 
 from ACD.rag.rag import create_graph
 from api.postgres import get_db_connection, POSTGRES_CONNECTION
-from api.users.user_controller import create_user
+from api.users.user_controller import create_user, login_user
+from api.users.user_token import generate_token
 from flask import Flask, Response, request, jsonify
 from langgraph.checkpoint.postgres import PostgresSaver
 
@@ -21,6 +22,7 @@ INFO = {
     "description": "API para o assistente TutorIA",
 }
 service = Flask(PROJECT_NAME)
+conn = get_db_connection()
 
 @service.get("/")
 def info():
@@ -36,17 +38,13 @@ def tutor_ia_create_user():
     Endpoint para criar um novo usuário
     """
     try:
-        # Obter dados do request
         data = request.get_json()
 
-        # Validar se foi enviado JSON
         if not data:
             return jsonify({
                 'erro': 'Dados não fornecidos. Envie um JSON válido.',
                 'status': 'error'
             }), 400
-
-        conn = get_db_connection()
 
         user_created, user_data, message = create_user(conn, data)
         if user_created:
@@ -60,6 +58,42 @@ def tutor_ia_create_user():
             "status": "error",
             "error": message
         }), 400
+
+    except Exception as e:
+        logger.error(f"Erro interno no servidor: {e}")
+
+        return jsonify({
+            'erro': 'Erro interno do servidor',
+            'status': 'error'
+        }), 500
+    
+@service.post("/login")
+def user_login():
+    """
+    Endpoint para criar um novo usuário
+    """
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({
+                'erro': 'Dados não fornecidos. Envie um JSON válido.',
+                'status': 'error'
+            }), 400
+
+        login_successful, user_data, message = login_user(conn, data)
+        if login_successful:
+            return jsonify({
+                'mensagem': message,
+                'status': 'success',
+                'usuario': user_data,
+                'token': generate_token(user_data["id"], user_data["usuario"])
+            }), 200
+
+        return jsonify({
+            "status": "error",
+            "error": message
+        }), 401
 
     except Exception as e:
         logger.error(f"Erro interno no servidor: {e}")

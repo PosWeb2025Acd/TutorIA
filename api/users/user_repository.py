@@ -28,15 +28,37 @@ def create(db_connection, user, password):
         db_connection.commit()
 
         return True, {
-            'id': str(result[0]),
-            'usuario': result[1],
-            'data_criacao': result[2].isoformat()
+            'id': str(result["id"]),
+            'usuario': result["usuario"],
+            'data_criacao': result["data_criacao"].isoformat()
         }, "Usuário criado com sucesso"
     except psycopg.IntegrityError as e:
         db_connection.rollback()
         return False, None, "Nome de usuário já existe"
     except Exception as e:
         db_connection.rollback()
+        raise
+    finally:
+        cursor.close()
+        db_connection.close()
+
+def get_user(db_connection, user):
+    cursor = db_connection.cursor()
+
+    try:
+        query = """
+        SELECT id, usuario, senha, data_criacao
+        FROM usuarios 
+        WHERE usuario = %s
+        """
+        cursor.execute(query, (user,))
+        user_record = cursor.fetchone()
+
+        if not user_record:
+            return None
+        
+        return user_record
+    except Exception as e:
         raise
     finally:
         cursor.close()
