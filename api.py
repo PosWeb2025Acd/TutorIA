@@ -1,8 +1,11 @@
+import os
+from dotenv import load_dotenv
+load_dotenv(os.path.dirname(__file__) + '/.env')
+
 from flask import Flask, Response, request
-
-import json
-
 from ACD.rag.rag import create_graph
+from langgraph.checkpoint.postgres import PostgresSaver
+import json
 
 PROJECT_NAME = "TutorIA"
 INFO = {
@@ -10,7 +13,7 @@ INFO = {
     "version": "0.0.1",
     "description": "API para o assistente TutorIA",
 }
-
+POSTGRES_CONNECTION = 'postgresql://' + os.getenv("POSTGRES_USER") + ':' + os.getenv("POSTGRES_PASSWORD") + '@localhost:5432/' + os.getenv("POSTGRES_DB") + '?sslmode=disable'
 service = Flask(PROJECT_NAME)
 
 @service.get("/")
@@ -21,7 +24,7 @@ def info():
         mimetype="application/json"
     )
 
-@service.post("/acd/upload_files")
+@service.post("/acd/enviar-arquivos")
 def acd_upload_files():
     file = request.files["file_to_upload"]
     if not file:
@@ -39,7 +42,7 @@ def acd_upload_files():
     )
 
 
-@service.post("/acd/responder")
+@service.post("/acd/resposta")
 def acd_ask_and_get_answer():
     request_data = request.get_json()
     question = request_data["question"] if "question" in request_data else ""
@@ -50,19 +53,20 @@ def acd_ask_and_get_answer():
             mimetype="application/json"
         )
 
-    rag = create_graph()
-    result = rag.invoke(
-        {"messages": [{"role": "user", "content": question}]},
-        {"configurable": {"thread_id": "abc123"}},
-    )
+    with PostgresSaver.from_conn_string(POSTGRES_CONNECTION) as checkpointer:
+        rag = create_graph(checkpointer)
+        result = rag.invoke(
+            {"messages": [{"role": "user", "content": question}]},
+            {"configurable": {"thread_id": "abc123"}},
+        )
 
-    answer = result["messages"][-1]
-    sources = result["sources"] if "sources" in result else []
+        answer = result["messages"][-1]
+        sources = result["sources"] if "sources" in result else []
 
-    return Response(
-        json.dumps({"status": "success", "answer": answer.content, "sources": sources}),
-        mimetype="application/json"
-    )
+        return Response(
+            json.dumps({"status": "success", "answer": answer.content, "sources": sources}),
+            mimetype="application/json"
+        )
 
 if __name__ == "__main__":
     service.run(

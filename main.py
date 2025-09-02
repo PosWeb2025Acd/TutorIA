@@ -1,9 +1,9 @@
 import os
 from dotenv import load_dotenv
+load_dotenv(os.path.dirname(__file__) + '/.env')
 from langgraph.checkpoint.postgres import PostgresSaver
-from rag.rag import create_graph
+from ACD.rag.rag import create_graph
 
-load_dotenv(os.path.dirname(__file__) + '/../.env')
 POSTGRES_CONNECTION = 'postgresql://' + os.getenv("POSTGRES_USER") + ':' + os.getenv("POSTGRES_PASSWORD") + '@localhost:5432/' + os.getenv("POSTGRES_DB") + '?sslmode=disable'
 
 if __name__ == "__main__":
