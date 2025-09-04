@@ -1,15 +1,15 @@
 import os
-import json
-import logging
-
 from dotenv import load_dotenv
 load_dotenv(os.path.dirname(__file__) + '/.env')
 
 from api.postgres import get_db_connection
 from api.users.user_controller import create_user, login_user
 from api.token import generate_token, token_required_as_param
-from flask import Flask, Response, request, jsonify
 from api.acd.acd_controller import get_answer_from_question
+from flask import Flask, Response, request, jsonify
+
+import json
+import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

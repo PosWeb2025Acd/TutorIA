@@ -9,6 +9,8 @@ def get_answer_from_question(question: str, user_data: dict):
     """
 
     with PostgresSaver.from_conn_string(POSTGRES_CONNECTION) as checkpointer:
+        # checkpointer.setup()
+
         rag = create_graph(checkpointer)
         result = rag.invoke(
             {"messages": [{"role": "user", "content": question}]},
