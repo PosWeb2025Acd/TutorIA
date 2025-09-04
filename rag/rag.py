@@ -8,7 +8,7 @@ from langgraph.graph import END, StateGraph, MessagesState
 from typing_extensions import List
 from tavily import TavilyClient
 
-from ACD.rag.db import get_db
+from rag.db import get_db
 
 MODEL = "llama3.1:8b"
 EVALUATION_RELEVANT = "relevant"

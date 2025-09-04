@@ -1,5 +1,5 @@
 
-from ACD.rag.rag import create_graph
+from rag.rag import create_graph
 from api.postgres import POSTGRES_CONNECTION
 from langgraph.checkpoint.postgres import PostgresSaver
 

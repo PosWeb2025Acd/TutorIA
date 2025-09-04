@@ -195,4 +195,4 @@ cython_debug/
 
 .idea/
 tutor_ia_acd_db/
-ACD/documents/*.pdf
+documents/*.pdf
