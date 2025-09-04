@@ -43,6 +43,10 @@ def create(db_connection, user, password):
         db_connection.close()
 
 def get_user(db_connection, user):
+    """
+    Recupera usuário do banco de dados pelo campo de 'usuario'
+    """
+
     cursor = db_connection.cursor()
 
     try:

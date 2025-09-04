@@ -30,17 +30,6 @@ def decode_token(token):
 
     return jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITH])
 
-def __extract_token_from_header__(authorization_header):
-    """Extrai token do header Authorization no formato Bearer"""
-    if not authorization_header:
-        return None
-    
-    parts = authorization_header.split()
-    if len(parts) != 2 or parts[0].lower() != 'bearer':
-        return None
-    
-    return parts[1]
-
 def token_required_as_param(f):
     """
     Decorator que espera o token como parâmetro da função
@@ -69,7 +58,7 @@ def token_required_as_param(f):
         except Exception as e:
             return jsonify({
                 'status': 'error',
-                'erro': 'Não foi possível decodificar o token'
+                'erro': f"Não foi possível decodificar o token: {str(e)}"
             }), 500
         
         if payload is None:
@@ -77,13 +66,18 @@ def token_required_as_param(f):
                 'erro': 'Token inválido',
                 'status': 'error'
             }), 403
-        
-        if payload == 'expired':
-            return jsonify({
-                'erro': 'Token expirado',
-                'status': 'error'
-            }), 403
 
         return f(payload, *args, **kwargs)
     
     return decorated_function
+
+def __extract_token_from_header__(authorization_header):
+    """Extrai token do header Authorization no formato Bearer"""
+    if not authorization_header:
+        return None
+
+    parts = authorization_header.split()
+    if len(parts) != 2 or parts[0].lower() != 'bearer':
+        return None
+
+    return parts[1]

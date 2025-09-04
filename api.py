@@ -11,6 +11,7 @@ from api.users.user_controller import create_user, login_user
 from api.token import generate_token, token_required_as_param
 from flask import Flask, Response, request, jsonify
 from langgraph.checkpoint.postgres import PostgresSaver
+from api.acd.acd_controller import get_answer_from_question
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -68,7 +69,7 @@ def tutor_ia_create_user():
         }), 500
     
 @service.post("/login")
-def user_login():
+def tutor_ia_user_login():
     """
     Endpoint para criar um novo usuário
     """
@@ -133,20 +134,17 @@ def acd_ask_and_get_answer(user_auth_data):
             mimetype="application/json"
         )
 
-    with PostgresSaver.from_conn_string(POSTGRES_CONNECTION) as checkpointer:
-        rag = create_graph(checkpointer)
-        result = rag.invoke(
-            {"messages": [{"role": "user", "content": question}]},
-            {"configurable": {"thread_id": user_auth_data["user_id"]}},
-        )
-
-        answer = result["messages"][-1]
-        sources = result["sources"] if "sources" in result else []
-
+    success, answer, sources = get_answer_from_question(question, user_auth_data)
+    if success:
         return Response(
-            json.dumps({"status": "success", "answer": answer.content, "sources": sources}),
+            json.dumps({"status": "success", "answer": answer, "sources": sources}),
             mimetype="application/json"
         )
+
+    return Response(
+        json.dumps({"status": "error", "erro": "Não foi possível obter uma resposta :("}),
+        mimetype="application/json"
+    ), 500
 
 if __name__ == "__main__":
     service.run(
