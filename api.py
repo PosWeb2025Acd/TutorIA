@@ -6,7 +6,7 @@ from api.postgres import get_db_connection
 from api.users.user_controller import create_user, login_user
 from api.token import generate_token, token_required_as_param
 from api.acd.acd_controller import get_answer_from_question
-from flask import Flask, Response, request, jsonify
+from flask import Flask, Response, request
 
 import json
 import logging
@@ -21,7 +21,6 @@ INFO = {
     "description": "API para o assistente TutorIA",
 }
 service = Flask(PROJECT_NAME)
-conn = get_db_connection()
 
 @service.get("/")
 def info():
@@ -36,71 +35,84 @@ def tutor_ia_create_user():
     """
     Endpoint para criar um novo usuário
     """
+
+    conn = get_db_connection()
     try:
         data = request.get_json()
-
-        if not data:
-            return jsonify({
-                'erro': 'Dados não fornecidos. Envie um JSON válido.',
-                'status': 'error'
-            }), 400
+        if data is None:
+            return Response(
+                json.dumps({"erro": "Dados não fornecidos. Envie um JSON válido.", "status": "error"}),
+                status=400,
+                mimetype="application/json"
+            )
 
         user_created, user_data, message = create_user(conn, data)
         if user_created:
-            return jsonify({
-                'mensagem': message,
-                'status': 'success',
-                'usuario': user_data
-            }), 200
+            user_data["id"] = str(user_data["id"])
 
-        return jsonify({
-            "status": "error",
-            "error": message
-        }), 400
+            return Response(
+                json.dumps({"mensagem": message, "status": "success", "usuario": user_data}),
+                status=200,
+                mimetype="application/json"
+            )
+
+        return Response(
+            json.dumps({'erro': message, 'status': "error"}),
+            status=400,
+            mimetype="application/json"
+        )
 
     except Exception as e:
         logger.error(f"Erro interno no servidor: {e}")
 
-        return jsonify({
-            'erro': 'Erro interno do servidor',
-            'status': 'error'
-        }), 500
+        return Response(
+            json.dumps({"erro": "Erro interno do servidor.", "status": "error"}),
+            status=500,
+            mimetype="application/json"
+        )
     
 @service.post("/login")
 def tutor_ia_user_login():
     """
     Endpoint para criar um novo usuário
     """
+
+    conn = get_db_connection()
     try:
         data = request.get_json()
 
         if not data:
-            return jsonify({
-                'erro': 'Dados não fornecidos. Envie um JSON válido.',
-                'status': 'error'
-            }), 400
+            return Response(
+                json.dumps({"erro": "Dados não fornecidos. Envie um JSON válido.", "status": "error"}),
+                status=400,
+                mimetype="application/json"
+            )
 
         login_successful, user_data, message = login_user(conn, data)
         if login_successful:
-            return jsonify({
-                'mensagem': message,
-                'status': 'success',
-                'usuario': user_data,
-                'token': generate_token(user_data["id"], user_data["usuario"])
-            }), 200
+            user_data["id"] = str(user_data["id"])
+            user_data["data_criacao"] = user_data["data_criacao"].strftime('%m/%d/%Y %H:%M:%S')
 
-        return jsonify({
-            "status": "error",
-            "error": message
-        }), 401
+            return Response(
+                json.dumps({'mensagem': message, 'status': 'success', 'usuario': user_data, 'token': generate_token(user_data["id"], user_data["usuario"])}),
+                status=200,
+                mimetype="application/json"
+            )
+
+        return Response(
+            json.dumps({"status": "error", "error": message}),
+            status=401,
+            mimetype="application/json"
+        )
 
     except Exception as e:
         logger.error(f"Erro interno no servidor: {e}")
 
-        return jsonify({
-            'erro': 'Erro interno do servidor',
-            'status': 'error'
-        }), 500
+        return Response(
+            json.dumps({"erro": "Erro interno do servidor.", "status": "error"}),
+            status=500,
+            mimetype="application/json"
+        )
 
 @service.post("/acd/enviar-arquivos")
 @token_required_as_param
@@ -117,6 +129,7 @@ def acd_upload_files():
 
     return Response(
         json.dumps({"status": "success", "message": "Arquivo atualizado com sucesso!"}),
+        status=200,
         mimetype="application/json"
     )
 
@@ -136,13 +149,15 @@ def acd_ask_and_get_answer(user_auth_data):
     if success:
         return Response(
             json.dumps({"status": "success", "answer": answer, "sources": sources}),
+            status=200,
             mimetype="application/json"
         )
 
     return Response(
         json.dumps({"status": "error", "erro": "Não foi possível obter uma resposta :("}),
+        status=500,
         mimetype="application/json"
-    ), 500
+    )
 
 if __name__ == "__main__":
     service.run(

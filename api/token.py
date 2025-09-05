@@ -15,14 +15,17 @@ def generate_token(user_id, user):
     Gera um token JWT para um usuário autenticado
     """
 
+    user_id = str(user_id)
+    user_session_id = str(uuid.uuid4())
+
     payload = {
-        'user_id': str(user_id),
+        'user_id': user_id,
         'user': user,
-        'user_session_id': str(uuid.uuid4()),
+        'user_session_id': user_session_id,
         'exp': datetime.now() + timedelta(hours=JWT_EXPIRATION_HOURS),
         'iat': datetime.now()
     }
-    
+
     return jwt.encode(payload, JWT_SECRET_KEY, algorithm=JWT_ALGORITH)
 
 def decode_token(token):
