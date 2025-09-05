@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom"
 import { User, Lock, Eye, EyeOff, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 
 const LoginPage = () => {
@@ -6,6 +7,8 @@ const LoginPage = () => {
     usuario: '',
     senha: ''
   });
+
+  const navigate = useNavigate()
   
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +63,8 @@ const LoginPage = () => {
         });
 
         setFormData({ usuario: '', senha: '' });
+
+        navigate("/tutor-ia/chat")
 
       } else {
         setMessage({
