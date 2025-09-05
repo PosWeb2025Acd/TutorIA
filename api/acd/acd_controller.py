@@ -1,4 +1,3 @@
-
 from rag.rag import create_graph
 from api.postgres import POSTGRES_CONNECTION
 from langgraph.checkpoint.postgres import PostgresSaver
@@ -10,11 +9,10 @@ def get_answer_from_question(question: str, user_data: dict):
 
     with PostgresSaver.from_conn_string(POSTGRES_CONNECTION) as checkpointer:
         # checkpointer.setup()
-
         rag = create_graph(checkpointer)
         result = rag.invoke(
             {"messages": [{"role": "user", "content": question}]},
-            {"configurable": {"thread_id": user_data["user_id"]}},
+            {"configurable": {"thread_id": user_data["user_session_id"]}},
         )
 
         answer = result["messages"][-1]

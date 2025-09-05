@@ -4,6 +4,7 @@ from functools import wraps
 
 import jwt
 import os
+import uuid
 
 JWT_EXPIRATION_HOURS=int(os.getenv("JWT_EXPIRATION_HOURS", "24"))
 JWT_SECRET_KEY=os.getenv("JWT_SECRET_KEY")
@@ -17,6 +18,7 @@ def generate_token(user_id, user):
     payload = {
         'user_id': str(user_id),
         'user': user,
+        'user_session_id': str(uuid.uuid4()),
         'exp': datetime.now() + timedelta(hours=JWT_EXPIRATION_HOURS),
         'iat': datetime.now()
     }

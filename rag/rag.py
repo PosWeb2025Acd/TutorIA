@@ -30,8 +30,8 @@ class RagState(MessagesState):
     It is typically a TypedDict, but can also be a Pydantic BaseModel.
     """
 
-    sources: List[str]  # List of source document IDs or titles
-    documents: List[Document]  # List of document contents
+    sources: List[str]
+    documents: List[Document]
     web_search_recomended: bool
 
 def __router_choice__(state: RagState):
