@@ -5,6 +5,8 @@ from langchain_core.documents import Document
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_ollama import ChatOllama
 from langgraph.graph import END, StateGraph, MessagesState
+from langgraph.checkpoint.base import BaseCheckpointSaver
+from langgraph.store.base import BaseStore
 from typing_extensions import List
 from tavily import TavilyClient
 
@@ -191,7 +193,7 @@ def __generate_answer__(state: RagState):
 
     return {"messages": [response], "sources": sources}
 
-def create_graph(checkpointer):
+def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore):
     graph_builder = StateGraph(RagState)
     graph_builder.add_node("retrieve_context", __retrieve_context__)
     graph_builder.add_node("generate_answer", __generate_answer__)
@@ -211,6 +213,6 @@ def create_graph(checkpointer):
     graph_builder.add_edge("web_search", "generate_answer")
     graph_builder.add_edge("generate_answer", END)
 
-    graph = graph_builder.compile(checkpointer=checkpointer)
+    graph = graph_builder.compile(checkpointer=checkpointer, store=store)
 
     return graph

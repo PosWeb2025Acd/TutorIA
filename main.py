@@ -2,15 +2,23 @@ import os
 from dotenv import load_dotenv
 load_dotenv(os.path.dirname(__file__) + '/.env')
 from langgraph.checkpoint.postgres import PostgresSaver
+from langgraph.store.postgres import PostgresStore
 from rag.rag import create_graph
+from psycopg import Connection
 
 POSTGRES_CONNECTION = 'postgresql://' + os.getenv("DB_USER") + ':' + os.getenv("DB_PASSWORD") + '@localhost:5432/' + os.getenv("DB_NAME") + '?sslmode=disable'
 
 if __name__ == "__main__":
-    with PostgresSaver.from_conn_string(POSTGRES_CONNECTION) as checkpointer:
-        # checkpointer.setup()
+    with Connection.connect(POSTGRES_CONNECTION) as conn:
+        checkpointer = PostgresSaver(conn)
+        store = PostgresStore(
+            conn,
+            index={
+                
+            }
+        )
 
-        graph = create_graph(checkpointer=checkpointer)
+        graph = create_graph(checkpointer, store)
 
         while True:
             user_question = input("👤 Digite a sua pergunta (Para finalizar, digite \"sair\"): ")
