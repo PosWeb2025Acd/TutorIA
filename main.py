@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv(os.path.dirname(__file__) + '/.env')
 from langgraph.checkpoint.postgres import PostgresSaver
-from langgraph.store.postgres import PostgresStore
 from rag.rag import create_graph
 from psycopg import Connection
 
@@ -11,12 +10,7 @@ POSTGRES_CONNECTION = 'postgresql://' + os.getenv("DB_USER") + ':' + os.getenv("
 if __name__ == "__main__":
     with Connection.connect(POSTGRES_CONNECTION) as conn:
         checkpointer = PostgresSaver(conn)
-        store = PostgresStore(
-            conn,
-            index={
-                
-            }
-        )
+        store = None
 
         graph = create_graph(checkpointer, store)
 

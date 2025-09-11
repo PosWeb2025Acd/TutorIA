@@ -35,6 +35,8 @@ class RagState(MessagesState):
     sources: List[str]
     documents: List[Document]
     web_search_recomended: bool
+    hallucination_grade: dict
+    answer_grade: float
 
 def __router_choice__(state: RagState):
     """
@@ -75,6 +77,7 @@ def __retrieve_context__(state: RagState):
 def __retrieved_context_evaluator__(state: RagState):
     """
     Step that evaluates the quality of the retrieved context.
+    Context Retrived Judge
     """
 
     print (f"🤖 Avaliando a qualidade do contexto recuperado...")
@@ -193,25 +196,51 @@ def __generate_answer__(state: RagState):
 
     return {"messages": [response], "sources": sources}
 
-def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore):
+def __evaluate_answer_backed_by_context__(state: RagState):
+    """
+    Evaluate if the answer provided by the rag system is in accordance with the context provided.
+    """
+
+    print (f"🤖 Avaliando concordância da resposta com o contexto gerado...")
+
+    prompt_template = """
+    You are a grader assessing wheather an answer is grounded in or supported by a set of documents. Give an grade score as an float on a scale of 0 to 10
+    , where 0 is when the set of documents are completely irrelevant to the answer and 10 is when the set of documents fully supports the answer. Provide
+    the response as an JSON, with no preamble or explanation with two keys: score, and reasoning. The reasoning key should contain the explanation on why
+    that score was provided.
+
+    Set of documents: {documents}
+    Here is the answer: {answer}
+    """
+    prompt = ChatPromptTemplate.from_template(prompt_template)
+    hallucination_grader = prompt | llm | JsonOutputParser()
+    answer = state["messages"][-1]
+    documents = state["documents"]
+
+    result = hallucination_grader.invoke({"documents": documents, "answer": answer})
+
+    return {"hallucination_grade": result}
+
+def __evaluate_answer__(state: RagState):
+    """
+    Evaluate the answer provided by the rag system using a different LLM.
+    LLM as a judge final step
+    """
+
+    print (f"🤖 Avaliando a resposta gerada pelo RAG...")
+
+def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore = None):
     graph_builder = StateGraph(RagState)
     graph_builder.add_node("retrieve_context", __retrieve_context__)
     graph_builder.add_node("generate_answer", __generate_answer__)
     graph_builder.add_node("retrieved_context_evaluator", __retrieved_context_evaluator__)
-    graph_builder.add_node("web_search", __web_search__)
+    graph_builder.add_node("evaluate_answer", __evaluate_answer__)
 
     graph_builder.set_conditional_entry_point(__router_choice__, {"vectorstore": "retrieve_context", "llm": "generate_answer"})
     graph_builder.add_edge("retrieve_context", "retrieved_context_evaluator")
-    graph_builder.add_conditional_edges(
-        "retrieved_context_evaluator",
-        __decision_based_on_evaluation__,
-        {
-            "web_search": "web_search",
-            "generate_answer": "generate_answer",
-        },
-    )
-    graph_builder.add_edge("web_search", "generate_answer")
-    graph_builder.add_edge("generate_answer", END)
+    graph_builder.add_edge("retrieved_context_evaluator", "generate_answer")
+    graph_builder.add_edge("generate_answer", "evaluate_answer")
+    graph_builder.add_edge("evaluate_answer", END)
 
     graph = graph_builder.compile(checkpointer=checkpointer, store=store)
 

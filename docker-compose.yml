@@ -12,5 +12,26 @@ services:
       - ./db-scripts:/docker-entrypoint-initdb.d
       - db:/var/lib/postgresql/data
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434" # Default port for Ollama API
+    volumes:
+      - ollama_data:/root/.ollama # Persist model data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia # Or amd, if using AMD GPUs
+              count: all # Or specify a particular GPU index
+              capabilities: [gpu] # Enables GPU access
+    networks:
+      - tcc_ollama
+
 volumes:
   db:
+  ollama_data:
+
+networks:
+  tcc_ollama:
