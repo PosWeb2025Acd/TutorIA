@@ -1,6 +1,33 @@
 services:
+  api:
+    build: .
+    container_name: tutoria_api
+    hostname: api-tutoria
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - tutoria
+
+  frontend:
+    build: ./app
+    container_name: tutoria_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/app
+      - ./app/node_modules:/app/node_modules
+    networks:
+      - tutoria
+
   db:
     image: postgres:17.6-alpine3.21
+    container_name: tutoria_db
     restart: always
     environment:
       POSTGRES_USER: $DB_USER
@@ -11,10 +38,13 @@ services:
     volumes:
       - ./db-scripts:/docker-entrypoint-initdb.d
       - db:/var/lib/postgresql/data
+    networks:
+      - tutoria
 
   ollama:
     image: ollama/ollama:latest
-    container_name: ollama
+    container_name: tutoria_ollama
+    hostname: ollama-tutoria
     ports:
       - "11434:11434" # Default port for Ollama API
     volumes:
@@ -27,11 +57,11 @@ services:
               count: all # Or specify a particular GPU index
               capabilities: [gpu] # Enables GPU access
     networks:
-      - tcc_ollama
+      - tutoria
 
 volumes:
   db:
   ollama_data:
 
 networks:
-  tcc_ollama:
+  tutoria:

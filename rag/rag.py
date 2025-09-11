@@ -15,8 +15,9 @@ from rag.db import get_db
 MODEL = "llama3.1:8b"
 EVALUATION_RELEVANT = "relevant"
 EVALUATION_PARTIALLY_RELEVANT = "partially_relevant"
+OLLAMA_BASE_URL = os.getenv("OLLAMA_URL")
 
-llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0)
+llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0, base_url=OLLAMA_BASE_URL)
 vector_store = get_db()
 
 """
