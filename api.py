@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv(os.path.dirname(__file__) + '/.env')
 
-from api.postgres import get_db_connection
+from db.postgres import get_postgres_connection
 from api.users.user_controller import create_user, login_user
 from api.token import generate_token, token_required_as_param
 from api.acd.acd_controller import get_answer_from_question
@@ -36,7 +36,7 @@ def tutor_ia_create_user():
     Endpoint para criar um novo usuário
     """
 
-    conn = get_db_connection()
+    conn = get_postgres_connection()
     try:
         data = request.get_json()
         if data is None:
@@ -77,7 +77,7 @@ def tutor_ia_user_login():
     Endpoint para criar um novo usuário
     """
 
-    conn = get_db_connection()
+    conn = get_postgres_connection()
     try:
         data = request.get_json()
 

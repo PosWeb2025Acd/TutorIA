@@ -10,7 +10,7 @@ DB_PORT = os.getenv("DB_PORT", "5432")
 DB_NAME = os.getenv("DB_NAME")
 POSTGRES_CONNECTION = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode=disable"
 
-def get_db_connection():
+def get_postgres_connection():
     """
     Estabelece conexão com o banco de dados PostgreSQL
     """

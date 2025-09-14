@@ -10,7 +10,7 @@ from langgraph.store.base import BaseStore
 from typing_extensions import List
 from tavily import TavilyClient
 
-from api.postgres import get_db_connection
+from db.postgres import get_postgres_connection
 from api.user_and_answer.user_and_answer_repository import create_user_question_and_answer
 from rag.db import get_db
 
@@ -241,7 +241,7 @@ def __save_question_and_answer__(state: RagState, config):
 
     question = state["messages"][-2].content
     answer = state["messages"][-1].content
-    conn = get_db_connection()
+    conn = get_postgres_connection()
     user_id = config["metadata"]["user_id"]
 
     create_user_question_and_answer(conn, user_id, question, answer)

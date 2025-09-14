@@ -1,5 +1,5 @@
 from rag.rag import create_graph
-from api.postgres import POSTGRES_CONNECTION
+from db.postgres import POSTGRES_CONNECTION
 from langgraph.checkpoint.postgres import PostgresSaver
 
 def get_answer_from_question(question: str, user_data: dict):
