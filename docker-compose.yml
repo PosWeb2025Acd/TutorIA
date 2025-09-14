@@ -14,6 +14,23 @@ services:
     networks:
       - tutoria
 
+  judge:
+    build: ./judge
+    container_name: tutoria_rag_judge
+    restart: always
+    hostname: rag-judge-tutoria
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./judge:/app
+      - ./db:/app/db
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - tutoria
+
   frontend:
     build: ./app
     container_name: tutoria_frontend
