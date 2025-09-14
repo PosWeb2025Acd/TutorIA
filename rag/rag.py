@@ -10,6 +10,8 @@ from langgraph.store.base import BaseStore
 from typing_extensions import List
 from tavily import TavilyClient
 
+from api.postgres import get_db_connection
+from api.user_and_answer.user_and_answer_repository import create_user_question_and_answer
 from rag.db import get_db
 
 MODEL = "llama3.1:8b"
@@ -230,18 +232,33 @@ def __evaluate_answer__(state: RagState):
 
     print (f"🤖 Avaliando a resposta gerada pelo RAG...")
 
+def __save_question_and_answer__(state: RagState, config):
+    """
+    Save question and answer pair from the system at the postgres database, so it can be judge in another process
+    """
+
+    print (f"🤖 Gerando registro de pergunta e resposta no banco de dados")
+
+    question = state["messages"][-2].content
+    answer = state["messages"][-1].content
+    conn = get_db_connection()
+    user_id = config["metadata"]["user_id"]
+
+    create_user_question_and_answer(conn, user_id, question, answer)
+
 def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore = None):
     graph_builder = StateGraph(RagState)
     graph_builder.add_node("retrieve_context", __retrieve_context__)
     graph_builder.add_node("generate_answer", __generate_answer__)
     graph_builder.add_node("retrieved_context_evaluator", __retrieved_context_evaluator__)
-    graph_builder.add_node("evaluate_answer", __evaluate_answer__)
+    # graph_builder.add_node("evaluate_answer", __evaluate_answer__)
+    graph_builder.add_node("save_question_and_answer", __save_question_and_answer__)
 
     graph_builder.set_conditional_entry_point(__router_choice__, {"vectorstore": "retrieve_context", "llm": "generate_answer"})
     graph_builder.add_edge("retrieve_context", "retrieved_context_evaluator")
     graph_builder.add_edge("retrieved_context_evaluator", "generate_answer")
-    graph_builder.add_edge("generate_answer", "evaluate_answer")
-    graph_builder.add_edge("evaluate_answer", END)
+    graph_builder.add_edge("generate_answer", "save_question_and_answer")
+    graph_builder.add_edge("save_question_and_answer", END)
 
     graph = graph_builder.compile(checkpointer=checkpointer, store=store)
 

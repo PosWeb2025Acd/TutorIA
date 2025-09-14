@@ -12,7 +12,7 @@ def get_answer_from_question(question: str, user_data: dict):
         rag = create_graph(checkpointer)
         result = rag.invoke(
             {"messages": [{"role": "user", "content": question}]},
-            {"configurable": {"thread_id": user_data["user_session_id"]}},
+            {"configurable": {"thread_id": user_data["user_session_id"], "user_id": user_data["user_id"]}},
         )
 
         answer = result["messages"][-1]

@@ -1,8 +1,8 @@
 services:
-  api:
+  rag:
     build: .
-    container_name: tutoria_api
-    hostname: api-tutoria
+    container_name: tutoria_rag
+    hostname: rag-tutoria
     ports:
       - "5000:5000"
     volumes:

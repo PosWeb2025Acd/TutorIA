@@ -16,7 +16,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://api-tutoria:5000",
+  "proxy": "http://rag-tutoria:5000",
   "eslintConfig": {
     "extends": [
       "react-app",
