@@ -11,8 +11,8 @@ from typing_extensions import List
 from tavily import TavilyClient
 
 from db.postgres import get_postgres_connection
+from db.chroma import get_chroma_db
 from api.user_and_answer.user_and_answer_repository import create_user_question_and_answer
-from rag.db import get_db
 
 MODEL = "llama3.1:8b"
 EVALUATION_RELEVANT = "relevant"
@@ -20,7 +20,7 @@ EVALUATION_PARTIALLY_RELEVANT = "partially_relevant"
 OLLAMA_BASE_URL = os.getenv("OLLAMA_URL")
 
 llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0, base_url=OLLAMA_BASE_URL)
-vector_store = get_db()
+vector_store = get_chroma_db()
 
 """
 StateGraph (RagState): StateMachine that represents the workflow

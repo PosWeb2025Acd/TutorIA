@@ -2,28 +2,30 @@ import os
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from db import get_db
+# from db.chroma import get_chroma_db
 
 # Download ollama to import models curl -fsSL https://ollama.com/install.sh | sh
 # DOwnload deepseek model. ollama pull deepseek-r1:8b
 
-file_path = [
-    os.getcwd() + '/documents/conceitos_basicos_poo.pdf',
-    os.getcwd() + '/documents/poo_c_plus_plus.pdf',
-    os.getcwd() + '/documents/poo_java.pdf',
-    os.getcwd() + '/documents/revisao_poo.pdf',
-]
+def load_pages():
+    directory = os.getcwd() + '/documents'
+    file_list = []
+    for entry in os.listdir(directory):
+        if entry == '.gitkeep':
+            continue
+        full_path = os.path.join(directory, entry)
+        if os.path.isfile(full_path):
+            file_list.append(full_path) # Or full_path for absolute paths
 
-def __load_pages__():
     pages = []
-    for file in file_path:
+    for file in file_list:
         loader = PyPDFLoader(file)
         for page in loader.lazy_load():
             pages.append(page)
 
     return pages
 
-def __create_pages_chunks__(pages, chunk_size=1000, chunk_overlap=200):
+def create_pages_chunks(pages, chunk_size=1000, chunk_overlap=200):
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
@@ -31,14 +33,14 @@ def __create_pages_chunks__(pages, chunk_size=1000, chunk_overlap=200):
     )
     return text_splitter.split_documents(pages)
 
-def __create_chunk_ids__(chunks):
+def create_chunk_ids(chunks):
     last_page_id = None
     current_chunk_index = 0
 
     for chunk in chunks:
-        source = chunk.metadata.get("source")
+        file_name = os.path.basename(chunk.metadata.get("source"))
         page = chunk.metadata.get("page")
-        page_id = f"{source}:{page}"
+        page_id = f"{file_name}:{page}"
 
         if last_page_id == page_id:
             current_chunk_index += 1
@@ -52,7 +54,7 @@ def __create_chunk_ids__(chunks):
 
     return chunks
 
-def __add_chunks_to_db__(db, chunks):
+def add_chunks_to_db(db, chunks):
     ids = [chunk.metadata["page_id"] for chunk in chunks]
     chunks_found = db.get_by_ids(ids)
     chunks_to_add = []
@@ -71,15 +73,17 @@ def __add_chunks_to_db__(db, chunks):
 
 if __name__ == "__main__":
     print("Loading pages...")
-    pages = __load_pages__()
+    pages = load_pages()
     print("Creating chunks...")
-    chunks = __create_pages_chunks__(pages)
-    chunks = __create_chunk_ids__(chunks)
+    chunks = create_pages_chunks(pages)
+    chunks = create_chunk_ids(chunks)
 
-    db = get_db()
+    # print(chunks)
 
-    print("Adding chunks to database...")
+    # db = get_chroma_db()
 
-    __add_chunks_to_db__(db, chunks)
+    # print("Adding chunks to database...")
 
-    print("Chunks added to database successfully.")
+    # __add_chunks_to_db__(db, chunks)
+
+    # print("Chunks added to database successfully.")
