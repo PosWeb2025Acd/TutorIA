@@ -3,10 +3,10 @@ from dotenv import load_dotenv
 load_dotenv(os.path.dirname(__file__) + '/.env')
 
 from db.postgres import get_postgres_connection
-from api.users.user_controller import create_user, login_user
-from api.token import generate_token, token_required_as_param
-from api.acd.acd_controller import get_answer_from_question
 from flask import Flask, Response, request
+from rag.api.acd.acd_controller import get_answer_from_question
+from rag.api.users.user_controller import create_user, login_user
+from rag.api.token import generate_token, token_required_as_param
 
 import json
 import logging

@@ -1,4 +1,4 @@
-from api.users.user_repository import create, get_user
+from rag.api.users.user_repository import create, get_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def create_user(db_connection, user_data):
