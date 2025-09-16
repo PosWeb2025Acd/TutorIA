@@ -1,12 +1,14 @@
 services:
   rag:
-    build: .
+    build: ./rag
     container_name: tutoria_rag
     hostname: rag-tutoria
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
+      - ./rag:/app
+      - ./db:/app/db
+      - ./scripts:/app/scripts
     depends_on:
       - db
     env_file:

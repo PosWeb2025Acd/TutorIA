@@ -1,4 +1,4 @@
-from rag.api.users.user_repository import create, get_user
+from . import user_repository
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def create_user(db_connection, user_data):
@@ -18,7 +18,7 @@ def create_user(db_connection, user_data):
 
     password_hash = generate_password_hash(password)
 
-    return create(db_connection, user, password_hash)
+    return user_repository.create(db_connection, user, password_hash)
 
 def login_user(db_connection, user_data):
     """
@@ -32,7 +32,7 @@ def login_user(db_connection, user_data):
     user = user_data["usuario"].strip()
     password = user_data["senha"]
 
-    user_found = get_user(db_connection, user)
+    user_found = user_repository.get_user(db_connection, user)
     if not user_found:
         return False, None, "Credenciais inválidas"
     

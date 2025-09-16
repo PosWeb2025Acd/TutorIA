@@ -12,7 +12,7 @@ from tavily import TavilyClient
 
 from db.postgres import get_postgres_connection
 from db.chroma import get_chroma_db
-from rag.api.user_and_answer.user_and_answer_repository import create_user_question_and_answer
+from api.user_and_answer.user_and_answer_repository import create_user_question_and_answer
 
 MODEL = "llama3.1:8b"
 EVALUATION_RELEVANT = "relevant"
