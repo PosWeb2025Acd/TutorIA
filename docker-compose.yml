@@ -8,7 +8,6 @@ services:
     volumes:
       - ./rag:/app
       - ./db:/app/db
-      - ./scripts:/app/scripts
     depends_on:
       - db
     env_file:
@@ -21,8 +20,6 @@ services:
     container_name: tutoria_rag_judge
     restart: always
     hostname: rag-judge-tutoria
-    ports:
-      - "5001:5000"
     volumes:
       - ./judge:/app
       - ./db:/app/db

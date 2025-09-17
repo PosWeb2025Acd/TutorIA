@@ -1,17 +1,21 @@
+import json
 import os
-
+import logging
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-# from db.chroma import get_chroma_db
+from chroma import get_chroma_db
 
-# Download ollama to import models curl -fsSL https://ollama.com/install.sh | sh
-# DOwnload deepseek model. ollama pull deepseek-r1:8b
+PROCESS_FILES_PATH = os.getcwd() + '/processed_files.json'
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def load_pages():
     directory = os.getcwd() + '/documents'
     file_list = []
+    processed_files = get_processed_files()
     for entry in os.listdir(directory):
-        if entry == '.gitkeep':
+        if entry == '.gitkeep' or entry in processed_files:
             continue
         full_path = os.path.join(directory, entry)
         if os.path.isfile(full_path):
@@ -51,6 +55,7 @@ def create_chunk_ids(chunks):
         last_page_id = page_id
 
         chunk.metadata["page_id"] = chunk_id
+        chunk.metadata["file_name"] = file_name
 
     return chunks
 
@@ -66,24 +71,49 @@ def add_chunks_to_db(db, chunks):
         print("No new chunks to add to the database.")
         return db
 
-    ids = [chunk.metadata["page_id"] for chunk in chunks_to_add]
+    ids = []
+    files_added = []
+    for chunk in chunks_to_add:
+        if chunk.metadata["file_name"] not in files_added:
+            files_added.append(chunk.metadata["file_name"])
+        ids.append(chunk.metadata["page_id"])
+
     db.add_documents(documents=chunks_to_add, ids=ids)
+    save_processed_files(files_added)
 
     return db
 
+def save_processed_files(file_list: list):
+    files_processed = get_processed_files()
+    file_list.extend(files_processed)
+    with open(PROCESS_FILES_PATH, 'w') as f:
+        json.dump(file_list, f, indent=2)
+
+def get_processed_files():
+    if os.path.exists(PROCESS_FILES_PATH):
+        try:
+            with open(PROCESS_FILES_PATH, 'r') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, FileNotFoundError) as e:
+            logger.error(f"Erro ao recuperar arquivos processados: {e}")
+            return {}
+    return {}
+
 if __name__ == "__main__":
-    print("Loading pages...")
+    logger.info("Loading pages...")
     pages = load_pages()
-    print("Creating chunks...")
-    chunks = create_pages_chunks(pages)
-    chunks = create_chunk_ids(chunks)
+    logger.info("Creating chunks...")
+    if pages:
+        chunks = create_pages_chunks(pages)
+        chunks = create_chunk_ids(chunks)
 
-    # print(chunks)
+        db = get_chroma_db()
 
-    # db = get_chroma_db()
+        logger.info("Adding chunks to database...")
+        add_chunks_to_db(db, chunks)
+        logger.info("Chunks added to database successfully.")
 
-    # print("Adding chunks to database...")
+        exit(0)
 
-    # __add_chunks_to_db__(db, chunks)
+    logger.info("Não existem arquivos a serem processados")
 
-    # print("Chunks added to database successfully.")
