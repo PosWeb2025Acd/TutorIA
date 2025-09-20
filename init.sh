@@ -2,7 +2,7 @@
 
 # SHOULD BE EXECUTED ONLY AT THE FIRST TIME RUNNING THE PROJECT
 
-docker compose up -d
+docker compose up -d --build
 
 OLLAMA_SERVICE="ollama"
 RAG_SERVICE="api"
