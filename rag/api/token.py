@@ -12,17 +12,18 @@ JWT_EXPIRATION_HOURS=int(os.getenv("JWT_EXPIRATION_HOURS", "24"))
 JWT_SECRET_KEY=os.getenv("JWT_SECRET_KEY")
 JWT_ALGORITH="HS256"
 
-def generate_token(user_id, user):
+def generate_token(user_data):
     """
     Gera um token JWT para um usuário autenticado
     """
 
-    user_id = str(user_id)
+    user_id = str(user_data["id"])
     user_session_id = str(uuid.uuid4())
 
     payload = {
         'user_id': user_id,
-        'user': user,
+        'user': user_data["usuario"],
+        'admin': user_data["admin"],
         'user_session_id': user_session_id,
         'exp': datetime.now() + timedelta(hours=JWT_EXPIRATION_HOURS),
         'iat': datetime.now()

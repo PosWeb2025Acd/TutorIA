@@ -12,13 +12,14 @@ def create_user(db_connection, user_data):
 
     user = user_data['usuario'].strip()
     password = user_data['senha']
+    is_admin = bool(user_data['admin'] if "admin" in user_data else False)
 
     if len(user) < 3:
         return False, None, 'O nome de usuário deve ter pelo menos 3 caracteres'
 
     password_hash = generate_password_hash(password)
 
-    return user_repository.create(db_connection, user, password_hash)
+    return user_repository.create(db_connection, user, password_hash, is_admin)
 
 def login_user(db_connection, user_data):
     """
@@ -38,8 +39,14 @@ def login_user(db_connection, user_data):
     
     if not check_password_hash(user_found["senha"], password):
         return False, None, "Credenciais inválidas"
-    
-    return True, {"id": user_found["id"], "usuario": user_found["usuario"], "data_criacao": user_found["data_criacao"]}, "Login Feito"
+
+    user_result = {
+        "id": user_found["id"],
+        "usuario": user_found["usuario"],
+        "data_criacao": user_found["data_criacao"],
+        "admin": user_found["is_admin"]
+    }
+    return True, user_result, "Login Feito"
 
 def __validate_user_data__(data):
     """

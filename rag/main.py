@@ -5,6 +5,8 @@ from api.token import generate_token, token_required_as_param
 from db.postgres import get_postgres_connection, POSTGRES_CONNECTION
 from flask import Flask, Response, request
 from langgraph.checkpoint.postgres import PostgresSaver
+
+from api.admin_validate import admin_validate
 from rag_graph.rag_graph import create_graph
 
 import json
@@ -90,20 +92,20 @@ def tutor_ia_user_login():
         login_successful, user_data, message = login_user(conn, data)
         if login_successful:
             user_data["id"] = str(user_data["id"])
-            user_data["data_criacao"] = user_data["data_criacao"].strftime('%m/%d/%Y %H:%M:%S')
-
-            return Response(
-                json.dumps({'mensagem': message, 'status': 'success', 'usuario': user_data, 'token': generate_token(user_data["id"], user_data["usuario"])}),
-                status=200,
-                mimetype="application/json"
-            )
+            user_data["data_criacao"] = user_data["data_criacao"].strftime('%d/%m/%Y %H:%M:%S')
+            user_response_data = {
+                'mensagem': message,
+                'status': 'success',
+                'usuario': user_data,
+                'token': generate_token(user_data)
+            }
+            return Response(json.dumps(user_response_data), status=200, mimetype="application/json")
 
         return Response(
             json.dumps({"status": "error", "error": message}),
             status=401,
             mimetype="application/json"
         )
-
     except Exception as e:
         logger.error(f"Erro interno no servidor: {e}")
 
@@ -163,6 +165,7 @@ def acd_ask_and_get_answer(user_auth_data):
 
 @service.get("/acd/avaliacoes-resposta")
 @token_required_as_param
+@admin_validate
 def acd_get_answer_evaluations(user_auth_data):
     """
     Endpoint para obter todas as avaliações de respostas
@@ -179,7 +182,7 @@ def acd_get_answer_evaluations(user_auth_data):
 
         evaluations = get_evaluations_on_db(conn, page)
         total_evaluations = count_evaluations(conn)
-        total_pages = (total_evaluations + 9) // 10  # Arredonda para cima a divisão por 10
+        total_pages = (total_evaluations + 9) // 10
 
         if not evaluations:
             return Response(

@@ -3,6 +3,7 @@ CREATE TABLE usuarios (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     usuario VARCHAR(255) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE,
     data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_atualizacao TIMESTAMP NULL
 );

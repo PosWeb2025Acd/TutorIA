@@ -2,7 +2,7 @@ import psycopg
 
 from datetime import datetime
 
-def create(db_connection, user, password):
+def create(db_connection, user, password, is_admin):
     """
     Criação de novo usuário no banco de dados
     """
@@ -17,12 +17,12 @@ def create(db_connection, user, password):
 
         # Inserir novo usuário
         insert_query = """
-            INSERT INTO usuarios (usuario, senha, data_criacao)
-            VALUES (%s, %s, %s)
-            RETURNING id, usuario, data_criacao
+            INSERT INTO usuarios (usuario, senha, is_admin, data_criacao)
+            VALUES (%s, %s, %s, %s)
+            RETURNING id, usuario, is_admin, data_criacao
         """
 
-        cursor.execute(insert_query, (user, password, datetime.now()))
+        cursor.execute(insert_query, (user, password, is_admin, datetime.now()))
         result = cursor.fetchone()
 
         db_connection.commit()
@@ -30,7 +30,8 @@ def create(db_connection, user, password):
         return True, {
             'id': str(result["id"]),
             'usuario': result["usuario"],
-            'data_criacao': result["data_criacao"].isoformat()
+            'data_criacao': result["data_criacao"].isoformat(),
+            'is_admin': result["is_admin"]
         }, "Usuário criado com sucesso"
     except psycopg.IntegrityError as e:
         db_connection.rollback()
@@ -51,7 +52,7 @@ def get_user(db_connection, user):
 
     try:
         query = """
-        SELECT id, usuario, senha, data_criacao
+        SELECT id, usuario, senha, is_admin, data_criacao
         FROM usuarios 
         WHERE usuario = %s
         """
