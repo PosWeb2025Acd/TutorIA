@@ -5,11 +5,10 @@ from api.token import generate_token, token_required_as_param
 from db.postgres import get_postgres_connection, POSTGRES_CONNECTION
 from flask import Flask, Response, request
 from langgraph.checkpoint.postgres import PostgresSaver
+from rag_graph.rag_graph import create_graph
 
 import json
 import logging
-
-from rag_graph.rag_graph import create_graph
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

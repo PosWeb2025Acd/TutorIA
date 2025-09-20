@@ -67,3 +67,29 @@ def get_user(db_connection, user):
     finally:
         cursor.close()
         db_connection.close()
+
+def get_user_by_id_and_user(db_connection, user_id, user):
+    """
+    Recupera usuário do banco de dados pelo campo de 'id'
+    """
+
+    cursor = db_connection.cursor()
+
+    try:
+        query = """
+        SELECT id, usuario, senha, data_criacao
+        FROM usuarios 
+        WHERE id = %s AND usuario = %s
+        """
+        cursor.execute(query, (user_id, user))
+        user_record = cursor.fetchone()
+
+        if not user_record:
+            return None
+        
+        return user_record
+    except Exception as e:
+        raise
+    finally:
+        cursor.close()
+        db_connection.close()

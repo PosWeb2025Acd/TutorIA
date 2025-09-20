@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
+from db.postgres import get_postgres_connection
 from flask import request, jsonify
 from functools import wraps
+from .users.user_repository import get_user_by_id_and_user
 
 import jwt
 import os
@@ -69,6 +71,13 @@ def token_required_as_param(f):
         if payload is None:
             return jsonify({
                 'erro': 'Token inválido',
+                'status': 'error'
+            }), 403
+
+        user_found = get_user_by_id_and_user(get_postgres_connection(), payload.get('user_id'), payload.get('user'))
+        if user_found is None:
+            return jsonify({
+                'erro': 'Usuário do token não encontrado',
                 'status': 'error'
             }), 403
 
