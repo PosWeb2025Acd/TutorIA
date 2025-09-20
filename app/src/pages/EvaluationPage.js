@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
     RefreshCw,
     ChevronLeft,
@@ -61,6 +61,9 @@ const AnswerEvaluationsPage = () => {
             }
 
             const data = await response.json();
+            if (data.status !== 'success') {
+                throw new Error(data.erro || 'Erro ao carregar avaliações.');
+            }
 
             // Processa a nova estrutura da API
             if (data.evaluation_list && Array.isArray(data.evaluation_list)) {
