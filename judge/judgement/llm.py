@@ -4,8 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_ollama import ChatOllama
 
-# TODO: Alterar o modelo
-MODEL="llama3.1:8b"
+MODEL="deepseek-r1:8b"
 OLLAMA_BASE_URL = os.getenv("OLLAMA_URL")
 
 llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0, base_url=OLLAMA_BASE_URL)
