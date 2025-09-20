@@ -41,10 +41,12 @@ const Header = ({ userData, onLogout }) => {
               <File className="h-4 w-4" />
               <span>Importar Arquivos</span>
             </a>
-            <Link to="/tutor-ia/answer-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
-              <Gavel className="h-4 w-4" />
-              <span>Análises</span>
-            </Link>
+            {userData?.admin && (
+              <Link to="/tutor-ia/answer-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                <Gavel className="h-4 w-4" />
+                <span>Análises</span>
+              </Link>
+            )}
           </nav>
 
           {/* User Info & Mobile Menu Button */}
@@ -97,10 +99,12 @@ const Header = ({ userData, onLogout }) => {
                 <File className="h-4 w-4" />
                 <span>Importar Arquivos</span>
               </a>
-              <Link to="/tutor-ia/answer-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
-                <Gavel className="h-4 w-4" />
-                <span>Análises</span>
-              </Link>
+              {userData?.admin && (
+                <Link to="/tutor-ia/answer-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                  <Gavel className="h-4 w-4" />
+                  <span>Análises</span>
+                </Link>
+              )}
               <button
                 onClick={onLogout}
                 className="flex items-center space-x-2 text-gray-600 hover:text-red-600 p-2 rounded-md w-full text-left"
