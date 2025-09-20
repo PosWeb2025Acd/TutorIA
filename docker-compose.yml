@@ -3,6 +3,7 @@ services:
     build: ./rag
     container_name: tutoria_rag
     hostname: rag-tutoria
+    restart: always
     ports:
       - "5000:5000"
     volumes:
