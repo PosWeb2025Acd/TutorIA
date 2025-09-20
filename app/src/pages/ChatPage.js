@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
+import {
   Send,
   MessageCircle,
   Bot,
@@ -7,6 +7,8 @@ import {
 } from 'lucide-react';
 import Header from '../components/Header';
 import ChatMessage from '../components/ChatMessage';
+import handleLogout from '../functions/userLogout';
+import checkToken from '../functions/checkToken';
 
 // Componente principal da página de chat
 const ChatPage = () => {
@@ -20,29 +22,20 @@ const ChatPage = () => {
   // Verificação de autenticação
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem('authToken');
-      const storedUserData = localStorage.getItem('userData');
-
-      if (!token || !storedUserData) {
-        // Redirecionar para login se não houver token ou dados do usuário
-        window.location.href = '/login';
-        return;
-      }
-
       try {
-        const parsedUserData = JSON.parse(storedUserData);
+        const parsedUserData = checkToken();
         setUserData(parsedUserData);
-        
+
         // Verificar se o token não está expirado (implementação básica)
         // Em um caso real, você decodificaria o JWT para verificar a data de expiração
-        
+
         // Adicionar mensagem de boas-vindas
         setMessages([{
           text: `Olá, ${parsedUserData.nome || 'usuário'}! Eu sou o TutorIA, seu assistente para Ciência da Computação. Como posso ajudá-lo hoje?`,
           isUser: false,
-          timestamp: new Date().toLocaleTimeString('pt-BR', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+          timestamp: new Date().toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit'
           }),
           sources: []
         }]);
@@ -50,7 +43,7 @@ const ChatPage = () => {
         console.error('Erro ao parsear dados do usuário:', error);
         localStorage.removeItem('authToken');
         localStorage.removeItem('userData');
-        window.location.href = '/login';
+        window.location.href = '/';
       }
     };
 
@@ -62,15 +55,9 @@ const ChatPage = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userData');
-    window.location.href = '/';
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!inputMessage.trim()) {
       setError('Por favor, digite uma pergunta.');
       return;
@@ -79,9 +66,9 @@ const ChatPage = () => {
     const userMessage = {
       text: inputMessage,
       isUser: true,
-      timestamp: new Date().toLocaleTimeString('pt-BR', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
+      timestamp: new Date().toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit'
       })
     };
 
@@ -92,7 +79,7 @@ const ChatPage = () => {
 
     try {
       const token = localStorage.getItem('authToken');
-      
+
       const response = await fetch('/acd/resposta', {
         method: 'POST',
         headers: {
@@ -110,9 +97,9 @@ const ChatPage = () => {
         const botMessage = {
           text: data.answer,
           isUser: false,
-          timestamp: new Date().toLocaleTimeString('pt-BR', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+          timestamp: new Date().toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit'
           }),
           sources: data.sources || []
         };
@@ -148,7 +135,7 @@ const ChatPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header userData={userData} onLogout={handleLogout} />
-      
+
       <div className="max-w-4xl mx-auto h-[calc(100vh-4rem)] flex flex-col">
         {/* Chat Messages Area */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -161,10 +148,10 @@ const ChatPage = () => {
           </div>
 
           {messages.map((message, index) => (
-            <ChatMessage 
-              key={index} 
-              message={message} 
-              isUser={message.isUser} 
+            <ChatMessage
+              key={index}
+              message={message}
+              isUser={message.isUser}
             />
           ))}
 

@@ -1,4 +1,5 @@
 from api.acd.acd_controller import get_answer_from_question
+from api.evaluations.evaluations_repository import get_evaluations_on_db, count_evaluations
 from api.users.user_controller import create_user, login_user
 from api.token import generate_token, token_required_as_param
 from db.postgres import get_postgres_connection, POSTGRES_CONNECTION
@@ -160,6 +161,65 @@ def acd_ask_and_get_answer(user_auth_data):
             status=500,
             mimetype="application/json"
         )
+
+@service.get("/acd/avaliacoes-resposta")
+@token_required_as_param
+def acd_get_answer_evaluations(user_auth_data):
+    """
+    Endpoint para obter todas as avaliações de respostas
+    """
+    conn = get_postgres_connection()
+    try:
+        page = int(request.args.get("page", 1))
+        if page < 1:
+            return Response(
+                json.dumps({"erro": "Número de página inválido. Deve ser maior ou igual a 1.", "status": "error"}),
+                status=400,
+                mimetype="application/json"
+            )
+
+        evaluations = get_evaluations_on_db(conn, page)
+        total_evaluations = count_evaluations(conn)
+        total_pages = (total_evaluations + 9) // 10  # Arredonda para cima a divisão por 10
+
+        if not evaluations:
+            return Response(
+                json.dumps({"mensagem": "Nenhuma avaliação encontrada.", "status": "success", "evaluation_list": [], "total_evaluations": 0, "total_pages": 0}),
+                status=200,
+                mimetype="application/json"
+            )
+        
+        evaluations = [{
+            "question": eval["question"],
+            "answer": eval["answer"],
+            "user": eval["user"],
+            "score": eval["llm_evaluation_score"],
+            "reasoning": eval["llm_evaluation_reasoning"],
+            "evaluation_date": eval["created_at"].strftime('%d/%m/%Y %H:%M:%S')
+        } for eval in evaluations]
+
+        response = {
+            "status": "success",
+            "evaluation_list": evaluations,
+            "total_evaluations": total_evaluations,
+            "total_pages": total_pages
+        }
+
+        return Response(
+            json.dumps(response, default=str),
+            status=200,
+            mimetype="application/json"
+        )
+    except Exception as e:
+        logger.error(f"Erro interno no servidor: {e}")
+
+        return Response(
+            json.dumps({"erro": "Erro interno do servidor.", "status": "error"}),
+            status=500,
+            mimetype="application/json"
+        )
+    finally:
+        conn.close()
 
 if __name__ == "__main__":
     service.run(

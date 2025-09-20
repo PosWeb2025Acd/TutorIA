@@ -25,4 +25,3 @@ if __name__ == "__main__":
                 create_evaluation_on_db(get_postgres_connection(), qa["id"], llm_evaluation["reasoning"], llm_evaluation["score"])
 
         time.sleep(15)
-

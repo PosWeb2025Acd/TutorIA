@@ -25,6 +25,7 @@ services:
       - ./db:/app/db
     depends_on:
       - db
+      - ollama
     env_file:
       - .env
     networks:
@@ -62,16 +63,16 @@ services:
     container_name: tutoria_ollama
     hostname: ollama-tutoria
     ports:
-      - "11434:11434" # Default port for Ollama API
+      - "11434:11434"
     volumes:
-      - ollama_data:/root/.ollama # Persist model data
+      - ollama_data:/root/.ollama
     deploy:
       resources:
         reservations:
           devices:
-            - driver: nvidia # Or amd, if using AMD GPUs
-              count: all # Or specify a particular GPU index
-              capabilities: [gpu] # Enables GPU access
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     networks:
       - tutoria
 

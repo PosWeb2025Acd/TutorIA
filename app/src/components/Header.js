@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom"
 
 import {
   User,
@@ -8,6 +9,7 @@ import {
   BookOpen,
   Menu,
   File,
+  Gavel,
   X
 } from 'lucide-react';
 
@@ -32,14 +34,18 @@ const Header = ({ userData, onLogout }) => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="flex items-center space-x-2 text-blue-600 font-medium">
+            <Link to="/tutor-ia/chat" className="flex items-center space-x-2 text-blue-600 font-medium">
               <MessageSquare className="h-4 w-4" />
               <span>Chat</span>
-            </a>
+            </Link>
             <a href="#" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
               <File className="h-4 w-4" />
               <span>Importar Arquivos</span>
             </a>
+            <Link to="/tutor-ia/answer-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+              <Gavel className="h-4 w-4" />
+              <span>Análises</span>
+            </Link>
           </nav>
 
           {/* User Info & Mobile Menu Button */}
@@ -52,7 +58,7 @@ const Header = ({ userData, onLogout }) => {
                 <User className="h-5 w-5 text-blue-600" />
               </div>
             </div>
-            
+
             <button
               onClick={onLogout}
               className="hidden md:flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors"
@@ -82,7 +88,7 @@ const Header = ({ userData, onLogout }) => {
                 <p className="text-sm font-medium text-gray-800">{userData?.usuario || 'Usuário'}</p>
               </div>
             </div>
-            
+
             <nav className="space-y-2">
               <a href="#" className="flex items-center space-x-2 text-blue-600 font-medium p-2 rounded-md bg-blue-50">
                 <MessageSquare className="h-4 w-4" />

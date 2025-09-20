@@ -8,7 +8,6 @@ from langgraph.graph import END, StateGraph, MessagesState
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.store.base import BaseStore
 from typing_extensions import List
-from tavily import TavilyClient
 
 from db.postgres import get_postgres_connection
 from db.chroma import get_chroma_db
@@ -122,43 +121,6 @@ def __retrieved_context_evaluator__(state: RagState):
 
     return {"documents": filtered_documents, "sources": [doc.id for doc in filtered_documents], "web_search_recomended": web_search_recommended}
 
-def __decision_based_on_evaluation__(state: RagState):
-    """
-    Step to decide whether to generate an answer based on the retrieved context or to perform a web search.
-    """
-
-    web_search_recommended = state["web_search_recomended"]
-    if web_search_recommended:
-        print("🤖 A avaliação do contexto recuperado indicou que uma busca na web pode ser útil para complementar a resposta.")
-        return "web_search"
-
-    print("🤖 A avaliação do contexto recuperado indicou que é possível gerar uma resposta com o contexto disponível.")
-    return "generate_answer"
-
-def __web_search__(state: RagState):
-    """
-    Step that permorms a web search using the Tavily API to complement the answer or to gather the necessary context.
-    """
-
-    print (f"🤖 Realizando uma busca na web para complementar a resposta...")
-
-    tavily_token = os.getenv("TAVILY_TOKEN")
-    tavily_client = TavilyClient(api_key=tavily_token)
-    question = state["messages"][-1].content
-    response = tavily_client.search(question, max_results=5)
-
-    results = response["results"] if "results" in response else []
-    web_documents = []
-    sources = []
-
-    for web_result in results:
-        web_documents.append(Document(page_content=web_result["content"], metadata={"source": web_result["url"], "title": web_result["title"]}))
-        sources.append(web_result["url"])
-
-    print (f"🤖 Busca na web finalizada...")
-
-    return {"documents": state["documents"] + web_documents, "sources": state["sources"] + sources}
-
 def __generate_answer__(state: RagState):
     """
     Step that generates the final answer using the LLM based on the retrieved context.
@@ -224,14 +186,6 @@ def __evaluate_answer_backed_by_context__(state: RagState):
 
     return {"hallucination_grade": result}
 
-def __evaluate_answer__(state: RagState):
-    """
-    Evaluate the answer provided by the rag system using a different LLM.
-    LLM as a judge final step
-    """
-
-    print (f"🤖 Avaliando a resposta gerada pelo RAG...")
-
 def __save_question_and_answer__(state: RagState, config):
     """
     Save question and answer pair from the system at the postgres database, so it can be judge in another process
@@ -251,7 +205,6 @@ def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore = None):
     graph_builder.add_node("retrieve_context", __retrieve_context__)
     graph_builder.add_node("generate_answer", __generate_answer__)
     graph_builder.add_node("retrieved_context_evaluator", __retrieved_context_evaluator__)
-    # graph_builder.add_node("evaluate_answer", __evaluate_answer__)
     graph_builder.add_node("save_question_and_answer", __save_question_and_answer__)
 
     graph_builder.set_conditional_entry_point(__router_choice__, {"vectorstore": "retrieve_context", "llm": "generate_answer"})
