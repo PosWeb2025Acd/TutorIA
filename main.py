@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv(os.path.dirname(__file__) + '/../.env')
 from langgraph.checkpoint.postgres import PostgresSaver
-from rag.rag import create_graph
+from rag.rag_graph.rag_graph import create_graph
 from psycopg import Connection
 
 POSTGRES_CONNECTION = 'postgresql://' + os.getenv("DB_USER") + ':' + os.getenv("DB_PASSWORD") + '@' + os.getenv("DB_HOST") + ':5432/' + os.getenv("DB_NAME") + '?sslmode=disable'

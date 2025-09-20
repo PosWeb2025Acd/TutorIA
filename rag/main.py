@@ -9,7 +9,7 @@ from langgraph.checkpoint.postgres import PostgresSaver
 import json
 import logging
 
-from rag import create_graph
+from rag_graph.rag_graph import create_graph
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
