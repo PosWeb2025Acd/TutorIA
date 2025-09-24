@@ -92,9 +92,7 @@ const AnswerEvaluationsPage = () => {
             const parsedUserData = checkToken();
             setUserData(parsedUserData);
         } catch(error) {
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('userData');
-            window.location.href = '/login';
+            handleLogout();
         }
         
         fetchAvaliacoes(currentPage);

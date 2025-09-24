@@ -1,10 +1,14 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import handleLogout from "../functions/userLogout";
 
 function ProtectedRoute() {
     const userToken = localStorage.getItem('authToken');
     const userIsLogged = userToken !== null && userToken !== undefined && userToken !== ''
+    if (userIsLogged) {
+        return <Outlet />
+    }
 
-    return userIsLogged ? <Outlet /> : <Navigate to="/" />
+    handleLogout();
 }
 
 export default ProtectedRoute

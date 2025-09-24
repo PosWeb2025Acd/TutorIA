@@ -41,9 +41,7 @@ const ChatPage = () => {
         }]);
       } catch (error) {
         console.error('Erro ao parsear dados do usuário:', error);
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userData');
-        window.location.href = '/';
+        handleLogout();
       }
     };
 
