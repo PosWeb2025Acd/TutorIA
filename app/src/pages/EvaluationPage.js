@@ -135,8 +135,8 @@ const AnswerEvaluationsPage = () => {
         // Define cor baseada na nota
         let colorClass = '';
         if (numScore >= 8) colorClass = 'text-green-600 bg-green-50';
-        else if (numScore >= 6) colorClass = 'text-yellow-600 bg-yellow-50';
-        else if (numScore >= 4) colorClass = 'text-orange-600 bg-orange-50';
+        else if (numScore >= 6) colorClass = 'text-blue-600 bg-blue-50';
+        else if (numScore >= 4) colorClass = 'text-yellow-600 bg-yellow-50';
         else colorClass = 'text-red-600 bg-red-50';
 
         return { score: numScore.toFixed(1), colorClass };

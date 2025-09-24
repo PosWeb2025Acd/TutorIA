@@ -9,6 +9,7 @@ import Header from '../components/Header';
 import ChatMessage from '../components/ChatMessage';
 import handleLogout from '../functions/userLogout';
 import checkToken from '../functions/checkToken';
+import { getAllMessageFromStorage, saveMessageOnStorage } from '../functions/storageMessages';
 
 // Componente principal da página de chat
 const ChatPage = () => {
@@ -39,6 +40,8 @@ const ChatPage = () => {
           }),
           sources: []
         }]);
+        const allMessagesFromSession = getAllMessageFromStorage();
+        setMessages(prev => [...prev, ...allMessagesFromSession]);
       } catch (error) {
         console.error('Erro ao parsear dados do usuário:', error);
         handleLogout();
@@ -103,6 +106,8 @@ const ChatPage = () => {
         };
 
         setMessages(prev => [...prev, botMessage]);
+        saveMessageOnStorage(userMessage)
+        saveMessageOnStorage(botMessage);
       } else {
         setError(data.erro || 'Erro ao processar sua pergunta. Tente novamente.');
       }
