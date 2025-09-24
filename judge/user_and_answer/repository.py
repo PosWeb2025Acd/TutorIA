@@ -1,4 +1,4 @@
-def get_question_and_answers_without_evaluation(db_connection):
+def get_question_and_answers_without_evaluation(db_connection, limit):
     """
     Recover all question and answers pairs that does not have an evaluation
     """
@@ -6,10 +6,17 @@ def get_question_and_answers_without_evaluation(db_connection):
     cursor = db_connection.cursor()
 
     query = """
-    select qaa.id, qaa.question, qaa.answer from question_and_answer qaa where qaa.id not in (select e.question_answer_id  from evaluation e );
+    select
+    qaa.id,
+    qaa.question,
+    qaa.answer
+    from question_and_answer qaa
+    where qaa.id not in (select e.question_answer_id  from evaluation e )
+    order by qaa.created_at asc
+    limit %s
     """
 
-    cursor.execute(query)
+    cursor.execute(query, (limit,))
     question_and_answer_list = cursor.fetchall()
 
     if not question_and_answer_list:

@@ -15,4 +15,3 @@ def create_evaluation_on_db(db_connection, question_answer_id, llm_reasoning, ll
         raise
     finally:
         cursor.close()
-        db_connection.close()
