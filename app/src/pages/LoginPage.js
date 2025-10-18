@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom"
 import { User, Lock, Eye, EyeOff, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
+import { clearMessagesFromStorage } from '../functions/storageMessages';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -56,6 +57,7 @@ const LoginPage = () => {
       if (response.ok && data.status === 'success') {
         localStorage.setItem('authToken', data.token);
         localStorage.setItem('userData', JSON.stringify(data.usuario));
+        clearMessagesFromStorage();
         
         setMessage({
           type: 'success',

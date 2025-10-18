@@ -130,8 +130,9 @@ def __generate_answer__(state: RagState):
 
     prompt_text = """
     You are an assistant for question-answering tasks related to computer science.
-    Use the following pieces of retrieved context to answer the question.
-    If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
+    Use only the following pieces of retrieved context to answer the question.
+    If no useful context is found, just say you don't know.
+    If you don't know the answer, just say that you don't know. Use a maximum of ten sentences and keep the answer concise.
     Context: {context}
     Think this step by step and provide a concise answer.
     """
@@ -203,8 +204,8 @@ def __save_question_and_answer__(state: RagState, config):
 def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore = None):
     graph_builder = StateGraph(RagState)
     graph_builder.add_node("retrieve_context", __retrieve_context__)
-    graph_builder.add_node("generate_answer", __generate_answer__)
     graph_builder.add_node("retrieved_context_evaluator", __retrieved_context_evaluator__)
+    graph_builder.add_node("generate_answer", __generate_answer__)
     graph_builder.add_node("save_question_and_answer", __save_question_and_answer__)
 
     graph_builder.set_conditional_entry_point(__router_choice__, {"vectorstore": "retrieve_context", "llm": "generate_answer"})

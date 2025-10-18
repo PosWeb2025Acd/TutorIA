@@ -14,7 +14,6 @@ function clearMessagesFromStorage() {
     localStorage.removeItem(MESSAGE_STORAGE_KEY);
 }
 
-
 export {
     saveMessageOnStorage,
     getAllMessageFromStorage,
