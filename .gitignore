@@ -196,3 +196,4 @@ cython_debug/
 .idea/
 tutor_ia_acd_db/
 process_files/documents/*.pdf
+process_files/processed_files.json
