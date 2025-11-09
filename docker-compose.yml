@@ -32,6 +32,16 @@ services:
     networks:
       - tutoria
 
+  process_files:
+    build: ./process_files
+    container_name: tutoria_process_files
+    restart: always
+    volumes:
+      - ./process_files:/app
+      - ./db:/app/db
+    networks:
+      - tutoria
+
   frontend:
     build: ./app
     container_name: tutoria_frontend

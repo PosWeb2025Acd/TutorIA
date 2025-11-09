@@ -1,9 +1,10 @@
 import json
 import os
 import logging
+import time
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from chroma import get_chroma_db
+from db.chroma import get_chroma_db
 
 PROCESS_FILES_PATH = os.getcwd() + '/processed_files.json'
 
@@ -100,20 +101,21 @@ def get_processed_files():
     return {}
 
 if __name__ == "__main__":
-    logger.info("Loading pages...")
-    pages = load_pages()
-    logger.info("Creating chunks...")
-    if pages:
-        chunks = create_pages_chunks(pages)
-        chunks = create_chunk_ids(chunks)
+    while True:
+        logger.info("Loading pages...")
+        pages = load_pages()
+        if pages:
+            logger.info("Creating chunks...")
+            chunks = create_pages_chunks(pages)
+            chunks = create_chunk_ids(chunks)
 
-        db = get_chroma_db()
+            db = get_chroma_db()
 
-        logger.info("Adding chunks to database...")
-        add_chunks_to_db(db, chunks)
-        logger.info("Chunks added to database successfully.")
+            logger.info("Adding chunks to database...")
+            add_chunks_to_db(db, chunks)
+            logger.info("Chunks added to database successfully.")
 
-        exit(0)
+            exit(0)
 
-    logger.info("Não existem arquivos a serem processados")
-
+        logger.info("Não existem arquivos a serem processados")
+        time.sleep(15)
