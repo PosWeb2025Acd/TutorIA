@@ -37,10 +37,6 @@ const Header = ({ userData, onLogout }) => {
               <MessageSquare className="h-4 w-4" />
               <span>Chat</span>
             </Link>
-            <a href="#" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
-              <File className="h-4 w-4" />
-              <span>Importar Arquivos</span>
-            </a>
             {userData?.admin && (
               <Link to="/tutor-ia/answer-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
                 <Gavel className="h-4 w-4" />
@@ -95,10 +91,6 @@ const Header = ({ userData, onLogout }) => {
                 <MessageSquare className="h-4 w-4" />
                 <span>Chat</span>
               </Link>
-              <a href="#" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
-                <File className="h-4 w-4" />
-                <span>Importar Arquivos</span>
-              </a>
               {userData?.admin && (
                 <Link to="/tutor-ia/answer-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
                   <Gavel className="h-4 w-4" />
