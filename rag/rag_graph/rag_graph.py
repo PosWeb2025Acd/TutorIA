@@ -36,7 +36,7 @@ class RagState(MessagesState):
 
     sources: List[str]
     documents: List[Document]
-    web_search_recomended: bool
+    has_relevant_documents: bool
     hallucination_grade: dict
     answer_grade: float
 
@@ -117,21 +117,25 @@ def __retrieved_context_evaluator__(state: RagState):
 
     filtered_documents = relevant_documents + partially_relevant_documents
 
-    web_search_recommended = False if len(relevant_documents) > 0 else True
+    has_relevant_documents = len(relevant_documents) > 0
 
-    return {"documents": filtered_documents, "sources": [doc.id for doc in filtered_documents], "web_search_recomended": web_search_recommended}
+    return {"documents": filtered_documents, "sources": [doc.id for doc in filtered_documents], "has_relevant_documents": has_relevant_documents}
 
 def __generate_answer__(state: RagState):
     """
     Step that generates the final answer using the LLM based on the retrieved context.
     """
 
+    if state["has_relevant_documents"] == False:
+        return {"messages": ["Desculpe, mas não tenho informações suficientes para responder a sua pergunta no momento."], "sources": []}
+
     print(f"🤖 Gerando a sua resposta...")
 
     prompt_text = """
     You are an assistant for question-answering tasks related to computer science.
+    You should only answer questions related to computer science.
+    If the question is not related to computer science, just say you don't know.
     Use only the following pieces of retrieved context to answer the question.
-    If no useful context is found, just say you don't know.
     If you don't know the answer, just say that you don't know. Use a maximum of ten sentences and keep the answer concise.
     Context: {context}
     Think this step by step and provide a concise answer.
@@ -139,7 +143,7 @@ def __generate_answer__(state: RagState):
 
     prompt = ChatPromptTemplate.from_messages([("system", prompt_text)])
 
-    message_tools = []
+    message_tools = [] 
     if "documents" in state:
         for message in state["documents"]:
             message_tools.append(message.page_content)
@@ -175,7 +179,7 @@ def __evaluate_answer_backed_by_context__(state: RagState):
     the response as an JSON, with no preamble or explanation with two keys: score, and reasoning. The reasoning key should contain the explanation on why
     that score was provided.
 
-    Set of documents: {documents}
+    Set of documents: {documents} 
     Here is the answer: {answer}
     """
     prompt = ChatPromptTemplate.from_template(prompt_template)
