@@ -11,6 +11,7 @@ services:
       - ./db:/app/db
     depends_on:
       - db
+      - ollama
     env_file:
       - .env
     networks:
@@ -29,16 +30,6 @@ services:
       - ollama
     env_file:
       - .env
-    networks:
-      - tutoria
-
-  process_files:
-    build: ./process_files
-    container_name: tutoria_process_files
-    restart: always
-    volumes:
-      - ./process_files:/app
-      - ./db:/app/db
     networks:
       - tutoria
 

@@ -4,7 +4,7 @@ import logging
 import time
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from db.chroma import get_chroma_db
+from chroma import get_chroma_db
 
 PROCESS_FILES_PATH = os.getcwd() + '/processed_files.json'
 
@@ -114,8 +114,6 @@ if __name__ == "__main__":
             logger.info("Adding chunks to database...")
             add_chunks_to_db(db, chunks)
             logger.info("Chunks added to database successfully.")
-
-            exit(0)
-
-        logger.info("Não existem arquivos a serem processados")
+        else:
+            logger.info("Não existem arquivos a serem processados")
         time.sleep(15)
