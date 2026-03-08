@@ -32,3 +32,4 @@ if docker ps -q --no-trunc | grep -q "$RAG_CONTAINER_ID"; then
 else
     printf "\nRAG app is not running"
 fi
+
