@@ -127,7 +127,7 @@ flowchart TD
 1. **Routing** (`__router_choice__`): llama3.1 classifies the question and returns JSON `{"choice": "vectorstore" | "llm"}`. Computer science, programming and technology questions go to the vector store.
 2. **Retrieval** (`__retrieve_context__`): `vector_store.as_retriever()` uses LangChain's default plain similarity search with `k=4`. Chroma embeds the question with the same `all-mpnet-base-v2` model and returns the 4 closest chunks. `sources` is set to their chunk ids.
 3. **Context evaluation** (`__retrieved_context_evaluator_llm__`, default): `grade_documents_llm` makes **one LLM call per chunk**, asking whether the chunk is `relevant`, `partially_relevant` or `not_relevant` to the question. This is a lenient keyword-style check meant to drop wrong retrievals.
-   (The alternative JEV evaluator is selected with `CONTEXT_EVALUATOR=jev` and is out of scope here; see [JEV_CONTEXT_EVALUATOR.md](JEV_CONTEXT_EVALUATOR.md).)
+   (The alternative JEV evaluator is selected with `CONTEXT_EVALUATOR=jev` and is out of scope here; see [jev-context-evaluator/JEV_CONTEXT_EVALUATOR.md](jev-context-evaluator/JEV_CONTEXT_EVALUATOR.md).)
 4. **Filtering** (`filter_graded_documents`): keeps `relevant` chunks followed by `partially_relevant` ones and discards the rest. `sources` is narrowed to the kept ids. `has_relevant_documents` is true only if **at least one chunk is fully relevant**: partially relevant chunks are used as extra context but can't unlock an answer on their own.
 5. **Answer** (`__generate_answer__`):
    - If there's no relevant chunk, it returns the canned Portuguese refusal with no sources.

@@ -47,7 +47,10 @@ def auth_header():
     return {"Authorization": f"Bearer {token.generate_token(USER)}"}
 
 def use_llm(monkeypatch, llm):
+    from rag_graph import context_evaluators
+
     monkeypatch.setattr(rag_graph, "llm", llm)
+    monkeypatch.setattr(context_evaluators, "llm", llm)
 
 @pytest.mark.parametrize("error", [httpx.ConnectError, ConnectionError])
 def test_returns_503_when_llm_is_unreachable(monkeypatch, client, error):
