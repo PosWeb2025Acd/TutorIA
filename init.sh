@@ -13,7 +13,14 @@ OLLAMA_CONTAINER_ID=$(docker compose ps -q "$OLLAMA_SERVICE")
 RAG_CONTAINER_ID=$(docker compose ps -q "$RAG_SERVICE")
 
 if docker ps -q --no-trunc | grep -q "$OLLAMA_CONTAINER_ID"; then
-    printf "Ollama is running"
+    printf "Ollama is running. Waiting for it to be healthy..."
+    for _ in $(seq 1 30); do
+        [ "$(docker inspect -f '{{.State.Health.Status}}' "$OLLAMA_CONTAINER_ID")" = "healthy" ] && break
+        sleep 5
+    done
+    if [ "$(docker inspect -f '{{.State.Health.Status}}' "$OLLAMA_CONTAINER_ID")" != "healthy" ]; then
+        printf "\nOllama is not healthy (check 'docker compose ps' and 'docker compose logs ollama'); the model pulls below may fail.\n"
+    fi
 
     printf "Pulling LLMs for the rag: $LLM_LLAMA_MODEL"
     docker compose exec -it $OLLAMA_SERVICE ollama pull $LLM_LLAMA_MODEL

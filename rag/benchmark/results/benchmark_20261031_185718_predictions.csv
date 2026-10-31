@@ -1,0 +1,175 @@
+question_id,question_type,chunk_id,lang,gold_label,llm_label,jev_sequential_label,jev_parallel_label,jev_sequential_p_relevant,jev_parallel_p_relevant
+q01,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:3:1,pt,relevant,relevant,relevant,relevant,0.94,0.94
+q01,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:4:0,pt,partially_relevant,partially_relevant,not_relevant,not_relevant,0.0,0.0
+q01,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:29:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q01,in_corpus,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:2:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q02,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:17:1,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.0,0.0
+q02,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:18:1,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.0,0.0
+q02,in_corpus,Programação Orientada a Objetos com C++.pdf:48:1,pt,relevant,not_relevant,partially_relevant,partially_relevant,0.01,0.01
+q02,in_corpus,PROGRAMAÇÃO ORIENTADA A OBJETOS: UMA VISÃO CONCEITUAL DOS ELEMENTOS DE MODELAGEM.pdf:26:0,pt,relevant,relevant,partially_relevant,partially_relevant,0.01,0.01
+q03,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:16:1,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.04,0.05
+q03,in_corpus,PROGRAMAÇÃO ORIENTADA A OBJETOS: UMA VISÃO CONCEITUAL DOS ELEMENTOS DE MODELAGEM.pdf:24:1,pt,relevant,relevant,partially_relevant,partially_relevant,0.3,0.31
+q03,in_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:22:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q03,in_corpus,Programação Orientada a Objetos com C++.pdf:32:0,pt,relevant,relevant,relevant,relevant,0.84,0.85
+q04,in_corpus,Programação Orientada a Objetos com C++.pdf:16:3,pt,relevant,relevant,relevant,relevant,0.93,0.95
+q04,in_corpus,PROGRAMAÇÃO ORIENTADA A OBJETOS: UMA VISÃO CONCEITUAL DOS ELEMENTOS DE MODELAGEM.pdf:15:0,pt,partially_relevant,partially_relevant,partially_relevant,partially_relevant,0.0,0.0
+q04,in_corpus,Programação Orientada a Objetos com C++.pdf:15:2,pt,relevant,relevant,relevant,relevant,0.7,0.73
+q04,in_corpus,Programação Orientada a Objetos com C++.pdf:48:2,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.14,0.15
+q05,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:14:1,pt,partially_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q05,in_corpus,Programação Orientada a Objetos: Uma Abordagem com Java.pdf:29:0,pt,relevant,relevant,relevant,relevant,1.0,1.0
+q05,in_corpus,Programação Orientada a Objetos: Uma Abordagem com Java.pdf:36:0,pt,partially_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q05,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:14:0,pt,partially_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q06,in_corpus,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:0:2,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q06,in_corpus,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:2:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q06,in_corpus,Análise das Respostas de LLMs em Relação ao ConteúdoIntrodutório de Programação: um Comparativo entre oChatGPT e o Gemini.pdf:1:3,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q06,in_corpus,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:6:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.01,0.01
+q07,in_corpus,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:21:0,pt,relevant,relevant,relevant,relevant,1.0,1.0
+q07,in_corpus,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:22:0,pt,relevant,relevant,relevant,relevant,0.82,0.85
+q07,in_corpus,BANCOS DE DADOS RELACIONAIS.pdf:2:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q07,in_corpus,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:86:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.01,0.02
+q08,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:3:2,pt,not_relevant,partially_relevant,partially_relevant,partially_relevant,0.0,0.0
+q08,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:36:0,pt,partially_relevant,partially_relevant,partially_relevant,partially_relevant,0.0,0.0
+q08,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:34:0,pt,relevant,relevant,relevant,relevant,0.88,0.92
+q08,in_corpus,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:0:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.01,0.01
+q09,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:0:0,pt,not_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q09,in_corpus,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:2:3,pt,partially_relevant,partially_relevant,not_relevant,not_relevant,0.0,0.0
+q09,in_corpus,"BANCOS DE DADOS NÃO-RELACIONAIS: UM NOVO
+PARADIGMA PARA ARMAZENAMENTO DE DADOS EM SISTEMAS
+DE ENSINO COLABORATIVO.pdf:9:1",pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q09,in_corpus,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:3:0,pt,partially_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q10,in_corpus,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:4:3,pt,relevant,relevant,relevant,relevant,1.0,1.0
+q10,in_corpus,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:9:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q10,in_corpus,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:11:1,pt,not_relevant,relevant,partially_relevant,partially_relevant,0.03,0.04
+q10,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q11,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:3:2,pt,not_relevant,relevant,partially_relevant,partially_relevant,0.02,0.03
+q11,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:36:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.03,0.03
+q11,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:34:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.01,0.01
+q11,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:35:2,pt,relevant,relevant,relevant,relevant,0.8,0.82
+q12,in_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:39:4,pt,partially_relevant,partially_relevant,not_relevant,not_relevant,0.0,0.0
+q12,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:14:2,pt,relevant,relevant,relevant,relevant,1.0,1.0
+q12,in_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:42:2,pt,relevant,relevant,relevant,relevant,0.86,0.81
+q12,in_corpus,Programação Orientada a Objetos com C++.pdf:55:5,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q13,in_corpus,ARQUITETURA DE MICROSSERVIÇOS.pdf:9:2,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.01,0.01
+q13,in_corpus,ARQUITETURA DE MICROSSERVIÇOS.pdf:9:1,pt,relevant,relevant,partially_relevant,partially_relevant,0.15,0.12
+q13,in_corpus,ARQUITETURA DE MICROSSERVIÇOS - Melissa Conceição.pdf:9:1,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.01,0.01
+q13,in_corpus,ARQUITETURA DE MICROSSERVIÇOS.pdf:1:2,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.03,0.02
+q14,in_corpus,ARQUITETURA DE MICROSSERVIÇOS - Melissa Conceição.pdf:9:1,pt,relevant,relevant,relevant,relevant,0.97,0.97
+q14,in_corpus,ARQUITETURA DE MICROSSERVIÇOS.pdf:9:2,pt,relevant,relevant,partially_relevant,partially_relevant,0.48,0.49
+q14,in_corpus,ARQUITETURA DE MICROSSERVIÇOS.pdf:9:1,pt,relevant,relevant,partially_relevant,partially_relevant,0.48,0.48
+q14,in_corpus,ARQUITETURA DE MICROSSERVIÇOS.pdf:1:2,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q15,in_corpus,Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços.pdf:14:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.01,0.01
+q15,in_corpus,Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços.pdf:0:3,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q15,in_corpus,Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços.pdf:12:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.03,0.03
+q15,in_corpus,Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços.pdf:6:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q16,in_corpus,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:5:0,pt,relevant,not_relevant,relevant,relevant,0.88,0.86
+q16,in_corpus,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:10:1,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.02,0.01
+q16,in_corpus,Metodologias Ágeis Extreme Programming e Scrum para o Desenvolvimento de Software.pdf:4:3,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.17,0.17
+q16,in_corpus,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:4:2,pt,relevant,relevant,relevant,relevant,1.0,1.0
+q17,in_corpus,Metodologias Ágeis Extreme Programming e Scrum para o Desenvolvimento de Software.pdf:2:2,pt,relevant,relevant,relevant,relevant,0.54,0.55
+q17,in_corpus,Metodologias Ágeis Extreme Programming e Scrum para o Desenvolvimento de Software.pdf:5:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.03,0.02
+q17,in_corpus,Requisitos Testaveis com Behaviour Driven Development.pdf:0:3,pt,relevant,relevant,partially_relevant,partially_relevant,0.22,0.23
+q17,in_corpus,DESENVOLVIMENTO ORIENTADO A TESTES EM SISTEMAS WEB.pdf:1:1,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.03,0.03
+q18,in_corpus,DESENVOLVIMENTO ORIENTADO A TESTES EM SISTEMAS WEB.pdf:10:0,pt,relevant,relevant,partially_relevant,partially_relevant,0.41,0.39
+q18,in_corpus,UTILIZAÇÃO DA TÉCNICA DE DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO (BDD) NO LEVANTAMENTO DE REQUISITOS .pdf:3:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.01,0.01
+q18,in_corpus,Requisitos Testaveis com Behaviour Driven Development.pdf:1:4,pt,relevant,relevant,relevant,relevant,0.63,0.66
+q18,in_corpus,Requisitos Testaveis com Behaviour Driven Development.pdf:1:5,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.04,0.03
+q19,in_corpus,UTILIZAÇÃO DA TÉCNICA DE DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO (BDD) NO LEVANTAMENTO DE REQUISITOS .pdf:0:1,pt,relevant,relevant,relevant,relevant,1.0,1.0
+q19,in_corpus,UTILIZAÇÃO DA TÉCNICA DE DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO (BDD) NO LEVANTAMENTO DE REQUISITOS .pdf:2:3,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.21,0.2
+q19,in_corpus,UTILIZAÇÃO DA TÉCNICA DE DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO (BDD) NO LEVANTAMENTO DE REQUISITOS .pdf:2:2,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.18,0.17
+q19,in_corpus,Maintaining Behaviour Driven Development Specifications: Challenges and Opportunities.pdf:1:7,en,not_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q20,in_corpus,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:2:1,pt,relevant,relevant,relevant,relevant,0.56,0.55
+q20,in_corpus,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:48:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q20,in_corpus,Programação Orientada a Objetos com C++.pdf:34:0,pt,not_relevant,partially_relevant,not_relevant,not_relevant,0.0,0.0
+q20,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:27:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q21,in_corpus,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:3:3,pt,relevant,relevant,relevant,relevant,0.98,0.98
+q21,in_corpus,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:4:0,pt,relevant,relevant,relevant,relevant,0.95,0.95
+q21,in_corpus,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:0:4,en,partially_relevant,relevant,partially_relevant,partially_relevant,0.12,0.12
+q21,in_corpus,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:10:4,pt,not_relevant,relevant,partially_relevant,partially_relevant,0.01,0.0
+q22,in_corpus,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:0:0,pt,relevant,relevant,relevant,relevant,1.0,1.0
+q22,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q22,in_corpus,Programação Orientada a Objetos com C++.pdf:16:1,pt,partially_relevant,not_relevant,not_relevant,not_relevant,0.01,0.01
+q22,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:10:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q23,in_corpus,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:21:1,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.0,0.0
+q23,in_corpus,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:20:1,pt,relevant,partially_relevant,partially_relevant,partially_relevant,0.02,0.01
+q23,in_corpus,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:21:2,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.0,0.0
+q23,in_corpus,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:22:2,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.0,0.0
+q24,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q24,in_corpus,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:5:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q24,in_corpus,BANCOS DE DADOS RELACIONAIS.pdf:2:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q24,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:10:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q25,in_corpus,Programação Orientada a Objetos com C++.pdf:47:3,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q25,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q25,in_corpus,Integraçao de Modelos de Linguagem de Grande Escala com a técnica RAG para a Simplificaçãao de Consultas a Manuais Automotivos.pdf:4:7,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q25,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:27:4,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q26,in_corpus,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:31:2,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.04,0.04
+q26,in_corpus,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:35:1,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.0,0.0
+q26,in_corpus,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:26:2,pt,relevant,relevant,relevant,relevant,0.84,0.83
+q26,in_corpus,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:31:0,pt,partially_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q27,in_corpus,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:0:2,pt,partially_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q27,in_corpus,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:1:2,pt,partially_relevant,partially_relevant,not_relevant,not_relevant,0.0,0.0
+q27,in_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:10:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q27,in_corpus,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:5:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q28,in_corpus,Evaluation of Retrieval-Augmented Generation: A Survey.pdf:8:0,en,partially_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q28,in_corpus,Large Language Models: A Survey.pdf:23:7,en,relevant,relevant,relevant,relevant,1.0,1.0
+q28,in_corpus,Evaluation of Retrieval-Augmented Generation: A Survey.pdf:4:0,en,partially_relevant,relevant,partially_relevant,partially_relevant,0.01,0.01
+q28,in_corpus,Retrieval-augmented generation for educational application: A systematic review.pdf:3:2,en,partially_relevant,relevant,partially_relevant,partially_relevant,0.0,0.0
+q29,in_corpus,Integraçao de Modelos de Linguagem de Grande Escala com a técnica RAG para a Simplificaçãao de Consultas a Manuais Automotivos.pdf:1:3,pt,partially_relevant,partially_relevant,partially_relevant,partially_relevant,0.0,0.0
+q29,in_corpus,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:11:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q29,in_corpus,PROGRAMAÇÃO ORIENTADA A OBJETOS: UMA VISÃO CONCEITUAL DOS ELEMENTOS DE MODELAGEM.pdf:29:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q29,in_corpus,Integraçao de Modelos de Linguagem de Grande Escala com a técnica RAG para a Simplificaçãao de Consultas a Manuais Automotivos.pdf:1:4,pt,partially_relevant,not_relevant,not_relevant,not_relevant,0.01,0.01
+q30,in_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:97:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q30,in_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:96:5,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q30,in_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:104:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q30,in_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:97:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q31,in_corpus,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:16:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q31,in_corpus,"Transformando a educação com Large Language Models (LLMs): beneficios, limitações e perspectivas.pdf:12:1",pt,relevant,relevant,relevant,relevant,0.83,0.79
+q31,in_corpus,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:3:3,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q31,in_corpus,"Transformando a educação com Large Language Models (LLMs): beneficios, limitações e perspectivas.pdf:2:1",pt,partially_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q32,in_corpus,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:18:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q32,in_corpus,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:14:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q32,in_corpus,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:10:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q32,in_corpus,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:5:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q33,in_corpus,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:3:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q33,in_corpus,"BANCOS DE DADOS NÃO-RELACIONAIS: UM NOVO
+PARADIGMA PARA ARMAZENAMENTO DE DADOS EM SISTEMAS
+DE ENSINO COLABORATIVO.pdf:9:1",pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q33,in_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:0:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q33,in_corpus,Programação Orientada a Objetos: Uma Abordagem com Java.pdf:89:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q34,in_corpus,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:6:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q34,in_corpus,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:4:3,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q34,in_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:8:3,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q34,in_corpus,"Transformando a educação com Large Language Models (LLMs): beneficios, limitações e perspectivas.pdf:14:0",pt,partially_relevant,partially_relevant,partially_relevant,partially_relevant,0.02,0.02
+q35,out_of_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:2:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q35,out_of_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:27:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q35,out_of_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q35,out_of_corpus,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:75:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q36,out_of_corpus,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:104:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q36,out_of_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q36,out_of_corpus,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:5:3,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q36,out_of_corpus,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:10:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q37,out_of_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:35:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q37,out_of_corpus,"BANCOS DE DADOS NÃO-RELACIONAIS: UM NOVO
+PARADIGMA PARA ARMAZENAMENTO DE DADOS EM SISTEMAS
+DE ENSINO COLABORATIVO.pdf:8:2",pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q37,out_of_corpus,ARQUITETURA DE MICROSSERVIÇOS.pdf:4:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q37,out_of_corpus,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:8:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q38,out_of_corpus,INTRODUÇÃO A BANCO DE DADOS.pdf:1:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q38,out_of_corpus,Banco de Dados - Relacionais e Não Relacionais.pdf:27:4,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q38,out_of_corpus,Análise das Respostas de LLMs em Relação ao ConteúdoIntrodutório de Programação: um Comparativo entre oChatGPT e o Gemini.pdf:21:2,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q38,out_of_corpus,BANCOS DE DADOS RELACIONAIS.pdf:5:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q39,out_of_corpus,Programação Orientada a Objetos com C++.pdf:45:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q39,out_of_corpus,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:32:0,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.03,0.05
+q39,out_of_corpus,Programação Orientada a Objetos com C++.pdf:5:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q39,out_of_corpus,Programação Orientada a Objetos com C++.pdf:6:0,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q40,false_premise,Banco de Dados - Relacionais e Não Relacionais.pdf:3:2,pt,not_relevant,not_relevant,partially_relevant,partially_relevant,0.0,0.0
+q40,false_premise,Banco de Dados - Relacionais e Não Relacionais.pdf:34:0,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.04,0.05
+q40,false_premise,Banco de Dados - Relacionais e Não Relacionais.pdf:36:0,pt,partially_relevant,not_relevant,partially_relevant,partially_relevant,0.0,0.0
+q40,false_premise,Banco de Dados - Relacionais e Não Relacionais.pdf:35:0,pt,relevant,not_relevant,relevant,relevant,0.59,0.56
+q41,false_premise,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:8:2,pt,partially_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q41,false_premise,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:4:2,pt,relevant,not_relevant,relevant,relevant,0.54,0.56
+q41,false_premise,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:5:0,pt,relevant,not_relevant,partially_relevant,partially_relevant,0.35,0.44
+q41,false_premise,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:5:1,pt,relevant,not_relevant,partially_relevant,partially_relevant,0.3,0.18
+q42,false_premise,Programação Orientada a Objetos com C++.pdf:63:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q42,false_premise,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:84:0,pt,not_relevant,partially_relevant,not_relevant,not_relevant,0.0,0.0
+q42,false_premise,Banco de Dados - Relacionais e Não Relacionais.pdf:27:3,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0
+q42,false_premise,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:105:1,pt,not_relevant,not_relevant,not_relevant,not_relevant,0.0,0.0

@@ -1,9 +1,9 @@
+import logging
 import os
 
-from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.documents import Document
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_ollama import ChatOllama
 from langgraph.graph import END, StateGraph, MessagesState
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.store.base import BaseStore
@@ -12,13 +12,14 @@ from typing_extensions import List
 from db.postgres import get_postgres_connection
 from db.chroma import get_chroma_db
 from api.user_and_answer.user_and_answer_repository import create_user_question_and_answer
+from rag_graph.models import llm
+from rag_graph.context_evaluators import grade_documents_llm, grade_documents_jev, filter_graded_documents
+from typesafe_sdk import TypeSafeError
 
-MODEL = "llama3.1:8b"
-EVALUATION_RELEVANT = "relevant"
-EVALUATION_PARTIALLY_RELEVANT = "partially_relevant"
-OLLAMA_BASE_URL = os.getenv("OLLAMA_URL")
+CONTEXT_EVALUATOR_LLM = "llm"
+CONTEXT_EVALUATOR_JEV = "jev"
 
-llm = ChatOllama(model=MODEL, verbose=False, temperature=0.0, base_url=OLLAMA_BASE_URL)
+logger = logging.getLogger(__name__)
 vector_store = get_chroma_db()
 
 """
@@ -76,50 +77,40 @@ def __retrieve_context__(state: RagState):
 
     return {"documents": documents, "sources": [doc.id for doc in documents]}
 
-def __retrieved_context_evaluator__(state: RagState):
+def __retrieved_context_evaluator_llm__(state: RagState):
     """
-    Step that evaluates the quality of the retrieved context.
+    Step that evaluates the quality of the retrieved context using the local LLM.
     Context Retrived Judge
     """
 
     print (f"🤖 Avaliando a qualidade do contexto recuperado...")
 
-    prompt_data = """
-    You are a grader assessing relevance of a retrieved document to a user question.
-    Given a user question and retrieved document, determine if the document provider has sufficient context to answer the question accurately.
-    To evaluate if the document is relevant, you can check if the document contains keywords related to the user question.
-    It does not need to be a stringent test. The goal is to filter out erroneous retrievals
-    Give a score 'relevant', 'partially_relevant' or 'not_relevant' to indicate wheter the document is relevant to the question
-    Provide the score as a JSON with a single key 'evaluation' and no premable or explaination
-    Document to be used for evaluation: {documents}
-    Here is the user question: {question}
+    question = state["messages"][-1].content
+    grades = grade_documents_llm(question, state["documents"])
+
+    return filter_graded_documents(state["documents"], grades)
+
+def __retrieved_context_evaluator_jev__(state: RagState):
+    """
+    Step that evaluates the quality of the retrieved context using JEV (TypeSafe).
+    Falls back to the local LLM if the TypeSafe API fails.
     """
 
-    prompt = PromptTemplate.from_template(prompt_data)
-    retrieval_grader = prompt | llm | JsonOutputParser()
+    print (f"🤖 Avaliando a qualidade do contexto recuperado com o JEV...")
+
     question = state["messages"][-1].content
+    try:
+        grades = grade_documents_jev(question, state["documents"])
+    except TypeSafeError as e:
+        logger.error(f"Falha ao avaliar o contexto com o JEV, utilizando o LLM: {e}")
+        return __retrieved_context_evaluator_llm__(state)
 
-    relevant_documents = []
-    partially_relevant_documents = []
+    return filter_graded_documents(state["documents"], grades)
 
-    for doc in state["documents"]:
-        result = retrieval_grader.invoke({
-            "question": question,
-            "documents": doc.page_content,
-        })
-
-        evaluation = result['evaluation'].lower()
-
-        if evaluation == EVALUATION_RELEVANT:
-            relevant_documents.append(doc)
-        if evaluation == EVALUATION_PARTIALLY_RELEVANT:
-            partially_relevant_documents.append(doc)
-
-    filtered_documents = relevant_documents + partially_relevant_documents
-
-    has_relevant_documents = len(relevant_documents) > 0
-
-    return {"documents": filtered_documents, "sources": [doc.id for doc in filtered_documents], "has_relevant_documents": has_relevant_documents}
+CONTEXT_EVALUATORS = {
+    CONTEXT_EVALUATOR_LLM: __retrieved_context_evaluator_llm__,
+    CONTEXT_EVALUATOR_JEV: __retrieved_context_evaluator_jev__,
+}
 
 def __generate_answer__(state: RagState):
     """
@@ -205,10 +196,18 @@ def __save_question_and_answer__(state: RagState, config):
 
     create_user_question_and_answer(conn, user_id, question, answer)
 
-def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore = None):
+def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore = None, context_evaluator: str = None):
+    """
+    context_evaluator: "llm" or "jev". Defaults to the CONTEXT_EVALUATOR env var, or "llm" when unset.
+    """
+
+    context_evaluator = (context_evaluator or os.getenv("CONTEXT_EVALUATOR") or CONTEXT_EVALUATOR_LLM).lower()
+    if context_evaluator not in CONTEXT_EVALUATORS:
+        raise ValueError(f"Avaliador de contexto inválido: '{context_evaluator}'. Opções: {', '.join(CONTEXT_EVALUATORS)}")
+
     graph_builder = StateGraph(RagState)
     graph_builder.add_node("retrieve_context", __retrieve_context__)
-    graph_builder.add_node("retrieved_context_evaluator", __retrieved_context_evaluator__)
+    graph_builder.add_node("retrieved_context_evaluator", CONTEXT_EVALUATORS[context_evaluator])
     graph_builder.add_node("generate_answer", __generate_answer__)
     graph_builder.add_node("save_question_and_answer", __save_question_and_answer__)
 
