@@ -192,6 +192,7 @@ sequenceDiagram
 - Auth: `@token_required_as_param` validates `Authorization: Bearer <jwt>`, checks the user still exists, and passes the decoded payload as the first positional arg to the view. Stack `@admin_validate` beneath it for admin-only endpoints.
 - Responses are built manually with `Response(json.dumps(...), mimetype="application/json")` and carry a `status: "success"|"error"` field, with error text under `erro`.
 - Controllers return `(success: bool, data, message)` tuples; repositories take a psycopg connection (rows as dicts via `dict_row`).
+- LLM availability is not a startup requirement: `rag`/`judge` only wait for `ollama` to *start*, so login and pages work while Ollama is down. Routes that call the LLM catch `LLM_UNAVAILABLE_ERRORS` (`rag/rag_graph/models.py`) and return `503` with a Portuguese `erro`, which the frontend shows as-is. The `ollama` service has a Docker healthcheck (local API + `eth0` present, catching the case where the container starts detached from the compose network); it is informational only — check `docker compose ps` — and `init.sh` waits on it before pulling models.
 
 ## Database
 

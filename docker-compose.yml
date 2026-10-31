@@ -10,8 +10,12 @@ services:
       - ./rag:/app
       - ./db:/app/db
     depends_on:
-      - db
-      - ollama
+      db:
+        condition: service_started
+      # Não espera o Ollama ficar saudável: login e páginas funcionam sem o LLM,
+      # e só as chamadas que usam o modelo falham (com 503) enquanto ele estiver indisponível
+      ollama:
+        condition: service_started
     env_file:
       - .env
     networks:
@@ -26,8 +30,12 @@ services:
       - ./judge:/app
       - ./db:/app/db
     depends_on:
-      - db
-      - ollama
+      db:
+        condition: service_started
+      # Não espera o Ollama ficar saudável: login e páginas funcionam sem o LLM,
+      # e só as chamadas que usam o modelo falham (com 503) enquanto ele estiver indisponível
+      ollama:
+        condition: service_started
     env_file:
       - .env
     networks:
@@ -75,6 +83,14 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+    healthcheck:
+      # Verifica a API local e se o container está conectado à rede do compose.
+      # Sem eth0 o Ollama roda, mas rag e judge não conseguem resolver "ollama-tutoria"
+      test: ["CMD-SHELL", "ollama list > /dev/null && test -e /sys/class/net/eth0"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - tutoria
 

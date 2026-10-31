@@ -8,6 +8,7 @@ from langgraph.checkpoint.postgres import PostgresSaver
 
 from api.admin_validate import admin_validate
 from rag_graph.rag_graph import create_graph
+from rag_graph.models import LLM_UNAVAILABLE_ERRORS, OLLAMA_BASE_URL
 
 import json
 import logging
@@ -149,7 +150,16 @@ def acd_ask_and_get_answer(user_auth_data):
     with PostgresSaver.from_conn_string(POSTGRES_CONNECTION) as checkpointer:
         rag_graph = create_graph(checkpointer)
 
-        success, answer, sources = get_answer_from_question(rag_graph, question, user_auth_data)
+        try:
+            success, answer, sources = get_answer_from_question(rag_graph, question, user_auth_data)
+        except LLM_UNAVAILABLE_ERRORS as e:
+            logger.error(f"LLM indisponível em {OLLAMA_BASE_URL}: {e}")
+            return Response(
+                json.dumps({"status": "error", "erro": "O assistente está indisponível no momento. Tente novamente em alguns instantes."}),
+                status=503,
+                mimetype="application/json"
+            )
+
         if success:
             return Response(
                 json.dumps({"status": "success", "answer": answer, "sources": sources}),
