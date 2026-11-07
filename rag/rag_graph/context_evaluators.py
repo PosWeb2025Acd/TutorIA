@@ -15,6 +15,8 @@ EVALUATION_NOT_RELEVANT = "not_relevant"
 
 JEV_MODEL = os.getenv("JEV_MODEL", "jev-1.13.0")
 JEV_MAX_WORKERS = int(os.getenv("JEV_MAX_WORKERS", "4"))
+# Probabilidade mínima do nível escolhido pelo JEV para que o chunk seja usado (no contexto e na decisão de responder)
+JEV_MIN_PROBABILITY = float(os.getenv("JEV_MIN_PROBABILITY", "0.7"))
 JEV_QUESTION_ID = "relevance"
 
 # Níveis do Score em ordem crescente; o índice de cada nível é o número retornado pelo JEV.
@@ -82,6 +84,7 @@ def __grade_document_jev__(question: str, document: Document) -> dict:
 
     return {
         "label": JEV_LEVELS[level][0],
+        "probability": answer.probabilities.get(level, 0.0),
         "score": answer.score,
         "confidence": answer.confidence,
         "probabilities": {JEV_LEVELS[level][0]: answer.probabilities.get(level, 0.0) for level in range(len(JEV_LEVELS))},
@@ -102,13 +105,23 @@ def grade_documents_jev(question: str, documents: List[Document], max_workers: i
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
         return list(pool.map(lambda doc: __grade_document_jev__(question, doc), documents))
 
-def filter_graded_documents(documents: List[Document], grades: List[dict]) -> dict:
+def is_grade_usable(grade: dict, min_probability: float = 0.0) -> bool:
     """
-    Mantém os documentos relevantes e parcialmente relevantes. A resposta só é gerada se houver ao menos um relevante.
+    Um rótulo só é considerado se a probabilidade do nível escolhido atingir o mínimo.
+    Avaliações sem probabilidade (LLM) são sempre consideradas.
     """
 
-    relevant_documents = [doc for doc, grade in zip(documents, grades) if grade["label"] == EVALUATION_RELEVANT]
-    partially_relevant_documents = [doc for doc, grade in zip(documents, grades) if grade["label"] == EVALUATION_PARTIALLY_RELEVANT]
+    return grade.get("probability", 1.0) >= min_probability
+
+def filter_graded_documents(documents: List[Document], grades: List[dict], min_probability: float = 0.0) -> dict:
+    """
+    Mantém os documentos relevantes e parcialmente relevantes. A resposta só é gerada se houver ao menos um relevante.
+    Documentos cuja avaliação tem probabilidade abaixo de min_probability são ignorados, qualquer que seja o rótulo.
+    """
+
+    usable = [(doc, grade) for doc, grade in zip(documents, grades) if is_grade_usable(grade, min_probability)]
+    relevant_documents = [doc for doc, grade in usable if grade["label"] == EVALUATION_RELEVANT]
+    partially_relevant_documents = [doc for doc, grade in usable if grade["label"] == EVALUATION_PARTIALLY_RELEVANT]
 
     filtered_documents = relevant_documents + partially_relevant_documents
     has_relevant_documents = len(relevant_documents) > 0

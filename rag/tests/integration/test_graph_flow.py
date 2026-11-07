@@ -61,3 +61,14 @@ def test_jev_api_failure_falls_back_to_llm(monkeypatch, fake_llm, fake_jev, save
 
     assert result["messages"][-1].content == GENERATED_ANSWER
     assert sum("grader assessing relevance" in call for call in fake_llm.calls) == len(documents)
+
+def test_jev_refuses_when_relevant_chunk_is_below_min_probability(monkeypatch, fake_llm, fake_jev, saved_answers, documents):
+    from tests.conftest import RELEVANT_TEXT
+
+    # O JEV ainda escolhe "relevant", mas com só 55% de probabilidade
+    fake_jev.probabilities_by_text[RELEVANT_TEXT] = {"0": 0.05, "1": 0.4, "2": 0.55}
+
+    result = run_graph(monkeypatch, "jev", documents)
+
+    assert result["messages"][-1].content == NO_INFORMATION_ANSWER
+    assert result["sources"] == []

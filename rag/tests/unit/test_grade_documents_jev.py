@@ -42,6 +42,7 @@ def test_keeps_document_order(fake_jev, documents, max_workers):
 def test_returns_confidence_probabilities_and_usage(fake_jev, documents):
     grade = grade_documents_jev("O que é polimorfismo?", documents[:1])[0]
 
+    assert grade["probability"] == 0.9
     assert grade["confidence"] == 0.8
     assert grade["probabilities"] == {"not_relevant": 0.02, "partially_relevant": 0.08, "relevant": 0.9}
     assert grade["score"] == pytest.approx(1.88)
@@ -54,6 +55,7 @@ def test_tie_resolves_to_the_less_relevant_level(monkeypatch, documents):
     grades = grade_documents_jev("O que é polimorfismo?", documents[:1])
 
     assert grades[0]["label"] == "partially_relevant"
+    assert grades[0]["probability"] == 0.45
 
 def test_no_documents_means_no_requests(fake_jev):
     assert grade_documents_jev("O que é polimorfismo?", []) == []

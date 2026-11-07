@@ -20,12 +20,15 @@ from langchain_core.documents import Document
 
 from benchmark import metrics
 from benchmark.build_dataset import DATASET_PATH, RETRIEVAL_TIMES_PATH
-from rag_graph.context_evaluators import EVALUATION_NOT_RELEVANT, EVALUATION_RELEVANT, JEV_MAX_WORKERS, grade_documents_jev, grade_documents_llm
+from rag_graph.context_evaluators import EVALUATION_NOT_RELEVANT, EVALUATION_PARTIALLY_RELEVANT, EVALUATION_RELEVANT, JEV_MAX_WORKERS, grade_documents_jev, grade_documents_llm, is_grade_usable
 
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 MODES = ["llm", "jev_sequential", "jev_parallel"]
 JEV_PRICE_PER_MTOK = 0.042
 RELEVANT_THRESHOLDS = [0.3, 0.4, 0.5, 0.6, 0.7]
+# Cortes de JEV_MIN_PROBABILITY avaliados; 0.0 equivale a usar só o nível mais provável
+MIN_PROBABILITIES = [0.0, 0.5, 0.6, 0.7, 0.8, 0.9]
+DISCARDED = "discarded"
 
 def grade_one_by_one(grader, question, documents):
     """
@@ -101,6 +104,28 @@ def threshold_report(rows, grades):
 
     return report
 
+def min_probability_report(rows, questions, grades):
+    """
+    Aplica a regra do grafo (JEV_MIN_PROBABILITY) com diferentes cortes: um chunk só é usado se a probabilidade
+    do nível escolhido atingir o corte; caso contrário é descartado, qualquer que seja o rótulo.
+    """
+
+    useful = (EVALUATION_RELEVANT, EVALUATION_PARTIALLY_RELEVANT)
+    report = {}
+    for min_probability in MIN_PROBABILITIES:
+        labels = [grade["label"] if is_grade_usable(grade, min_probability) else DISCARDED for grade in grades]
+        predictions = {(row["chunk_id"], row["question_id"]): label for row, label in zip(rows, labels)}
+        used = [(row, label) for row, label in zip(rows, labels) if label in useful]
+        report[str(min_probability)] = {
+            "gate": gate_report(questions, predictions),
+            "discarded_chunks": labels.count(DISCARDED),
+            "used_chunks": len(used),
+            # Fração dos chunks usados (no contexto) que o gabarito considera úteis (relevant ou partially_relevant)
+            "used_chunks_precision": sum(row["gold_label"] in useful for row, _ in used) / len(used) if used else 0.0,
+        }
+
+    return report
+
 def summarize_mode(mode, rows, questions, runs, retrieval_times):
     """
     runs: uma lista por repetição com {"grades": [...], "chunk_times": [...], "question_times": {question_id: s}}.
@@ -144,6 +169,7 @@ def summarize_mode(mode, rows, questions, runs, retrieval_times):
             "estimated_cost_usd": input_tokens * JEV_PRICE_PER_MTOK / 1_000_000,
             "mean_confidence": sum(grade.get("confidence", 0.0) for grade in first["grades"]) / len(rows),
             "thresholds": threshold_report(rows, first["grades"]),
+            "min_probability": min_probability_report(rows, questions, first["grades"]),
         }
 
     return summary, predicted
@@ -161,6 +187,20 @@ def to_markdown(summaries, kappa_llm_jev):
         )
     if kappa_llm_jev is not None:
         lines.append(f"\nConcordância LLM x JEV (Cohen's kappa): {kappa_llm_jev:.3f}")
+
+    for s in summaries.values():
+        if "jev" not in s:
+            continue
+        lines += [
+            f"\nGate do {s['mode']} por JEV_MIN_PROBABILITY:\n",
+            "| Corte | Acurácia do gate | Respondeu sem contexto | Recusou com contexto | Chunks descartados | Chunks usados | Precisão dos usados |",
+            "|---|---|---|---|---|---|---|",
+        ]
+        for cut, r in s["jev"]["min_probability"].items():
+            lines.append(
+                f"| {cut} | {r['gate']['accuracy']:.3f} | {r['gate']['answered_without_relevant_context']} | {r['gate']['refused_with_relevant_context']} | "
+                f"{r['discarded_chunks']} | {r['used_chunks']} | {r['used_chunks_precision']:.3f} |"
+            )
 
     return "\n".join(lines) + "\n"
 
@@ -218,7 +258,8 @@ def main():
         json.dump(result, file, indent=2, ensure_ascii=False)
 
     with open(os.path.join(RESULTS_DIR, f"benchmark_{timestamp}_predictions.csv"), "w", newline="", encoding="utf-8") as file:
-        fields = ["question_id", "question_type", "chunk_id", "lang", "gold_label"] + [f"{mode}_label" for mode in args.modes] + [f"{mode}_p_relevant" for mode in args.modes if mode.startswith("jev")]
+        jev_fields = ["probability", "confidence"] + [f"p_{label}" for label in metrics.LABELS]
+        fields = ["question_id", "question_type", "chunk_id", "lang", "gold_label"] + [f"{mode}_label" for mode in args.modes] + [f"{mode}_{field}" for mode in args.modes if mode.startswith("jev") for field in jev_fields]
         writer = csv.DictWriter(file, fieldnames=fields)
         writer.writeheader()
         for i, row in enumerate(rows):
@@ -226,7 +267,11 @@ def main():
             for mode in args.modes:
                 line[f"{mode}_label"] = predictions[mode][i]
                 if mode.startswith("jev"):
-                    line[f"{mode}_p_relevant"] = runs[mode][0]["grades"][i].get("probabilities", {}).get(EVALUATION_RELEVANT, "")
+                    grade = runs[mode][0]["grades"][i]
+                    line[f"{mode}_probability"] = grade.get("probability", "")
+                    line[f"{mode}_confidence"] = grade.get("confidence", "")
+                    for label in metrics.LABELS:
+                        line[f"{mode}_p_{label}"] = grade.get("probabilities", {}).get(label, "")
             writer.writerow(line)
 
     markdown = to_markdown(summaries, kappa_llm_jev)

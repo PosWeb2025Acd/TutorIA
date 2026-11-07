@@ -48,3 +48,26 @@ def test_jev_evaluator_falls_back_to_llm_when_api_fails(monkeypatch, fake_llm, d
     assert len(fake_llm.calls) == len(documents)
     assert result["sources"] == ["poo.pdf:1:0", "poo.pdf:2:0"]
     assert result["has_relevant_documents"] is True
+
+@pytest.mark.parametrize("min_probability, has_relevant", [(0.7, True), (0.95, False)])
+def test_jev_evaluator_applies_min_probability(monkeypatch, fake_jev, documents, min_probability, has_relevant):
+    from rag_graph import context_evaluators
+
+    monkeypatch.setattr(context_evaluators, "JEV_MIN_PROBABILITY", min_probability)
+    state = {"messages": [type("Message", (), {"content": "O que é polimorfismo?"})()], "documents": documents}
+
+    result = rag_graph.__retrieved_context_evaluator_jev__(state)
+
+    # O chunk relevante vem com probabilidade 0.9 e o parcial com 0.7
+    assert result["has_relevant_documents"] is has_relevant
+    assert result["sources"] == (["poo.pdf:1:0", "poo.pdf:2:0"] if has_relevant else [])
+
+def test_llm_evaluator_ignores_min_probability(monkeypatch, fake_llm, documents):
+    from rag_graph import context_evaluators
+
+    monkeypatch.setattr(context_evaluators, "JEV_MIN_PROBABILITY", 0.99)
+    state = {"messages": [type("Message", (), {"content": "O que é polimorfismo?"})()], "documents": documents}
+
+    result = rag_graph.__retrieved_context_evaluator_llm__(state)
+
+    assert result["has_relevant_documents"] is True

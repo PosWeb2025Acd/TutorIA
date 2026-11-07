@@ -33,3 +33,34 @@ def test_no_relevant_documents(documents):
 
 def test_empty_retrieval():
     assert filter_graded_documents([], []) == {"documents": [], "sources": [], "has_relevant_documents": False}
+
+def test_discards_relevant_below_min_probability(documents):
+    grades = [{"label": "relevant", "probability": 0.6}, {"label": "partially_relevant", "probability": 0.8}, {"label": "not_relevant", "probability": 0.9}]
+
+    result = filter_graded_documents(documents, grades, min_probability=0.7)
+
+    assert result["sources"] == ["poo.pdf:2:0"]
+    assert result["has_relevant_documents"] is False
+
+def test_discards_partially_relevant_below_min_probability(documents):
+    grades = [{"label": "relevant", "probability": 0.9}, {"label": "partially_relevant", "probability": 0.5}, {"label": "not_relevant", "probability": 0.9}]
+
+    result = filter_graded_documents(documents, grades, min_probability=0.7)
+
+    assert result["sources"] == ["poo.pdf:1:0"]
+    assert result["has_relevant_documents"] is True
+
+def test_probability_equal_to_min_probability_is_used(documents):
+    grades = [{"label": "relevant", "probability": 0.7}, {"label": "not_relevant", "probability": 0.9}, {"label": "not_relevant", "probability": 0.9}]
+
+    result = filter_graded_documents(documents, grades, min_probability=0.7)
+
+    assert result["has_relevant_documents"] is True
+
+def test_grades_without_probability_are_always_used(documents):
+    grades = [{"label": "relevant"}, {"label": "partially_relevant"}, {"label": "not_relevant"}]
+
+    result = filter_graded_documents(documents, grades, min_probability=0.9)
+
+    assert result["sources"] == ["poo.pdf:1:0", "poo.pdf:2:0"]
+    assert result["has_relevant_documents"] is True

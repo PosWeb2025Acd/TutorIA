@@ -69,8 +69,11 @@ flowchart LR
       ])}
   ```
 
-  O rótulo é o nível de maior probabilidade. Em caso de empate, prevalece o menos relevante. `probabilities`, `confidence` e os tokens são guardados para análise.
-- **Regra de filtragem**, igual para os dois avaliadores: `relevant` e `partially_relevant` seguem para a geração, e a resposta só é gerada se houver pelo menos um `relevant`.
+  O rótulo é o nível de maior probabilidade. Em caso de empate, prevalece o menos relevante. A probabilidade desse nível é guardada em `probability`, junto com `probabilities`, `confidence` e os tokens.
+- **Probabilidade mínima (só no JEV):** um chunk só é usado se a probabilidade do nível escolhido for maior ou igual a `JEV_MIN_PROBABILITY` (padrão 0,7). Abaixo disso, o chunk é descartado, qualquer que seja o rótulo: não entra no contexto e não conta para a decisão de responder. Por exemplo, um chunk `partially_relevant` com 0,55 é ignorado, e um `relevant` com 0,6 também.
+  - O valor comparado é a probabilidade do nível, que é a chance de a resposta estar correta. O campo `confidence` mede só o quanto a distribuição está concentrada, e não é usado no corte.
+  - Um chunk dividido entre níveis úteis (por exemplo, relevant 0,50 e partially 0,45) é descartado mesmo que o JEV tenha 95% de certeza de que ele é útil. O benchmark mede esse efeito para cada corte.
+- **Regra de filtragem**, igual para os dois avaliadores, aplicada aos chunks que passaram pelo corte: `relevant` e `partially_relevant` seguem para a geração, e a resposta só é gerada se houver pelo menos um `relevant`. O LLM não devolve probabilidades, então todas as avaliações dele são consideradas.
 - **Resiliência:** qualquer `TypeSafeError` (chave inválida, 429/529 depois dos retries do SDK, timeout) faz o nó registrar o erro no log e reavaliar com o LLM.
 - **Configuração** (`.env`):
 
@@ -80,6 +83,7 @@ flowchart LR
   | `TYPESAFE_API_KEY` | (vazio) | Chave do [console da TypeSafe](https://console.typesafe.ai/); só é necessária com `jev` |
   | `JEV_MODEL` | `jev-1.13.0` | Versão fixa do modelo |
   | `JEV_MAX_WORKERS` | `4` | Requisições simultâneas ao JEV |
+  | `JEV_MIN_PROBABILITY` | `0.7` | Probabilidade mínima do nível escolhido pelo JEV para o chunk ser usado |
 
 ## 4. Metodologia do comparativo
 
@@ -93,6 +97,7 @@ flowchart LR
   - `llm`: llama3.1:8b, um chunk por vez (como em produção);
   - `jev_sequential`: JEV, uma requisição por vez (comparação nas mesmas condições do LLM);
   - `jev_parallel`: JEV com `JEV_MAX_WORKERS` requisições simultâneas (como em produção).
+- **Corte de probabilidade:** as métricas de classificação e o gate da tabela principal usam o nível mais provável, sem corte, para medir o modelo. O efeito de `JEV_MIN_PROBABILITY` é medido à parte: o gate, os chunks descartados, os chunks usados e a precisão dos usados são calculados para os cortes 0, 0,5, 0,6, 0,7, 0,8 e 0,9. O CSV de predições guarda `probability`, `confidence` e as três probabilidades de cada chunk. A rodada de 31/10/2026 é anterior a essa mudança e só registrou P(relevant).
 - **Métricas:**
   - **Tempo:** média, p50 e p95 por chunk e por pergunta, e o total de retrieval + avaliação.
   - **Assertividade contra o gabarito:**

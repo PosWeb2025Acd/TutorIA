@@ -13,6 +13,7 @@ from db.postgres import get_postgres_connection
 from db.chroma import get_chroma_db
 from api.user_and_answer.user_and_answer_repository import create_user_question_and_answer
 from rag_graph.models import llm
+from rag_graph import context_evaluators
 from rag_graph.context_evaluators import grade_documents_llm, grade_documents_jev, filter_graded_documents
 from typesafe_sdk import TypeSafeError
 
@@ -105,7 +106,7 @@ def __retrieved_context_evaluator_jev__(state: RagState):
         logger.error(f"Falha ao avaliar o contexto com o JEV, utilizando o LLM: {e}")
         return __retrieved_context_evaluator_llm__(state)
 
-    return filter_graded_documents(state["documents"], grades)
+    return filter_graded_documents(state["documents"], grades, context_evaluators.JEV_MIN_PROBABILITY)
 
 CONTEXT_EVALUATORS = {
     CONTEXT_EVALUATOR_LLM: __retrieved_context_evaluator_llm__,

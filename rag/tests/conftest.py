@@ -100,6 +100,8 @@ class FakeJevApi:
     def __init__(self, status_code=200):
         self.status_code = status_code
         self.requests = []
+        # Probabilidades específicas por texto de chunk, para simular respostas pouco assertivas
+        self.probabilities_by_text = {}
 
     def handler(self, request):
         body = json.loads(request.content)
@@ -107,11 +109,23 @@ class FakeJevApi:
         if self.status_code != 200:
             return httpx2.Response(self.status_code, json={"error": "falha simulada"})
 
-        label = LABEL_BY_TEXT.get(body["state"]["passage"]["text"], "not_relevant")
-        return httpx2.Response(200, json=jev_response(PROBABILITIES_BY_LABEL[label]))
+        text = body["state"]["passage"]["text"]
+        probabilities = self.probabilities_by_text.get(text) or PROBABILITIES_BY_LABEL[LABEL_BY_TEXT.get(text, "not_relevant")]
+        return httpx2.Response(200, json=jev_response(probabilities))
 
     def client(self):
         return TypeSafeClient(api_key="test-key", model="jev-1.13.0", transport=httpx2.MockTransport(self.handler))
+
+@pytest.fixture(autouse=True)
+def jev_min_probability(monkeypatch):
+    """
+    Fixa o corte em 0.7 para que os testes não dependam de JEV_MIN_PROBABILITY no ambiente.
+    """
+
+    from rag_graph import context_evaluators
+
+    monkeypatch.setattr(context_evaluators, "JEV_MIN_PROBABILITY", 0.7)
+    return 0.7
 
 @pytest.fixture
 def documents():

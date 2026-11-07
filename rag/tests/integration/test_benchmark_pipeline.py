@@ -89,5 +89,20 @@ def test_run_benchmark_compares_all_modes(monkeypatch, benchmark_paths, fake_llm
         assert summary["label_stability"] == 1.0
         assert summary["latency_per_question_s"]["n"] == 4
     assert result["modes"]["jev_parallel"]["jev"]["input_tokens"] == 2 * 6 * 100
+    # Fakes: relevant com 0.9, partially_relevant com 0.7, not_relevant com 0.8 (q1 e q2 recebem os mesmos chunks)
+    sweep = result["modes"]["jev_parallel"]["jev"]["min_probability"]
+    assert sweep["0.0"]["discarded_chunks"] == 0 and sweep["0.0"]["used_chunks"] == 4
+    assert sweep["0.8"]["discarded_chunks"] == 2 and sweep["0.8"]["used_chunks"] == 2
+    assert sweep["0.9"]["used_chunks_precision"] == pytest.approx(0.5)
+    assert sweep["0.9"]["gate"]["answered_correctly"] == 1
+    assert "min_probability" not in result["modes"]["llm"].get("jev", {})
+
+    predictions_file = next(benchmark_paths["results"].glob("*_predictions.csv"))
+    with open(predictions_file, newline="", encoding="utf-8") as file:
+        first = next(csv.DictReader(file))
+    assert float(first["jev_parallel_probability"]) == 0.9
+    assert float(first["jev_parallel_p_relevant"]) == 0.9
+    assert float(first["jev_parallel_p_not_relevant"]) == pytest.approx(0.02)
+    assert float(first["jev_parallel_confidence"]) == 0.8
     assert len(list(benchmark_paths["results"].glob("*_predictions.csv"))) == 1
     assert len(list(benchmark_paths["results"].glob("*.md"))) == 1
