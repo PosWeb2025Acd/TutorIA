@@ -39,7 +39,7 @@ def client(monkeypatch, documents):
     monkeypatch.setattr(main.PostgresSaver, "from_conn_string", in_memory_checkpointer)
     monkeypatch.setattr(rag_graph, "vector_store", FakeVectorStore(documents))
     monkeypatch.setattr(rag_graph, "get_postgres_connection", MagicMock())
-    monkeypatch.setattr(rag_graph, "create_user_question_and_answer", MagicMock())
+    monkeypatch.setattr(rag_graph, "create_user_question_and_answer", MagicMock(return_value=1))
 
     return main.service.test_client()
 

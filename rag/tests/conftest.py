@@ -2,6 +2,8 @@ import json
 import sys
 import types
 
+from unittest.mock import MagicMock
+
 import httpx2
 import pytest
 
@@ -60,6 +62,20 @@ class FakeLLM(BaseChatModel):
             content = GENERATED_ANSWER
 
         return ChatResult(generations=[ChatGeneration(message=AIMessage(content=content))])
+
+class FakeContextEvaluationRecorder:
+    """
+    Guarda as avaliações em memória; com error, simula uma falha do armazenamento.
+    """
+
+    def __init__(self, error=None):
+        self.error = error
+        self.records = []
+
+    def record(self, question_answer_id, evaluation):
+        if self.error:
+            raise self.error
+        self.records.append((question_answer_id, evaluation))
 
 class FakeRetriever:
     def __init__(self, documents):
@@ -126,6 +142,16 @@ def jev_min_probability(monkeypatch):
 
     monkeypatch.setattr(context_evaluators, "JEV_MIN_PROBABILITY", 0.7)
     return 0.7
+
+@pytest.fixture(autouse=True)
+def no_postgres_for_context_evaluations(monkeypatch):
+    """
+    O grafo grava no Postgres por padrão; nenhum teste offline deve tentar se conectar.
+    """
+
+    from api.context_evaluations import context_evaluations_repository
+
+    monkeypatch.setattr(context_evaluations_repository, "get_postgres_connection", MagicMock())
 
 @pytest.fixture
 def documents():

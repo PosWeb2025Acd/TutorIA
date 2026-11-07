@@ -11,10 +11,12 @@ from typing_extensions import List
 
 from db.postgres import get_postgres_connection
 from db.chroma import get_chroma_db
+from api.context_evaluations.context_evaluations_repository import PostgresContextEvaluationRecorder
 from api.user_and_answer.user_and_answer_repository import create_user_question_and_answer
 from rag_graph.models import llm
 from rag_graph import context_evaluators
-from rag_graph.context_evaluators import grade_documents_llm, grade_documents_jev, filter_graded_documents
+from rag_graph.context_evaluation_record import ContextEvaluationRecorder, build_context_evaluation
+from rag_graph.context_evaluators import grade_documents_llm, grade_documents_jev, filter_graded_documents, jev_evaluator_config, llm_evaluator_config
 from typesafe_sdk import TypeSafeError
 
 CONTEXT_EVALUATOR_LLM = "llm"
@@ -41,6 +43,8 @@ class RagState(MessagesState):
     has_relevant_documents: bool
     hallucination_grade: dict
     answer_grade: float
+    context_evaluation: dict
+    question_answer_id: int
 
 def __router_choice__(state: RagState):
     """
@@ -78,18 +82,33 @@ def __retrieve_context__(state: RagState):
 
     return {"documents": documents, "sources": [doc.id for doc in documents]}
 
+def __apply_grades__(state: RagState, evaluator: str, config: dict, grades: List[dict], min_probability: float = 0.0, fallback_error: str = None):
+    """
+    Filters the documents using the grades and keeps the record of that evaluation in the state, whichever evaluator produced them.
+    """
+
+    filtered = filter_graded_documents(state["documents"], grades, min_probability)
+    # Sem nenhum chunk relevante a resposta é recusada: os parcialmente relevantes mantidos pelo filtro não chegam a ser usados
+    used_ids = filtered["sources"] if filtered["has_relevant_documents"] else []
+    evaluation = build_context_evaluation(state["messages"][-1].content, evaluator, config, state["documents"], grades, used_ids, fallback_error)
+
+    return {**filtered, "context_evaluation": evaluation}
+
+def __evaluate_context_with_llm__(state: RagState, fallback_error: str = None):
+    print (f"🤖 Avaliando a qualidade do contexto recuperado...")
+
+    question = state["messages"][-1].content
+    grades = grade_documents_llm(question, state["documents"])
+
+    return __apply_grades__(state, CONTEXT_EVALUATOR_LLM, llm_evaluator_config(), grades, fallback_error=fallback_error)
+
 def __retrieved_context_evaluator_llm__(state: RagState):
     """
     Step that evaluates the quality of the retrieved context using the local LLM.
     Context Retrived Judge
     """
 
-    print (f"🤖 Avaliando a qualidade do contexto recuperado...")
-
-    question = state["messages"][-1].content
-    grades = grade_documents_llm(question, state["documents"])
-
-    return filter_graded_documents(state["documents"], grades)
+    return __evaluate_context_with_llm__(state)
 
 def __retrieved_context_evaluator_jev__(state: RagState):
     """
@@ -104,9 +123,9 @@ def __retrieved_context_evaluator_jev__(state: RagState):
         grades = grade_documents_jev(question, state["documents"])
     except TypeSafeError as e:
         logger.error(f"Falha ao avaliar o contexto com o JEV, utilizando o LLM: {e}")
-        return __retrieved_context_evaluator_llm__(state)
+        return __evaluate_context_with_llm__(state, fallback_error=str(e))
 
-    return filter_graded_documents(state["documents"], grades, context_evaluators.JEV_MIN_PROBABILITY)
+    return __apply_grades__(state, CONTEXT_EVALUATOR_JEV, jev_evaluator_config(), grades, context_evaluators.JEV_MIN_PROBABILITY)
 
 CONTEXT_EVALUATORS = {
     CONTEXT_EVALUATOR_LLM: __retrieved_context_evaluator_llm__,
@@ -195,11 +214,31 @@ def __save_question_and_answer__(state: RagState, config):
     conn = get_postgres_connection()
     user_id = config["metadata"]["user_id"]
 
-    create_user_question_and_answer(conn, user_id, question, answer)
+    return {"question_answer_id": create_user_question_and_answer(conn, user_id, question, answer)}
 
-def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore = None, context_evaluator: str = None):
+def __make_record_context_evaluation__(recorder: ContextEvaluationRecorder):
+    """
+    Builds the step that stores the context evaluation of the current turn, so it can be consulted later.
+    """
+
+    def record_context_evaluation(state: RagState):
+        evaluation = state.get("context_evaluation")
+        # O estado persiste entre turnos: a rota "llm" não avalia e um turno que falhou pode ter deixado uma avaliação para trás
+        if evaluation and evaluation["question"] == state["messages"][-2].content:
+            try:
+                recorder.record(state["question_answer_id"], evaluation)
+            except Exception as e:
+                # É um dado de diagnóstico: uma falha aqui não pode custar a resposta do aluno
+                logger.error(f"Falha ao registrar a avaliação de contexto: {e}")
+
+        return {"context_evaluation": None}
+
+    return record_context_evaluation
+
+def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore = None, context_evaluator: str = None, evaluation_recorder: ContextEvaluationRecorder = None):
     """
     context_evaluator: "llm" or "jev". Defaults to the CONTEXT_EVALUATOR env var, or "llm" when unset.
+    evaluation_recorder: where the context evaluations are stored. Defaults to Postgres.
     """
 
     context_evaluator = (context_evaluator or os.getenv("CONTEXT_EVALUATOR") or CONTEXT_EVALUATOR_LLM).lower()
@@ -211,12 +250,14 @@ def create_graph(checkpointer: BaseCheckpointSaver, store: BaseStore = None, con
     graph_builder.add_node("retrieved_context_evaluator", CONTEXT_EVALUATORS[context_evaluator])
     graph_builder.add_node("generate_answer", __generate_answer__)
     graph_builder.add_node("save_question_and_answer", __save_question_and_answer__)
+    graph_builder.add_node("record_context_evaluation", __make_record_context_evaluation__(evaluation_recorder or PostgresContextEvaluationRecorder()))
 
     graph_builder.set_conditional_entry_point(__router_choice__, {"vectorstore": "retrieve_context", "llm": "generate_answer"})
     graph_builder.add_edge("retrieve_context", "retrieved_context_evaluator")
     graph_builder.add_edge("retrieved_context_evaluator", "generate_answer")
     graph_builder.add_edge("generate_answer", "save_question_and_answer")
-    graph_builder.add_edge("save_question_and_answer", END)
+    graph_builder.add_edge("save_question_and_answer", "record_context_evaluation")
+    graph_builder.add_edge("record_context_evaluation", END)
 
     graph = graph_builder.compile(checkpointer=checkpointer, store=store)
 

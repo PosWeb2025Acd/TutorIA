@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRouter';
 import ChatPage from './pages/ChatPage';
 import AnswerEvaluationsPage from './pages/EvaluationPage';
+import ContextEvaluationsPage from './pages/ContextEvaluationsPage';
 import AdminRouter from './components/AdminRouter';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path='tutor-ia/chat' element={<ChatPage />}/>
             <Route element={<AdminRouter />}>
               <Route path='tutor-ia/answer-evaluations' element={<AnswerEvaluationsPage />}/>
+              <Route path='tutor-ia/context-evaluations' element={<ContextEvaluationsPage />}/>
             </Route>
           </Route>
         </Routes>

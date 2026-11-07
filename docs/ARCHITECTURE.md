@@ -90,6 +90,9 @@ sequenceDiagram
         G->>G: canned "não tenho informações suficientes"
     end
     G->>PG: INSERT question_and_answer (user_id, question, answer)
+    opt the turn went through context evaluation
+        G->>PG: INSERT context_evaluation + context_evaluation_chunk (best effort)
+    end
     G->>PG: save checkpoint (messages, documents, sources, flags)
     G-->>F: final state
     F-->>B: {status, answer, sources: [chunk ids]}
@@ -105,7 +108,7 @@ sequenceDiagram
 
 ## 3. The RAG graph
 
-The graph is built in `create_graph()` (`rag/rag_graph/rag_graph.py`) and rebuilt on every request. Its state is `RagState`, a `MessagesState` extended with `documents`, `sources`, `has_relevant_documents`, `hallucination_grade` and `answer_grade`.
+The graph is built in `create_graph()` (`rag/rag_graph/rag_graph.py`) and rebuilt on every request. Its state is `RagState`, a `MessagesState` extended with `documents`, `sources`, `has_relevant_documents`, `hallucination_grade`, `answer_grade`, `context_evaluation` and `question_answer_id`.
 
 ```mermaid
 flowchart TD
@@ -119,7 +122,8 @@ flowchart TD
     generate -- true --> answer["LLM answer from context + history"]
     refuse --> save["save_question_and_answer<br/>INSERT question_and_answer"]
     answer --> save
-    save --> e([END])
+    save --> record["record_context_evaluation<br/>best effort, skipped on the llm route"]
+    record --> e([END])
 ```
 
 ### Step by step
@@ -127,12 +131,13 @@ flowchart TD
 1. **Routing** (`__router_choice__`): llama3.1 classifies the question and returns JSON `{"choice": "vectorstore" | "llm"}`. Computer science, programming and technology questions go to the vector store.
 2. **Retrieval** (`__retrieve_context__`): `vector_store.as_retriever()` uses LangChain's default plain similarity search with `k=4`. Chroma embeds the question with the same `all-mpnet-base-v2` model and returns the 4 closest chunks. `sources` is set to their chunk ids.
 3. **Context evaluation** (`__retrieved_context_evaluator_llm__`, default): `grade_documents_llm` makes **one LLM call per chunk**, asking whether the chunk is `relevant`, `partially_relevant` or `not_relevant` to the question. This is a lenient keyword-style check meant to drop wrong retrievals.
-   (The alternative JEV evaluator is selected with `CONTEXT_EVALUATOR=jev` and is out of scope here; see [jev-context-evaluator/JEV_CONTEXT_EVALUATOR.md](jev-context-evaluator/JEV_CONTEXT_EVALUATOR.md).)
-4. **Filtering** (`filter_graded_documents`): keeps `relevant` chunks followed by `partially_relevant` ones and discards the rest. `sources` is narrowed to the kept ids. `has_relevant_documents` is true only if **at least one chunk is fully relevant**: partially relevant chunks are used as extra context but can't unlock an answer on their own.
+   (The alternative JEV evaluator is selected with `CONTEXT_EVALUATOR=jev` and applies `JEV_MIN_PROBABILITY` to these labels; see [jev-context-evaluator/JEV_CONTEXT_EVALUATOR.md](jev-context-evaluator/JEV_CONTEXT_EVALUATOR.md).)
+4. **Filtering** (`filter_graded_documents`): keeps `relevant` chunks followed by `partially_relevant` ones and discards the rest. `sources` is narrowed to the kept ids. `has_relevant_documents` is true only if **at least one chunk is fully relevant**: partially relevant chunks are used as extra context but can't unlock an answer on their own. With JEV, a chunk is kept if P(relevant) + P(partially_relevant) reaches `JEV_MIN_PROBABILITY`, and it unlocks an answer only if P(relevant) reaches it too.
 5. **Answer** (`__generate_answer__`):
    - If there's no relevant chunk, it returns the canned Portuguese refusal with no sources.
    - Otherwise it builds a system prompt that limits the model to computer science and to **only the retrieved context** (at most ten sentences). The kept chunks are joined in reverse order (partially relevant first, relevant last, closest to the question). The thread's human/system/AI messages are appended, and llama3.1 produces the answer.
 6. **Persistence** (`__save_question_and_answer__`): inserts the last question and answer, with `user_id` taken from the run config metadata, into `question_and_answer`. Every answer is saved, including refusals, and becomes input for the judge.
+7. **Evaluation record** (`record_context_evaluation`): stores what the evaluator decided for this turn, linked to the saved Q&A. See [Debugging context evaluations](#debugging-context-evaluations).
 
 `__evaluate_answer_backed_by_context__`, a hallucination grader scoring 0–10 how well the chunks support the answer, is defined but **not wired into the graph**.
 
@@ -180,6 +185,79 @@ sequenceDiagram
 - **Queue semantics:** "unjudged" means "has no row in `evaluation`". The oldest pairs go first, 10 per round. Canned refusals are judged too.
 - **Failure behavior:** `main.py` has no error handling around the LLM call or the JSON parse. One bad response crashes the process, compose `restart: always` restarts it, and it picks up the same oldest pair again.
 
+## Debugging context evaluations
+
+The judge scores the final answer. This is a different record: what the context evaluator decided for **each retrieved chunk**, including discarded ones, so the LLM prompt or the JEV configuration can be refined from real questions. It is consulted on the admin-only **Contexto** screen (`/tutor-ia/context-evaluations`, `app/src/pages/ContextEvaluationsPage.js`), with SQL, or through the endpoint behind that screen, `GET /acd/avaliacoes-contexto?page=N&evaluator=jev`. The screen lists the questions with the evaluator that graded them, and clicking one shows the answer, each chunk with its grade, and the evaluator's configuration. `AdminRouter` hides the route, and the endpoint's `admin_validate` is what actually enforces access.
+
+How the code is split:
+
+| Concern | Where |
+|---|---|
+| Producing grades and describing the evaluator's configuration | `rag/rag_graph/context_evaluators.py` |
+| Building the record (no I/O) and the `ContextEvaluationRecorder` interface | `rag/rag_graph/context_evaluation_record.py` |
+| Deciding when to record | `record_context_evaluation` node in `rag/rag_graph/rag_graph.py` |
+| SQL and `PostgresContextEvaluationRecorder` | `rag/api/context_evaluations/context_evaluations_repository.py` |
+
+The graph only knows the interface: `create_graph(..., evaluation_recorder=...)` receives the recorder and defaults to Postgres. A new evaluator needs no schema change, because it only supplies its own `config` and grade extras.
+
+What to know when reading the data:
+
+- **`evaluator` is what actually ran.** When JEV fails, the LLM takes over and the row has `evaluator='llm'` with the reason in `fallback_error`.
+- **`config` is a snapshot** of the prompt, or of the JEV instructions, criteria and threshold, so results can be compared before and after a change.
+- **`used` means the chunk reached the answer context.** In a refusal every chunk has `used=false`, including `partially_relevant` ones kept by the filter.
+- **`probability` is `NULL` for the LLM**, which only returns a label. Evaluator-specific fields, such as JEV's `probabilities` or the LLM's `raw_label`, are in `details`.
+- **Recording is best effort.** A failure is logged as `Falha ao registrar a avaliação de contexto` and the student still gets the answer.
+- **Some turns have no record:** the `llm` route skips evaluation, and a turn that fails (invalid LLM JSON, Ollama down) has no Q&A row to attach to. The LLM record also has no reasoning, because the grader prompt asks for a label only.
+
+Useful queries:
+
+```sql
+-- JEV chunks close to either decision of JEV_MIN_PROBABILITY: using the chunk (p_useful) or allowing an answer (p_relevant)
+SELECT qa.question, c.document_id, c.label, (c.details->>'useful_probability')::float AS p_useful, (c.details->'probabilities'->>'relevant')::float AS p_relevant, c.used, e.config->>'min_probability' AS min_probability
+FROM context_evaluation_chunk c
+JOIN context_evaluation e ON e.id = c.context_evaluation_id
+JOIN question_and_answer qa ON qa.id = e.question_answer_id
+WHERE e.evaluator = 'jev' AND ((c.details->>'useful_probability')::float BETWEEN 0.6 AND 0.8 OR (c.details->'probabilities'->>'relevant')::float BETWEEN 0.6 AND 0.8)
+ORDER BY p_useful;
+
+-- Label distribution per evaluator and configuration, to compare before and after a change
+SELECT e.evaluator, md5(e.config::text) AS config_version, min(e.created_at) AS first_seen, c.label, count(*) AS chunks
+FROM context_evaluation_chunk c
+JOIN context_evaluation e ON e.id = c.context_evaluation_id
+GROUP BY e.evaluator, config_version, c.label
+ORDER BY first_seen, e.evaluator, c.label;
+
+-- How often the JEV fallback fires, per day
+SELECT created_at::date AS day, count(*) FILTER (WHERE fallback_error IS NOT NULL) AS fallbacks, count(*) AS evaluations, max(fallback_error) AS example_error
+FROM context_evaluation
+GROUP BY day
+ORDER BY day DESC;
+
+-- Refusals: turns where no chunk reached the answer, with the grades that caused it
+SELECT qa.question, e.evaluator, jsonb_agg(jsonb_build_object('document', c.document_id, 'label', c.label, 'probability', c.probability) ORDER BY c.position) AS grades
+FROM context_evaluation e
+JOIN context_evaluation_chunk c ON c.context_evaluation_id = e.id
+JOIN question_and_answer qa ON qa.id = e.question_answer_id
+GROUP BY e.id, qa.question, e.evaluator
+HAVING NOT bool_or(c.used)
+ORDER BY e.created_at DESC;
+
+-- Labels outside the expected values, which the filter discards (usually the LLM not following the prompt)
+SELECT e.evaluator, c.label, count(*) AS chunks
+FROM context_evaluation_chunk c
+JOIN context_evaluation e ON e.id = c.context_evaluation_id
+WHERE c.label NOT IN ('relevant', 'partially_relevant', 'not_relevant')
+GROUP BY e.evaluator, c.label;
+
+-- Everything about one answer
+SELECT qa.question, qa.answer, e.evaluator, e.fallback_error, c.position, c.document_id, c.label, c.probability, c.used, c.details
+FROM question_and_answer qa
+JOIN context_evaluation e ON e.question_answer_id = qa.id
+JOIN context_evaluation_chunk c ON c.context_evaluation_id = e.id
+WHERE qa.id = 1
+ORDER BY c.position;
+```
+
 ## Shared code and imports
 
 - The repo-root `db/` package (`postgres.py`, `chroma.py`) is shared by `rag` and `judge` via the compose volume mount `./db:/app/db`. Both services import it as `db.postgres` / `db.chroma` with `/app` as the working dir. The Chroma store itself is persisted under `db/tutor_ia_acd_db/` (gitignored).
@@ -199,10 +277,20 @@ sequenceDiagram
 
 Schema lives in `db-scripts/create_tables.sql`, executed by the Postgres image only when the data volume is first created (no migration tool). The LangGraph checkpoint/store tables are created separately by `rag/scripts/checkpoint_setup.py`.
 
+The context evaluation tables live in `db-scripts/upgrade_context_evaluation.sql`, which is idempotent. On a new volume it runs automatically after `create_tables.sql`, since the scripts run in alphabetical order. On an existing volume, apply it once:
+
+```bash
+docker compose exec db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /docker-entrypoint-initdb.d/upgrade_context_evaluation.sql'
+```
+
+Until then chat keeps working, and each turn logs `Falha ao registrar a avaliação de contexto`.
+
 ```mermaid
 erDiagram
     usuarios ||--o{ question_and_answer : asks
     question_and_answer ||--o{ evaluation : "judged by (one per pair in practice)"
+    question_and_answer ||--o| context_evaluation : "context graded by"
+    context_evaluation ||--|{ context_evaluation_chunk : "one per retrieved chunk"
     usuarios {
         uuid id PK
         varchar usuario UK
@@ -223,6 +311,25 @@ erDiagram
         text llm_evaluation_reasoning
         decimal llm_evaluation_score
         timestamp created_at
+    }
+    context_evaluation {
+        serial id PK
+        int question_answer_id FK
+        text evaluator "what actually ran"
+        jsonb config "prompt or JEV settings"
+        text fallback_error "nullable"
+        timestamp created_at
+    }
+    context_evaluation_chunk {
+        serial id PK
+        int context_evaluation_id FK
+        int position "retrieval order"
+        text document_id
+        text content
+        text label
+        float probability "NULL for the LLM"
+        boolean used "reached the answer context"
+        jsonb details "evaluator-specific"
     }
 ```
 
