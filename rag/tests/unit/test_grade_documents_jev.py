@@ -4,7 +4,7 @@ import pytest
 from typesafe_sdk import TypeSafeAuthenticationError, TypeSafeClient, TypeSafeError
 
 from rag_graph import context_evaluators
-from rag_graph.context_evaluators import JEV_LEVELS, grade_documents_jev
+from rag_graph.context_evaluators import JEV_LEVELS, JEV_MODEL, JEV_RELEVANCE_QUESTION, grade_documents_jev, jev_evaluator_config
 from tests.conftest import FakeJevApi, jev_response
 
 def use_client(monkeypatch, handler):
@@ -74,3 +74,23 @@ def test_missing_api_key_only_fails_when_jev_is_used(monkeypatch):
 
     with pytest.raises(TypeSafeError):
         context_evaluators._get_jev_client()
+
+def test_config_has_what_defines_the_decision():
+    config = jev_evaluator_config()
+
+    assert config["model"] == JEV_MODEL
+    assert config["instructions"] == JEV_RELEVANCE_QUESTION.instructions
+    assert list(config["criteria"].values()) == JEV_RELEVANCE_QUESTION.criteria
+    assert list(config["criteria"]) == ["not_relevant", "partially_relevant", "relevant"]
+    assert config["min_probability"] == 0.7
+    assert set(config["rules"]) == {"use_as_context", "allow_answer"}
+
+def test_useful_probability_sums_the_useful_levels(fake_jev, documents):
+    fake_jev.probabilities_by_text[documents[0].page_content] = {"0": 0.3, "1": 0.58, "2": 0.12}
+
+    grade = grade_documents_jev("O que é polimorfismo?", documents[:1])[0]
+
+    assert grade["label"] == "partially_relevant"
+    assert grade["probability"] == 0.58
+    # Sem arredondar, 0.58 + 0.12 poderia ficar logo abaixo de 0.7
+    assert grade["useful_probability"] == 0.7

@@ -20,7 +20,7 @@ from langchain_core.documents import Document
 
 from benchmark import metrics
 from benchmark.build_dataset import DATASET_PATH, RETRIEVAL_TIMES_PATH
-from rag_graph.context_evaluators import EVALUATION_NOT_RELEVANT, EVALUATION_PARTIALLY_RELEVANT, EVALUATION_RELEVANT, JEV_MAX_WORKERS, grade_documents_jev, grade_documents_llm, is_grade_usable
+from rag_graph.context_evaluators import EVALUATION_NOT_RELEVANT, EVALUATION_PARTIALLY_RELEVANT, EVALUATION_RELEVANT, JEV_MAX_WORKERS, USEFUL_LABELS, allows_answer, grade_documents_jev, grade_documents_llm, is_grade_usable
 
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 MODES = ["llm", "jev_sequential", "jev_parallel"]
@@ -104,24 +104,34 @@ def threshold_report(rows, grades):
 
     return report
 
-def min_probability_report(rows, questions, grades):
+def decision_with_cut(grade, min_probability):
     """
-    Aplica a regra do grafo (JEV_MIN_PROBABILITY) com diferentes cortes: um chunk só é usado se a probabilidade
-    do nível escolhido atingir o corte; caso contrário é descartado, qualquer que seja o rótulo.
+    O papel do chunk no grafo com este corte: libera a resposta, só apoia o contexto ou fica de fora.
     """
 
-    useful = (EVALUATION_RELEVANT, EVALUATION_PARTIALLY_RELEVANT)
+    if allows_answer(grade, min_probability):
+        return EVALUATION_RELEVANT
+    if is_grade_usable(grade, min_probability):
+        return EVALUATION_PARTIALLY_RELEVANT
+    return DISCARDED if grade["label"] in USEFUL_LABELS else EVALUATION_NOT_RELEVANT
+
+def min_probability_report(rows, questions, grades):
+    """
+    Aplica as regras do grafo (JEV_MIN_PROBABILITY) com diferentes cortes. "discarded_chunks" conta os chunks com
+    rótulo útil que o corte deixou de fora.
+    """
+
     report = {}
     for min_probability in MIN_PROBABILITIES:
-        labels = [grade["label"] if is_grade_usable(grade, min_probability) else DISCARDED for grade in grades]
+        labels = [decision_with_cut(grade, min_probability) for grade in grades]
         predictions = {(row["chunk_id"], row["question_id"]): label for row, label in zip(rows, labels)}
-        used = [(row, label) for row, label in zip(rows, labels) if label in useful]
+        used = [(row, label) for row, label in zip(rows, labels) if label in USEFUL_LABELS]
         report[str(min_probability)] = {
             "gate": gate_report(questions, predictions),
             "discarded_chunks": labels.count(DISCARDED),
             "used_chunks": len(used),
             # Fração dos chunks usados (no contexto) que o gabarito considera úteis (relevant ou partially_relevant)
-            "used_chunks_precision": sum(row["gold_label"] in useful for row, _ in used) / len(used) if used else 0.0,
+            "used_chunks_precision": sum(row["gold_label"] in USEFUL_LABELS for row, _ in used) / len(used) if used else 0.0,
         }
 
     return report

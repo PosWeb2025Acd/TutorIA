@@ -8,6 +8,7 @@ import {
   BookOpen,
   Menu,
   File,
+  FileSearch,
   Gavel,
   X
 } from 'lucide-react';
@@ -41,6 +42,12 @@ const Header = ({ userData, onLogout }) => {
               <Link to="/tutor-ia/answer-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
                 <Gavel className="h-4 w-4" />
                 <span>Análises</span>
+              </Link>
+            )}
+            {userData?.admin && (
+              <Link to="/tutor-ia/context-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                <FileSearch className="h-4 w-4" />
+                <span>Contexto</span>
               </Link>
             )}
           </nav>
@@ -95,6 +102,12 @@ const Header = ({ userData, onLogout }) => {
                 <Link to="/tutor-ia/answer-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
                   <Gavel className="h-4 w-4" />
                   <span>Análises</span>
+                </Link>
+              )}
+              {userData?.admin && (
+                <Link to="/tutor-ia/context-evaluations" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                  <FileSearch className="h-4 w-4" />
+                  <span>Contexto</span>
                 </Link>
               )}
               <button

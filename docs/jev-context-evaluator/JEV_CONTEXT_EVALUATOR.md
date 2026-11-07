@@ -3,6 +3,8 @@
 > **Resultados:** cada rodada do benchmark tem um documento próprio nesta pasta, com data no nome.
 >
 > - [BENCHMARK_2026-10-31.md](BENCHMARK_2026-10-31.md): primeira rodada válida. O JEV foi cerca de 40× mais rápido e teve macro-F1 de 0,81 contra 0,54 do LLM.
+>
+> **Decisões por chunk:** cada avaliação feita em produção (JEV ou LLM) fica registrada no banco, com a configuração usada. Veja [Debugging context evaluations](../ARCHITECTURE.md#debugging-context-evaluations).
 
 ## 1. Resumo
 
@@ -70,7 +72,7 @@ flowchart LR
   ```
 
   O rótulo é o nível de maior probabilidade. Em caso de empate, prevalece o menos relevante. A probabilidade desse nível é guardada em `probability`, junto com `probabilities`, `confidence` e os tokens.
-- **Probabilidade mínima (só no JEV):** um chunk só é usado se a probabilidade do nível escolhido for maior ou igual a `JEV_MIN_PROBABILITY` (padrão 0,7). Abaixo disso, o chunk é descartado, qualquer que seja o rótulo: não entra no contexto e não conta para a decisão de responder. Por exemplo, um chunk `partially_relevant` com 0,55 é ignorado, e um `relevant` com 0,6 também.
+- **Probabilidade mínima (só no JEV):** `JEV_MIN_PROBABILITY` (padrão 0,7) é usado em duas decisões. O chunk entra no contexto se P(relevant) + P(partially_relevant) atingir o corte, pois a dúvida entre esses dois níveis não o torna inútil. A resposta só é liberada se algum chunk tiver P(relevant) acima do corte. Assim, um chunk com relevant 0,69, partially_relevant 0,31 e not_relevant 0,00 ajuda a resposta, mas não a libera sozinho. O resultado fica em `useful_probability`, em `details`.
   - O valor comparado é a probabilidade do nível, que é a chance de a resposta estar correta. O campo `confidence` mede só o quanto a distribuição está concentrada, e não é usado no corte.
   - Um chunk dividido entre níveis úteis (por exemplo, relevant 0,50 e partially 0,45) é descartado mesmo que o JEV tenha 95% de certeza de que ele é útil. O benchmark mede esse efeito para cada corte.
 - **Regra de filtragem**, igual para os dois avaliadores, aplicada aos chunks que passaram pelo corte: `relevant` e `partially_relevant` seguem para a geração, e a resposta só é gerada se houver pelo menos um `relevant`. O LLM não devolve probabilidades, então todas as avaliações dele são consideradas.
@@ -83,7 +85,7 @@ flowchart LR
   | `TYPESAFE_API_KEY` | (vazio) | Chave do [console da TypeSafe](https://console.typesafe.ai/); só é necessária com `jev` |
   | `JEV_MODEL` | `jev-1.13.0` | Versão fixa do modelo |
   | `JEV_MAX_WORKERS` | `4` | Requisições simultâneas ao JEV |
-  | `JEV_MIN_PROBABILITY` | `0.7` | Probabilidade mínima do nível escolhido pelo JEV para o chunk ser usado |
+  | `JEV_MIN_PROBABILITY` | `0.7` | Corte para o chunk entrar no contexto e para liberar a resposta (seção acima) |
 
 ## 4. Metodologia do comparativo
 

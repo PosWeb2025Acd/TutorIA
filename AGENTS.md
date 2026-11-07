@@ -22,7 +22,7 @@ After wiping the DB volume, re-run the checkpointer setup: `docker compose exec 
 
 The Ollama container is published on host port `11435`, so it can coexist with an Ollama installed on the machine (`11434`). Services inside compose still use `OLLAMA_URL=http://ollama-tutoria:11434`. If `docker compose ps` shows `ollama` as `unhealthy`, see "Ollama ports" in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-Frontend (`app/`, Create React App): `npm start`, `npm run build`, `npm test` (react-scripts/Jest; no tests exist yet). No linter is configured.
+Frontend (`app/`, Create React App): `npm start`, `npm run build`, `npm test` (react-scripts/Jest). No linter is configured.
 
 ## Testing
 
@@ -41,6 +41,12 @@ Outside the container, run `python -m pytest` from `rag/` (`pythonpath = . ..` m
 - Shared fakes live in `rag/tests/conftest.py`: `FakeLLM` (answers by graph step), `FakeJevApi` (real `TypeSafeClient` over an `httpx2.MockTransport`), `FakeVectorStore`, and a stub for `db.chroma` so importing `rag_graph` doesn't load Chroma or the embedding model. Default tests must not need network, Postgres, Ollama, or API keys.
 - Keep new modules testable: no network clients or heavy resources created at import time (see the lazy `_get_jev_client()` in `rag/rag_graph/context_evaluators.py`).
 - CI: `.github/workflows/rag-tests.yml` runs `pytest` on PRs and pushes to `main` that touch `rag/` or `db/`. If you add tests to another service, add a matching workflow.
+
+The frontend uses Jest with React Testing Library. Tests sit next to the file they cover, and shared fixtures are in `app/src/testUtils.js`. `.github/workflows/app-tests.yml` runs them in CI.
+
+```bash
+docker compose exec -e CI=true frontend npm test -- --watchAll=false
+```
 
 ## Architecture
 

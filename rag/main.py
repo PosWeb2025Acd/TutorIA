@@ -1,4 +1,5 @@
 from api.acd.acd_controller import get_answer_from_question
+from api.context_evaluations.context_evaluations_repository import PAGE_SIZE, get_context_evaluations_on_db, count_context_evaluations
 from api.evaluations.evaluations_repository import get_evaluations_on_db, count_evaluations
 from api.users.user_controller import create_user, login_user
 from api.token import generate_token, token_required_as_param
@@ -219,6 +220,68 @@ def acd_get_answer_evaluations(user_auth_data):
 
         return Response(
             json.dumps(response, default=str),
+            status=200,
+            mimetype="application/json"
+        )
+    except Exception as e:
+        logger.error(f"Erro interno no servidor: {e}")
+
+        return Response(
+            json.dumps({"erro": "Erro interno do servidor.", "status": "error"}),
+            status=500,
+            mimetype="application/json"
+        )
+    finally:
+        conn.close()
+
+@service.get("/acd/avaliacoes-contexto")
+@token_required_as_param
+@admin_validate
+def acd_get_context_evaluations(user_auth_data):
+    """
+    Endpoint para consultar as avaliações de contexto de cada resposta, opcionalmente de um único avaliador
+    """
+    page = request.args.get("page", "1")
+    if not page.isdecimal() or int(page) < 1:
+        return Response(
+            json.dumps({"erro": "Número de página inválido. Deve ser maior ou igual a 1.", "status": "error"}),
+            status=400,
+            mimetype="application/json"
+        )
+
+    evaluator = request.args.get("evaluator")
+    conn = get_postgres_connection()
+    try:
+        evaluations = get_context_evaluations_on_db(conn, int(page), evaluator)
+        total_evaluations = count_context_evaluations(conn, evaluator)
+
+        evaluations = [{
+            "id": evaluation["id"],
+            "question": evaluation["question"],
+            "answer": evaluation["answer"],
+            "user": evaluation["user"],
+            "evaluator": evaluation["evaluator"],
+            "config": evaluation["config"],
+            "fallback_error": evaluation["fallback_error"],
+            "evaluation_date": evaluation["created_at"].strftime('%d/%m/%Y %H:%M:%S'),
+            "chunks": [{
+                "position": chunk["position"],
+                "document_id": chunk["document_id"],
+                "content": chunk["content"],
+                "label": chunk["label"],
+                "probability": chunk["probability"],
+                "used": chunk["used"],
+                "details": chunk["details"],
+            } for chunk in evaluation["chunks"]],
+        } for evaluation in evaluations]
+
+        return Response(
+            json.dumps({
+                "status": "success",
+                "evaluation_list": evaluations,
+                "total_evaluations": total_evaluations,
+                "total_pages": (total_evaluations + PAGE_SIZE - 1) // PAGE_SIZE,
+            }),
             status=200,
             mimetype="application/json"
         )
