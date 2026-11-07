@@ -1,0 +1,2451 @@
+question_id,question_type,question,chunk_id,chunk_text,lang,gold_label
+q01,in_corpus,O que é polimorfismo em programação orientada a objetos?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:3:1,"computacionais não como uma coleção estruturada de processos, mas sim como 
+uma coleção de objetos que interagem entre si.
+ 
+ 
+Os programas Orientados a objetos são programas estruturados em módulos que 
+agrupam um estado e operações sobre este estado. Apresentam ênfase em 
+reutilização de código. 
+ 
+Um dos grandes diferenciais da programação orientada a objetos em relação a 
+outros paradigmas de programação que também permitem a definição de 
+estruturas e operações sobre essas estruturas está no conceito de herança, 
+mecanismo através do qual definições existentes podem ser facilmente 
+estendidas. Juntamente com a herança deve ser enfatizada a importância do 
+polimorfismo, que permite selecionar funcionalidades que um programa irá utilizar 
+de forma dinâmica, durante sua execução. 
+ 
+ 
+“Orientação a Objetos consiste em considerar os 
+sistemas computacionais como uma coleção de 
+objetos que interagem de maneira organizada.” 
+ 
+ 
+2.2. Principais conceitos de POO: 
+ 
+2.2.1. Objetos:",pt,relevant
+q01,in_corpus,O que é polimorfismo em programação orientada a objetos?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:4:0,"5 
+um determinado problema. Portanto, o objeto é uma entidade do mundo real que 
+merece representação para o ambiente estudado. 
+ 
+Objetos são instâncias de classes, que determinam qual informação um objeto 
+contém e como ele pode manipulá-la. É uma entidade capaz de reter um estado 
+(informação) e que oferece uma série de operações (comportamento) ou para 
+examinar ou para afetar este estado. É através deles que praticamente todo o 
+processamento ocorre em sistemas implementados com linguagens de 
+programação orientadas a objetos. 
+ 
+Como exemplos de objetos, podemos citar os objetos físicos (um livro, uma 
+mercadoria), funções de pessoas para os sistemas (cliente, vendedor), eventos 
+(uma compra, um telefonema), interações entre outros objetos (um item de uma 
+nota fiscal é uma interação entre uma compra e um produto do estoque) e lugares 
+(loja matriz, revenda norte). 
+ 
+Por exemplo, vamos considerar um cachorro como nosso “objeto” de estudo: 
+ 
+ 
+ 
+Figura 1 - Cachorro",pt,partially_relevant
+q01,in_corpus,O que é polimorfismo em programação orientada a objetos?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:29:0,"30 
+4. Programação Orientada a Objetos: 
+ 
+A programação orientada a objetos consiste em utilizar estruturas de dados que 
+simulem o comportamento dos objetos, facilitando a programação pelo uso de 
+uma metodologia unificada para a análise e a programação. Os mesmos objetos 
+que o analista identifica no seu diagrama podem ser implementados exatamente 
+como foram projetados, sem necessidade de fazer uma “tradução” dos diagramas 
+da análise para estruturas de dados e de programação como acontece na análise 
+estruturada. 
+ 
+É possível, entretanto, fazer uma análise orientada a objetos e implementar em 
+uma linguagem tradicional, bem como é possível também fazer implementações 
+em linguagens orientadas a objetos de sistemas analisados com outras 
+metodologias. 
+ 
+ 
+“Programação Orientada a Objetos consiste em 
+utilizar objetos computacionais para implementar 
+as funcionalidades de um sistema.” 
+ 
+ 
+As técnicas de programação orientada a objetos recomendam que a estrutura de",pt,partially_relevant
+q01,in_corpus,O que é polimorfismo em programação orientada a objetos?,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:2:0,"corretamente para criar um pr ograma e, finalmente, verifi car e ajustar o funcionamento 
+deste. 
+ Dificuldades como as ilustradas nest a seção, encorajam o desenvolvimento de 
+propostas pedagógicas mais efetivas ao aprendizado de programação. Uma que tem 
+ganho muitos adeptos, por apresentar resu ltados encorajadores, envolve a utilização do 
+paradigma de programação funcional [JOOSTEN et al 1993][GLASER et al 2000].  
+3. Abordagens de Ensino de Programação para Iniciantes 
+Um grande número de teorias de aprendizagem hoje utilizadas são categóricas ao 
+afirmar que a aprendizagem só ocorre com a experiência, é o aprender fazendo. 
+Intuitivamente, os pais auxiliam na educação de seus filhos dessa  maneira. O mesmo 
+acontece com o aprendizado de programação, já que esta é uma atividade humana 
+relacionada à resolução de problemas [NÁVRAT 1996], aprendida, através do estímulo 
+à abstração. 
+Programação é uma tarefa desafiadora e, para amenizar as dificuldades no seu",pt,not_relevant
+q02,in_corpus,Qual a diferença entre herança e composição?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:17:1,"telefonar. Isto pode ser realizado porque a companhia telefônica encapsulou a 
+maneira de realizar uma chamada telefônica. Assim, a empresa está livre para 
+efetuar todas as alterações que desejar, sem afetar a maneira como você acessa 
+os serviços dessa companhia.
+ 
+O que importa para poder haver interação entre dois objetos é que um conheça o 
+conjunto de operações disponíveis do outro (interface) para que então envie e 
+receba informação, ou mesmo ordene a realização de procedimentos. 
+ 
+5.2.3. Herança: 
+ 
+A palavra herança, conforme um dicionário da língua portuguesa, significa: 
+ 
+1. Aquilo que se herda; 
+2. Aquilo que se transmite por hereditariedade. 
+ 
+Um exemplo simples de explicar a herança é a própria genética. Ou seja, um filho 
+herda características genéticas dos pais, e por sua vez, repassa essas 
+características aos seus filhos. 
+Na programação Orientada a Objetos, Herança é o mecanismo pelo qual uma",pt,partially_relevant
+q02,in_corpus,Qual a diferença entre herança e composição?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:18:1,"e são herdados pela classe “Ser Humano”, e os métodos Mamar e Possui pêlos 
+pertencem a classe “Mamífero” e são herdados pelas classes “Primata” e “Ser 
+Humano”. O mesmo acontecerá com os atributos que forem definidos para essas 
+classes. 
+ 
+Mais do que mera economia de código, a herança significa maior integridade, pois 
+quando se altera um comportamento em uma classe, to dos as classes 
+descendentes desta também estarão utilizando o método atualizado sem 
+necessidade de reprogramação. 
+ 
+5.2.4. Formas de herança 
+ 
+  Herança Simples: 
+ 
+A herança é denominada simples quando uma classe herda características de 
+apenas uma superclasse. Por exemplo, podemos ter como superclasse uma 
+classe chamada Pessoa, e dela derivar uma subclasse chamada Funcionário. 
+Esta nova classe, Funcionário, herda todas as características da sua superclasse 
+Pessoa, e de mais nenhuma outra. Como diferencial esta nova classe Funcionário",pt,partially_relevant
+q02,in_corpus,Qual a diferença entre herança e composição?,Programação Orientada a Objetos com C++.pdf:48:1,"herança se aplica apenas às classes. Variáveis não podem herdar de outras variáveis e funções não 
+podem herdar de outras funções. 
+Herança permite que se construa e extenda continuamente classes desenvolvidas por você mesmo 
+ou por outras pessoas, sem nenhum limite. Começando da classe mais simples, pode-se derivar classes 
+cada vez mais complexas que não são apenas mais fáceis de debuggar, mas elas próprias são mais 
+simples. 
+O objetivo de um projeto em C++ é desenvolver classes que resolvam um determinado problema. 
+Estas classes são geralmente construídas incrementalmente começando de uma classe básica simples, 
+através de herança. Cada vez que se deriva uma nova classe começando de uma já existente, pode-se 
+herdar algumas ou todas as características da classe pai, adicionando novas quando for necessário. Um 
+projeto completo pode ter centenas de classes, mas normalmente estas classes são derivadas de algumas",pt,relevant
+q02,in_corpus,Qual a diferença entre herança e composição?,PROGRAMAÇÃO ORIENTADA A OBJETOS: UMA VISÃO CONCEITUAL DOS ELEMENTOS DE MODELAGEM.pdf:26:0,"27 
+ 
+ 
+ HERANÇA 
+Há na orientação a objetos a definição de herança, que é uma característica 
+que permite que abstrações sejam definidas em mais um nível.  
+ 
+Com esse conc eito é possível  criar classes que sejam especialistas em 
+determinada função , e ao mesmo tempo, essas abstrações podem ser ainda mais 
+refinadas dentro do modelo gerando funções ainda mais especializadas. Para esse 
+refinamento pode-se sobrescrever os comportamentos pré-existentes para torná-las 
+mais condizente com o modelo.  
+ 
+Ao utilizar deste recurso estamos compartilhando todos os atributos e 
+operações que compõe uma classe, criando um esquema de hierarquia entre eles, 
+esse compartilhamento ainda pode ser restrito se aplicarmos diferentes tipos de 
+visualizações para os atributos e operações ali inseridos.  
+ 
+Podemos então separar as classes em dois tipos: 
+• Tipo Base – Classe que tem as características principais daquele 
+modelo 
+• Tipo Derivado – Classes que herda m as características visíveis da",pt,relevant
+q03,in_corpus,O que é encapsulamento e por que ele é importante?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:16:1,"ambiente complexo em que se situam, e nesses objetos representamos só as 
+características que são relevantes para o problema em questão. Por exemplo: 
+toda pessoa tem um atributo para “cor dos olhos”, mas em um sistema de folha de 
+pagamento, essa informação não é relevante, portanto, ela não será incluída na 
+relação de características de pessoas que queremos armazenar em nosso 
+sistema. Da mesma maneira, apesar de uma boa parte das pessoas ter animais 
+de estimação, é completamente irrelevante para um sistema de folha de 
+pagamento implementar um objeto para armazenar animais de estimação, e 
+relacioná-los com as pessoas. 
+ 
+O uso da abstração permite também que determinadas partes do problema 
+ganhem maior ou menor peso, e dessa maneira, detalh es podem ser 
+desconsiderados em determinados momentos para que outros sejam ressaltados.
+ 
+ 
+5.2.2. Encapsulamento: 
+ 
+Encapsulamento é o princípio de projeto pelo qual cada componente de um",pt,partially_relevant
+q03,in_corpus,O que é encapsulamento e por que ele é importante?,PROGRAMAÇÃO ORIENTADA A OBJETOS: UMA VISÃO CONCEITUAL DOS ELEMENTOS DE MODELAGEM.pdf:24:1,"Figura 9 - Abstração de um livro como objeto de venda 
+ 
+ 
+ ENCAPSULAMENTO 
+O encapsulamento remete a ideia de que um objeto deve ser responsável por 
+realizar seus comportamentos e trabalhar com sua troca de estado sem que detalhes 
+de sua implementação sejam expostos.",pt,relevant
+q03,in_corpus,O que é encapsulamento e por que ele é importante?,INTRODUÇÃO A BANCO DE DADOS.pdf:22:2,"particulares, chamadas atributos
+, que a descrevem. Por exemplo, uma entidade EMPREGADO 
+pode ser descrita pelo seu nome, o trabalho qu e realiza, idade, endereço e salário. Uma 
+entidade em particular terá um valor  para cada um de seus atributos. Os valores de atributos 
+que descrevem cada entidade ocupam a maior parte dos dados armazenados na base de 
+dados. 
+ 
+A Figura 4.2 ilustra duas entidades. A entidade e
+1, EMPREGADO, tem quatro atributos: Nome, 
+Endereço, Data de nascimento  e Telefone residencial. Os seus valores são: “João da Silva”, “Rua 
+Goiás 711, São Paulo, SP, 1301100 ”, “31/07/1973” e “713-749”, respectivamente. A entidade c1, 
+COMPANHIA, tem três atributos: Nome, Sede e Presidente. Seus valores são: “ Cooper Sugar ”, 
+“Ribeirão Preto” e “João da Silva”. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figura 4.2 – Exemplo de entidades e seus respectivos atributos 
+ 
+Alguns atributos podem ser divididos em subpartes com significados independentes. Por",pt,not_relevant
+q03,in_corpus,O que é encapsulamento e por que ele é importante?,Programação Orientada a Objetos com C++.pdf:32:0,"Terça Feira - Manhã 
+Encapsulamento 
+Como foi visto anteriormente, um TAD é definido pela sua interface, ou seja, como ele é 
+manipulado. Um TAD pode ter diversas implementações possíveis, e, independentemente desta ou 
+daquela implementação, objetos deste tipo são usados sempre da mesma forma. Os atributos além da 
+interface, ou seja, os atributos dependentes da implementação, não precisam e não devem estar 
+disponíveis para o usuário de um objeto, pois este deve ser acessado exclusivamente através da 
+interface definida. O ato de esconder estas informações é chamado de encapsulamento. 
+Os mecanismos apresentados até aqui permitem a definição da interface em um tipo, permitindo 
+códigos bem mais modulares e organizados. No entanto, não permitem o encapsulamento de dados 
+e/ou código. 
+Controle de acesso - public e private 
+Parte do objetivo de uma classe é esconder o máximo de informação possível. Então é necessário",pt,relevant
+q04,in_corpus,Como funcionam classes e objetos em C++?,Programação Orientada a Objetos com C++.pdf:16:3,"objetos. Toda mensagem em uma classe tem um método correspondente. 
+Traduzindo estas definições para o C++, classes são estruturas, objetos são variáveis do tipo de 
+alguma classe (instância de alguma classe), métodos são funções de classes e enviar uma mensagem 
+para um objeto é chamar um método de um objeto.  
+Resumindo: 
+Objetos são instâncias de classes que respondem a mensagens de acordo com os métodos e 
+atributos, descritos na classe. 
+Exercício 1 - Calculadora RPN com classes 
+Transformar a pilha utilizada pela calculadora em uma classe.",pt,relevant
+q04,in_corpus,Como funcionam classes e objetos em C++?,PROGRAMAÇÃO ORIENTADA A OBJETOS: UMA VISÃO CONCEITUAL DOS ELEMENTOS DE MODELAGEM.pdf:15:0,"16 
+ 
+que fornecesse esses suportes , mais tarde outras denominações e fundamentos 
+foram definidos como encapsulamento, herança e classes.  
+ 
+Não é possível somente através de fundamentos descrever uma definição 
+formal sobre qualquer tema, porém, no caso de OO, podemos elencar o pensamento 
+de alguns autores e assim traçar um paralelo para uma definição satisfatória sobre  
+orientação a objetos.  
+ 
+Uma frase de Alan Kay ficou bastante famosa quando questionado sobre ao 
+que ele pensou quando cunhou o termo: 
+ 
+“Quando eu inventei o termo orientado a objetos, eu posso te garantir que o 
+C++ não era o que eu tinha em mente.” 
+ 
+O C++ teve grande responsabilidade por popularizar o paradigma de objetos, 
+e assim seguido pelos avanços adotados na linguagem J ava, que por sua vez  teve 
+bastante influência no C++. Muitas vezes essas duas linguagens ainda são utilizadas 
+como exemplo de suporte a OO, mas elas não abrangem totalmente os conceitos,",pt,partially_relevant
+q04,in_corpus,Como funcionam classes e objetos em C++?,Programação Orientada a Objetos com C++.pdf:15:2,"operações que fazem sentido sobre esses dados; estas operações são o único meio de criar, modificar e 
+se ter acesso aos objetos. 
+Classes em C++ 
+Uma classe em C++ é o elemento básico sobre o qual toda orientação por objetos está apoiada. Em 
+primeira instância, uma classe é uma extensão de uma estrutura, que passa a ter não apenas dados, mas 
+também funções. A idéia é que tipos abstratos de dados não são definidos pela sua representação 
+interna, e sim pelas operações sobre o tipo. Então nã o há nada mais natural do que incorporar estas 
+operações no próprio tipo.Estas operações só fazem sentido quando associadas às suas representações. 
+No exemplo da calculadora, um candidato natural a se tornar uma classe é a pilha. Esta é uma 
+estrutura bem definida; no seu header file estão tanto a sua representação ( struct Stack ) quanto as 
+funções para a manipulação desta representação. Seguindo a idéia de classe, estas funções não",pt,relevant
+q04,in_corpus,Como funcionam classes e objetos em C++?,Programação Orientada a Objetos com C++.pdf:48:2,"projeto completo pode ter centenas de classes, mas normalmente estas classes são derivadas de algumas 
+poucas classes básicas. C++ permite não apenas herança simples, mas também múltipla, permitindo 
+que uma classe incorpore comportamentos de todas as suas classes bases. 
+Reutilização em C++ se dá através do uso de uma classe já existente ou da construção de uma nova 
+classe a partir de uma já existente.  
+Classes derivadas 
+A descrição anterior pode ser interessante, mas um exemplo é a melhor forma de mostrar o que é 
+herança e como ela funciona. Aqui está um exemplo de duas classes, a segunda herdando as 
+propriedades da primeira: 
+class Caixa { 
+ public: 
+   int altura, largura; 
+   void Altura(int a)  { altura=a; } 
+   void Largura(int l) { largura=l; } 
+}; 
+ 
+class CaixaColorida : public Caixa { 
+ public: 
+   int cor; 
+   void Cor(int c) { cor=c; } 
+}; 
+Usando a terminologia de C++, a classe Caixa é chamada classe base para a classe CaixaColorida,",pt,partially_relevant
+q05,in_corpus,O que é uma interface em Java?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:14:1,"sistemas operacionais. 
+ 
+A definição de uma classe em Java é: 
+ 
+public class NomeDaClasse { 
+    CorpoDaClasse    
+} 
+ 
+O corpo de uma classe pode conter (atributos, métod os, 
+construtores/inicializadores e outras classes). 
+ 
+No Exemplo 1, temos um código de um aplicativo mínimo geralmente exibe a 
+string “Alo Mundo” na tela. O código Java abaixo mostra um exemplo de um 
+aplicativo mínimo Java. 
+ 
+Exemplo 1: 
+ 
+public class AloMundo 
+{ 
+    static public void main(String[ ] args) 
+    { 
+System.out.println(""Alo Mundo""); 
+    } 
+} 
+ 
+Nome Classe 
+ 
+Atributos 
+ 
+Métodos 
+Nome Objeto 
+ 
+Atributos 
+ 
+Métodos",pt,partially_relevant
+q05,in_corpus,O que é uma interface em Java?,Programação Orientada a Objetos: Uma Abordagem com Java.pdf:29:0,"Programaçãoorientadaa objetoscom Java 2.6.Exceções
+A diferençaentreuma classeabstratae uma interfaceJava é que a interfaceobrigatoriamentenão
+tem um “corpo”associado.Paraque uma classesejaabstratabastaque elasejaassimdeclarada,mas a
+classepode incluiratributosde objetose deﬁniçãode métodos,públicosou não.Na interface,apenas
+métodos públicospodem serdeclarados— mas não deﬁnidos.Da mesma forma,não é possível
+deﬁniratributos— apenasconstantespúblicas.
+Enquantouma classeabstrataé “estendida”(palavrachave extends)porclassesderivadas,uma
+interfaceJava é “implementada”(palavrachave implements)poroutrasclasses.
+Uma interfaceestabeleceuma espéciede contratoque é obedecidoporuma classe.Quando uma
+classeimplementauma interface,garante-seque todasasfuncionalidadesespeciﬁcadaspelainterface
+serãooferecidaspelaclasse.
+Outrouso de interfacesJava é paraa deﬁniçãode constantesque devem sercompartilhadaspor
+diversasclasses.Nestecaso,a recomendaçãoé implementarinterfacessem métodos,poisasclasses",pt,relevant
+q05,in_corpus,O que é uma interface em Java?,Programação Orientada a Objetos: Uma Abordagem com Java.pdf:36:0,"Programaçãoorientadaa objetoscom Java 2.7.O ambientede Java
+1 publicclassHello{
+2 publicstaticvoidmain(String[]args){
+3 System.out.println(""Oi!"");
+4 System.exit(0);
+5 }
+6 }
+Uma vez que o programa tenhasidosalvo em um arquivo com extensão.java, é preciso
+compilá-lo.Paracompilarum programa Java,a ferramentaoferecidapelokitde desenvolvimento
+Java é o compiladorJava,javac.Na forma mais básicade execução,o javacé invocado da linha
+de comando tendoporargumento o nome do arquivo com o códigoJava a sercompilado:
+>javacHello.java
+A unidadede compilaçãoé o arquivo com extensão.java;essearquivo pode contera deﬁnição
+de váriasclasses,mas apenasuma delaspode serpública.A classepúblicaem um arquivo fonte
+deﬁne o nome dessearquivo,que obrigatoriamentedeve tero mesmo nome dessaclasse.
+Paracadadeﬁniçãode classena unidadede compilação,o compiladorJava irágerarum arquivo
+com bytecodescom a extensão.class,tendocomo nome o próprionome da classe.",pt,partially_relevant
+q05,in_corpus,O que é uma interface em Java?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:14:0,"15 
+segunda seção é composta pelos atributos da classe ou o objeto e a terceira e 
+última seção é composta pelos métodos que compõem a classe ou o objeto 
+respectivo. 
+ 
+A diferença gráfica da notação UML para a de Coad e Yourdon é que a última 
+representa classe e objetos de forma diferente conforme a figura 10.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figura 10 – Representação de classe e objeto segundo Coad e Yordon 
+ 
+2.4. Definição de classes e objetos em Java: 
+ 
+  Introdução a JAVA: 
+ 
+Java é uma linguagem de programação Orientada a Objetos muito conveniente 
+para o desenvolvimento de software que funcione em conjunto com a Internet. A 
+linguagem Java foi desenvolvida na Sun Microsystems em 1991, uma grande 
+vantagem que ela apresenta diante das outras linguagens de programação é o 
+fato de seus códigos fonte e objetos serem portáveis para diversas arquiteturas e 
+sistemas operacionais. 
+ 
+A definição de uma classe em Java é: 
+ 
+public class NomeDaClasse { 
+    CorpoDaClasse    
+}",pt,partially_relevant
+q06,in_corpus,Quais as principais características da programação funcional?,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:0:2,"paradigma funcional é apresentado e discutido. 
+Palavras-chave. ensino de programação, programação funcional, 
+metodologia de ensino de programação. 
+1. Introdução 
+O ensino de programação é desafiador porque a própria tarefa de programar não é fácil. 
+Devido a isso, as universidades têm discutido com freqüência seus currículos de Ciência 
+da Computação e Engenharia da  Computação, em busca de alte rnativas para diminuir o 
+índice de abandono desses cursos e as difi culdades encontradas por estudantes 
+iniciantes. 
+ Dentre as várias abordagens discutidas  no momento, a mais tradicional é a de um 
+curso baseado na programação imperativa.  Essa abordagem tem trazido sérios 
+problemas para quem nunca programou, pois exig e que se repense a forma de resolver 
+um problema como uma “receita de bolo”, o que não é o que fazemos no dia-a-dia. Uma 
+abordagem que vem ganhando força nos últimos anos é a que se baseia em programação",pt,partially_relevant
+q06,in_corpus,Quais as principais características da programação funcional?,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:2:0,"corretamente para criar um pr ograma e, finalmente, verifi car e ajustar o funcionamento 
+deste. 
+ Dificuldades como as ilustradas nest a seção, encorajam o desenvolvimento de 
+propostas pedagógicas mais efetivas ao aprendizado de programação. Uma que tem 
+ganho muitos adeptos, por apresentar resu ltados encorajadores, envolve a utilização do 
+paradigma de programação funcional [JOOSTEN et al 1993][GLASER et al 2000].  
+3. Abordagens de Ensino de Programação para Iniciantes 
+Um grande número de teorias de aprendizagem hoje utilizadas são categóricas ao 
+afirmar que a aprendizagem só ocorre com a experiência, é o aprender fazendo. 
+Intuitivamente, os pais auxiliam na educação de seus filhos dessa  maneira. O mesmo 
+acontece com o aprendizado de programação, já que esta é uma atividade humana 
+relacionada à resolução de problemas [NÁVRAT 1996], aprendida, através do estímulo 
+à abstração. 
+Programação é uma tarefa desafiadora e, para amenizar as dificuldades no seu",pt,partially_relevant
+q06,in_corpus,Quais as principais características da programação funcional?,Análise das Respostas de LLMs em Relação ao ConteúdoIntrodutório de Programação: um Comparativo entre oChatGPT e o Gemini.pdf:1:3,"proceso de aprendizaje de programación, las respuestas generadas por los LLMs no deben considerarse totalmente
+correctas, demandando conocimiento previo de quienes los utilizan para analizarlas y hacer uso de ellas.
+Palabras clave:Enseñanza de programación; Programación para principiantes; ChatGPT; Gemini; LLM.
+1 Introdução
+A programação de computadores é um conteúdo fundamental da Ciência da Computação. Apren-
+der a programar, desde a criação de um algoritmo até sua implementação, gerando de fato um
+programa de computador, é uma tarefa considerada desafiadora. Existem diversos fatores que in-
+fluenciam nesse desafio, tais como elencados por du Boulay (1986): i) a falta de compreensão dos
+estudantes em relação à relevância de se aprender a programar, que pode gerar falta de motivação;
+ii) a falta de conhecimento em relação ao funcionamento dos computadores, que pode dificultar o
+entendimento e abstração em relação à programação, iii) o desafio de adquirir a sintaxe e a semân-",pt,not_relevant
+q06,in_corpus,Quais as principais características da programação funcional?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:6:0,"RESUMO
+Esse texto tem como ﬁnalidade apresentar o paradigma de programação funcional. Inicial-
+mente serão visualizados alguns conceitos que o moldam. Logo em diante, serão discutidas
+implementações, que fazem uso do paradigma funcional, de algoritmos apresentados em cur-
+sos de Ciência da Computação. Dessa forma, analisaremos na prática a utilização de alguns
+conceitos, examinando características do código e extraindo os pontos positivos e negativos das
+implementações.
+Palavras-chave: programação funcional; linguagens de programação; algoritmos.",pt,partially_relevant
+q07,in_corpus,O que são funções de alta ordem?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:21:0,"20
+nenhum de ordem mais alta. Assim, programação de alta ordem é aquela que as funções podem
+ser de qualquer ordem (PETER; HARIDI, 2004, p. 177).
+Entretanto, a deﬁnição mais simpliﬁcada abaixo é normalmente adotada pela comu-
+nidade. Logo, durante o texto utilizaremos essa deﬁnição ao mencionar funções de alta ordem,
+com o intuito de facilitar o entendimento do leitor.
+Deﬁnição 2 Uma função é de alta ordem se algum dos seus parâmetros é uma função, ou se o
+seu retorno é uma função. Em caso contrário, a função é de primeira ordem.
+De forma transparente, ao criarmos funções com mais de um parâmetro, um con-
+junto de linguagens automaticamente transforma essa função em uma função de alta ordem que
+recebe o primeiro argumento e retorna uma função que recebe o próximo argumento e assim
+sucessivamente até que se chegue ao último argumento e o retorno da função possa ﬁnalmente
+ser expresso. Dizemos portanto que temos uma função curriﬁcada . O termo vem da palavra",pt,relevant
+q07,in_corpus,O que são funções de alta ordem?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:22:0,"21
+cidadãos de primeira classe . Isso signiﬁca dizer que uma função pode ser utilizada como qual-
+quer outro tipo de dado. Ou seja, podem ser atribuídas a uma variável, armazenadas em uma
+lista, passadas como argumento e retornadas por outra função.
+Apesar de linguagens funcionais possuírem funções de alta ordem, LISP 9, a pri-
+meira linguagem de programação funcional era de primeira ordem, ou seja, possuía apenas
+funções de primeira ordem (TURNER, 2012).
+2.1.3 A valiação Preguiçosa e Ansiosa
+Além de classiﬁcar as funções como puras ou impuras e de alta ordem ou primeira
+ordem, podemos classiﬁcá-las com base em como são avaliadas. Em linguagens de programa-
+ção, uma expressão segue um conjunto de regras para ser avaliada. Por exemplo, na expressão
+f (g(),h()), os argumentos podem ser avaliados completamente antes da função f ser aplicada.
+No entanto, a função pode ser aplicada antes de as funções g e h serem avaliados. Para o",pt,relevant
+q07,in_corpus,O que são funções de alta ordem?,BANCOS DE DADOS RELACIONAIS.pdf:2:0,"AGRADECIMENTOS 
+ 
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+AoOProf.OBernice,OmeuOorientador,OpeloOapoioOnaOelaboraçãoOdesteO
+trabalho.O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O",pt,not_relevant
+q07,in_corpus,O que são funções de alta ordem?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:86:0,"85
+4 CONSIDERAÇÕES FINAIS
+No texto, foram deﬁnidos conceitos que ediﬁcam o paradigma funcional. Come-
+çando com a função como unidade elementar do paradigma, explicamos que elas podem ser
+funções puras ou impuras, de alta ordem ou primeira ordem, e avaliar de forma ansiosa ou pre-
+guiçosa. Por exemplo, OCaml é uma linguagem com avaliação ansiosa, enquanto em Haskell as
+funções avaliam preguiçosamente. V eja que LISP era uma linguagem com funções de primeira
+ordem, enquanto a maioria das linguagens modernas têm funções de alta ordem. V oltando
+a Haskell, trata-se de uma linguagem que faz parte do subconjunto de linguagens funcionais
+puras, e, portanto, nela, funções devem ser puras. Note que, algumas linguagens podem ter
+tipagem dinâmica, como é o caso de Elixir, enquanto outras podem ter uma tipagem estática,
+como é o caso de OCaml. Historicamente, a possibilidade de deﬁnir funções genéricas sobre",pt,partially_relevant
+q08,in_corpus,Qual a diferença entre bancos de dados relacionais e NoSQL?,Banco de Dados - Relacionais e Não Relacionais.pdf:3:2,"6.1 Banco de dados NOSQL 35
+6.1.1 Principais bancos de dados NoSQL . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+7 Referências . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39",pt,not_relevant
+q08,in_corpus,Qual a diferença entre bancos de dados relacionais e NoSQL?,Banco de Dados - Relacionais e Não Relacionais.pdf:36:0,"6.1 Banco de dados NOSQL 37
+Esses são os principais exemplos de bancos de dados NoSQL ou não-relacionais. O uso entre
+eles pode se diferenciar de acordo com as necessidades de cada negócio. Portanto, o mais indicado é
+buscar o auxílio de uma empresa especializada em soluções de armazenamento de bancos de dados.",pt,partially_relevant
+q08,in_corpus,Qual a diferença entre bancos de dados relacionais e NoSQL?,Banco de Dados - Relacionais e Não Relacionais.pdf:34:0,"6. BDs NoSQL
+Quando as pessoas usam o termo “banco de dados NoSQL”, geralmente o usam para se referir a
+qualquer banco de dados não relacional. Alguns dizem que o termo “NoSQL” signiﬁca “não SQL”,
+enquanto outros dizem que signiﬁca “não apenas SQL”.
+6.1 Banco de dados NOSQL
+Um erro muito comum é quando dizem que os bancos de dados não relacionais não armazenam
+bem dados de relacionamento. Eles podem armazenar dados de relacionamento, mas apenas os
+armazenam de maneira diferente dos bancos de dados relacionais. De fato, muitos consideram a
+modelagem relacionamentos nos bancos de dados NoSQL mais fácil do que nos bancos de dados
+SQL, porque os dados relacionados não precisam ser divididos entre as tabelas.
+Os modelos de dados NoSQL permitem por exemplo, que os dados relacionados sejam feitos
+em uma única estrutura de dados. Diferentemente dos bancos relacionais, a estrutura de dados
+não precisa ser deﬁnida previamente, portanto, em uma mesma “tabela” você pode ter dados com",pt,relevant
+q08,in_corpus,Qual a diferença entre bancos de dados relacionais e NoSQL?,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:0:0,"Marcos Paulo Silva Souza 
+Bastos 
+Discente em Gestão da Tecnologia 
+da Informação 
+marcos.silva231@fatec.sp.gov.br 
+Antonio Rafael Pepece 
+Junior 
+Docente e Orientador 
+antonio.pepece@fatec.sp.gov.br 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+BANCO DE DADOS NOSQL VS. BANCO 
+DE DADOS RELACIONAL:  
+Uma análise comparativa. 
+_____________________________________ 
+RESUMO 
+Com o passar dos anos, o volume de dados gerados mundialmente 
+tem aumentado exponencialmente. Sabendo que dados são um dos 
+principais pilares para tomadas de decisões e criação de estratégias 
+empresariais mais assertivas e que a velocidade que estes dados são 
+processados impactam diretamente no poder de ação destas 
+empresas, inclusive para a sua sobrevivência em um mercado cada 
+vez mais voraz, se torna necessário discutirmos como tais dados 
+serão organizados e tratados pelos principais modelos de bancos de 
+dados utilizados atualmente. O presente artigo apresenta uma análise",pt,partially_relevant
+q09,in_corpus,O que é normalização em banco de dados?,Banco de Dados - Relacionais e Não Relacionais.pdf:0:0,"Banco de Dados -
+Relacionais e Não
+Relacionais
+V3/2021",pt,not_relevant
+q09,in_corpus,O que é normalização em banco de dados?,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:2:3,"completa dos dados no banco.  
+Dadas as características dos metadados, é possível ouvir a definição de um banco de 
+dados como “um conjunto de dados auto descritivos” (ROB; CORONEL, 2011). 
+Ainda abordando a conceitualização de banco de dados, Elmasri e Navathe  (2005) nos 
+apresentam banco de dados como uma coleção de dados, coerente e lógica, que podem ser gravados e 
+que possuem um significado implícito. Os autores ainda complementam dizendo que os bancos de dados 
+representam aspectos do mundo real, podendo ser chamados as vezes de minimundo ou de universo de 
+discurso (UoD). 
+Complementando os conceitos apresentados anteriormente, Date (2003)  nos apresenta banco 
+de dados como “uma coleção de dados persistentes, usadas pelos sistemas de aplicação de uma",pt,partially_relevant
+q09,in_corpus,O que é normalização em banco de dados?,"BANCOS DE DADOS NÃO-RELACIONAIS: UM NOVO
+PARADIGMA PARA ARMAZENAMENTO DE DADOS EM SISTEMAS
+DE ENSINO COLABORATIVO.pdf:9:1","5.4. Simples manipulação 
+Os bancos de dados não -relacionais em geral demonstram grande simplicidade na sua 
+manipulação e configuração. Um exemplo está no banco de dados MongoDB que utiliza o 
+formato JSON, trazendo mais facilidade ao desenvolvedor.  
+Dependendo da política de cada sistema, não é necessário manter especialistas em 
+bancos de dados para gerenciar bancos de dados não -relacionais. Devido à sua simplicidade, 
+os próprios desenvolvedores podem executar esta tarefa. 
+6. Conclusão 
+ Geralmente, entidades que decidem utilizar bancos de dados não -relacionais buscam 
+por um alto nível de escalabilidade para trabalhar com grandes volumes de dados e alta 
+disponibilidade afim de oferecer o menor tempo de resposta aos seus usuários. 
+Em sistemas de ensino colaborativos, onde novos dados são criados à todo instante e  
+necessitam destas características, como por tais e comunidades online e fóruns , abordagens",pt,not_relevant
+q09,in_corpus,O que é normalização em banco de dados?,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:3:0,"determinada empresa”. Este termo “persistente”, segundo o autor, consiste na permanência do registro 
+efetuado no banco de dados, onde o mesmo somente poderá ser removido quando ocorrer outra 
+requisição explícita ao sistema gerenciador do banco de dados, solicitando sua remoção. 
+Com base nos argumentos apresentados pelos autores, podemos então definir Banco de Dados 
+como uma coleção de dados auto descritiva, coerente e lógica, que possuem um significado implícito, 
+utilizando dados persistidos para representar aspectos do mundo real, visando promover apoio aos seus 
+usuários. E atualmente, é possível presenciarmos , em vários cenários e situações , a utilização de 
+sistemas eletrônicos e aplicações, que se torna ram responsáveis pelo gerenciamento destes bancos 
+dados, facilitando a organ ização, manipulação, consulta e outras necessidades que o usuário possa 
+precisar. Estes sistemas e aplicações são os chamados “Sistemas de Gerenciamento de Banco de 
+Dados”.",pt,partially_relevant
+q10,in_corpus,O que significa a sigla ACID em transações?,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:4:3,"dos dados se dá em razão de algumas propriedades de transação deste modelo, como por exemplo o 
+ACID: atomicidade, consistência, isolamento e durabilidade (ORACLE BRASIL, s.d.). 
+Reis (2018) nos apresenta uma definição para cada uma destas propriedades de transação . 
+Segundo o autor, a atomicidade está relacionada a garantia da transação, onde “todas as operações da 
+transação devem ser executadas com sucesso para que a transação tenha sucesso”. Ou seja, se uma 
+única operação não for bem sucedida, toda a transação será cancelada. 
+Em seguida, temos a consistência, que segundo o autor, “permite assegurar que uma transação 
+[...] leve o banco de dados de um estado válido a outro, mantendo a estabilidade do banco ”. Com isto é 
+possível evitar que os dados sejam corrompidos ou que registros inconsistentes sejam gerados, como 
+por exemplo a venda de um produto que não esteja cadastrado (REIS, 2018).",pt,relevant
+q10,in_corpus,O que significa a sigla ACID em transações?,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:9:1,"turmas do curso descrito aqui. 
+Tema: “Banco de Sangue” 
+Contextualização: Para facilitar o tratamento da demanda por transfusões de sangue, o 
+sistema de saúde criou os chamados “bancos de sangue”. Como sabemos, cada 
+transfusão só pode ser realizada usando tipos  de sangue apropriados. A adequação de 
+um determinado tipo de  sangue é baseada em estudos científicos que identificaram 
+quatro tipos sanguíneos, deno minados de ‘A’, ‘B’, ‘AB’ e ‘O’. Outros estudos 
+identificaram ainda a existência do chama do “fator RH”, que pode ser positivo (+) ou 
+negativo (-), assim o sangue de qualquer indivíduo é classi ficado de acordo com esses 
+dois atributos. Em um Banco de Sangue, diar iamente são feitas doaçõ es por pessoas de 
+diferentes tipos sanguíneos, para as quais é feito um re gistro contendo o número da 
+carteira de identidade do doador (RG), o sexo (S), a data da doação (DD), a data de 
+nascimento (DN), o tipo sanguí neo (TS), o fator RH (RH) e a quantidade doada (QD)",pt,not_relevant
+q10,in_corpus,O que significa a sigla ACID em transações?,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:11:1,"<https://blog.betrybe.com/desenvolvimento-web/jmeter/>. Acesso em: 17 set. 2023. 
+O MAR DE DADOS VIROU UM OCEANO E NÃO PARA DE CRESCER. MAS NEM TUDO É APROVEITADO . 
+Insper, 2021. Disponível em: < https://www.insper.edu.br/noticias/o-mar-de-dados-virou-um-oceano-e-nao-para-de-
+crescer-mas-nem-tudo-e-aproveitado/>. Acesso em: 16 set. 2023. 
+O que é um banco de dados relacional (RDBMS)?  Oracle Brasil. s.d. Disponível em: 
+<https://www.oracle.com/br/database/what-is-a-relational-database/>. Acesso em: 25 out. 2023. 
+REIS, Fábio. Conceitos de Bancos de Dados – O que significa ACID . Bóson Treinamentos em Ciência e 
+Tecnologia. Disponível em: < http://www.bosontreinamentos.com.br/bancos-de-dados/conceitos-de-bancos-de-
+dados-o-que-significa-acid/>. Acesso em: 25 out. 2023. 
+ROB, Peter. CORONEL, Carlos.  Sistemas de banco de dados : Projeto, implementação e gerenciamento . 8 ed. 
+Cengate Learning, 2011.",pt,not_relevant
+q10,in_corpus,O que significa a sigla ACID em transações?,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,"16 Capítulo 2. Introdução a banco de dados relacional
+2.3 Lista de Exercícios
+1- O que é um banco de dados?
+2- Explique o que é um SGBD e cite exemplos.
+3- O que são DML, DCL, DDL e DQL? Cite exemplos.
+4- A internet pode ser considerada um banco de dados? Por quê?
+5- Descreva o que é uma chave primária.
+6- Descreva o que é chave estrangeira.
+7- Explique o que é atributo composto.
+8- Explique o que é atributo multivalorado.
+9- Cite a diferença entre chave primaria e chave estrangeira.
+10- Uma variável do tipo char armazena quais valores?
+11- Um atributo do tipo TIME é capaz de armazenar qual range de valor? E qual sua utilização?
+12- Qual o limite de valor de uma variável do tipo REAL?
+13- Qual tipo de variável em BD é capaz de armazenar um valor mair DOUBLE ou REAL?
+14- Qual a diferença entre Time, Year, DateTime e Date?
+15- O que é uma Entidade?
+16- Crie, no seu banco de dados, a Figura 2.4, insira os valores apresentados e em seguida",pt,not_relevant
+q11,in_corpus,Quais são os tipos de bancos de dados NoSQL?,Banco de Dados - Relacionais e Não Relacionais.pdf:3:2,"6.1 Banco de dados NOSQL 35
+6.1.1 Principais bancos de dados NoSQL . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+7 Referências . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39",pt,not_relevant
+q11,in_corpus,Quais são os tipos de bancos de dados NoSQL?,Banco de Dados - Relacionais e Não Relacionais.pdf:36:0,"6.1 Banco de dados NOSQL 37
+Esses são os principais exemplos de bancos de dados NoSQL ou não-relacionais. O uso entre
+eles pode se diferenciar de acordo com as necessidades de cada negócio. Portanto, o mais indicado é
+buscar o auxílio de uma empresa especializada em soluções de armazenamento de bancos de dados.",pt,partially_relevant
+q11,in_corpus,Quais são os tipos de bancos de dados NoSQL?,Banco de Dados - Relacionais e Não Relacionais.pdf:34:0,"6. BDs NoSQL
+Quando as pessoas usam o termo “banco de dados NoSQL”, geralmente o usam para se referir a
+qualquer banco de dados não relacional. Alguns dizem que o termo “NoSQL” signiﬁca “não SQL”,
+enquanto outros dizem que signiﬁca “não apenas SQL”.
+6.1 Banco de dados NOSQL
+Um erro muito comum é quando dizem que os bancos de dados não relacionais não armazenam
+bem dados de relacionamento. Eles podem armazenar dados de relacionamento, mas apenas os
+armazenam de maneira diferente dos bancos de dados relacionais. De fato, muitos consideram a
+modelagem relacionamentos nos bancos de dados NoSQL mais fácil do que nos bancos de dados
+SQL, porque os dados relacionados não precisam ser divididos entre as tabelas.
+Os modelos de dados NoSQL permitem por exemplo, que os dados relacionados sejam feitos
+em uma única estrutura de dados. Diferentemente dos bancos relacionais, a estrutura de dados
+não precisa ser deﬁnida previamente, portanto, em uma mesma “tabela” você pode ter dados com",pt,partially_relevant
+q11,in_corpus,Quais são os tipos de bancos de dados NoSQL?,Banco de Dados - Relacionais e Não Relacionais.pdf:35:2,"dados. Por isso, é muito utilizado pelos desenvolvedores.
+MEMCACHED Este banco de dados não relacional também faz o armazenamento com chave-
+valor e usa um cache de memória distribuída. Geralmente, é utilizado para criar sites dinâmicos, pois
+acelera a abertura das páginas e diminui as buscas de dados de fontes externas.
+CASSANDRA Este banco de dados NoSQL foi desenvolvido no Facebook. Ele usa um banco
+de dados descentralizado, em que os dados são armazenados em vários datacenters. Ele é otimizado
+para cluster e fornece baixa latência em suas atualizações.
+HBASE O Hbase é um banco de dados que utiliza conjunto de linhas e colunas para armazenar
+as informações. Ele é utilizado em diferentes plataformas como o LinkedIn, Facebook e Spotify
+AMAZON DYNAMODBEste é um banco de dados NoSQL em nuvem, disponibilizado pela
+Amazon Web Service. Ele tem baixa latência, é rápido e ﬂexível, sendo o modelo ideal para
+aplicações móveis, jogos na web e soluções com internet das coisas.",pt,relevant
+q12,in_corpus,O que é uma chave estrangeira?,INTRODUÇÃO A BANCO DE DADOS.pdf:39:4,"correspondente à 'Barbara' na relação ESTUDANTE. Note-se, que a indicação de quais 
+atributos que formam a chave deve ser feita na relação esquema, a fim de restringir qualquer 
+duplicação de tuplas em quaisquer instâncias do esquema. A chave deve ser determinada pelo 
+significado dos atributos na relação esquema e deve ser invariante ao tempo . Por exemplo, o 
+atributo Nome da relação ESTUDANTE não pode ser indicada como chave, uma vez que nada 
+garante a não ocorrência de homônimos.",pt,partially_relevant
+q12,in_corpus,O que é uma chave estrangeira?,Banco de Dados - Relacionais e Não Relacionais.pdf:14:2,"número. Por isso, a chave, para ser única, precisa ser uma combinação do número da ﬁlial com o
+número do pedido
+2.2.5 Chave Estrangeira
+Chave estrangeira, ou Foreign Key (FK), ou ainda chave externa é a chave que permite a referência a
+registros oriundos de outras tabelas. Ou seja, é o campo ou conjunto de campos que compõem a
+chave primária de uma outra tabela. A utilização da chave estrangeira possibilita a implementação da
+integridade de dados diretamente no banco de dados, conhecida como integridade referencial. Uma
+chave estrangeira é a representação de um relacionamento entre tabelas. Isso signiﬁca que as tabelas
+são capazes de enxergar uma as outras. Este assuntos será abordado mais a frente quando falarmos
+sobre Entidade e Relacionamento, aonde também abordaremos mais profundamente a questão de
+Entidades tais como Entidades FOrtes e Fracas.",pt,relevant
+q12,in_corpus,O que é uma chave estrangeira?,INTRODUÇÃO A BANCO DE DADOS.pdf:42:2,"valor correspondente para a chave-primária  da relação DEPARTAMENTO - o atributo 
+DNÚMERO - em alguma tupla t 2 da relação DEPARTAMENTO ou  o valor de NDEP pode ser 
+null se o empregado não pertencer a nenhum departamento. Na Figura 5.4, a tupla do 
+empregado ""John Smith"" referencia a tupla departamento de ""Pesquisa"", indicando que ""John 
+Smith"" trabalha para este departamento. 
+ 
+Note-se que uma chave-estrangeira pode refere nciar sua própria relação. Por exemplo, o 
+atributo NSSSUPER em EMPREGADO refere-se ao  supervisor de um empregado; isto é, um 
+outro empregado. Pode-se, diagramaticamente , mostrar as restrições de integridade 
+desenhando-se arcos direcionados partindo da chave- estrangeira para a relação referenciada. 
+A Figura 5.5 ilustra o esquema apresentado na Fi gura 5.3 com as restrições de integridade 
+referencial anotadas desta maneira.  
+ 
+ 
+EMPREGADO 
+PNOME MNOME SNOME NSS  DATANASC ENDEREÇO SEXO SALARIO NSSSUPER NDEP 
+ 
+DEPARTAMENTO 
+DNOME DNÚMERO  NSSGER DATINICGER",pt,relevant
+q12,in_corpus,O que é uma chave estrangeira?,Programação Orientada a Objetos com C++.pdf:55:5,"objeto, mas sim para criar objetos. Destrutores, apesar de serem méto dos especiais, podem ser virtuais 
+porque são chamados a partir de um objeto. A chamada se dá em duas situações: quando o objeto sai",pt,not_relevant
+q13,in_corpus,Quais as vantagens da arquitetura de microsserviços em relação à monolítica?,ARQUITETURA DE MICROSSERVIÇOS.pdf:9:2,"A arquitetura de microsserviços é muito mais complexa e demanda um a curva de 
+aprendizado muito mais acentuada do que a arquitetura monolítica, por tanto ela não é uma 
+arquitetura que deva ser utilizada por times inexperientes e imaturos. 
+Trabalhar com microsserviços é muito mais do que escrever código ou implementar 
+soluções lógicas, para que  um projeto de microsserviços prospere é necessário pensar em 
+aspectos de negócio, infraestrutura e até mesmo de equipe, caso contrário o projeto pode 
+fracassar por ter pontos que ainda não estão prontos para trabalhar com a arquitet ura de 
+microsserviços.",pt,partially_relevant
+q13,in_corpus,Quais as vantagens da arquitetura de microsserviços em relação à monolítica?,ARQUITETURA DE MICROSSERVIÇOS.pdf:9:1,"microsserviços de uma aplicação devem estar bem alinhadas para que não haja 
+problemas de governança e devem gerenciar bem os conflitos que houverem entre 
+os interesses de cada parte, caso contrário o mau relacionamento entre as equipes 
+será refletido no funcionamento do sistema.  
+ 
+5 CONSIDERAÇÕES FINAIS 
+ 
+Após a realização desse estudo é possível notar que a arquitetura de microsserviços 
+surgiu para sanar problemas e limitações que começaram a surgir  durante o uso da arquitetura 
+monolítica. Isso não quer dizer que todas as aplicações monolíticas apresentam  problemas ou 
+que este é um modelo fadado ao fracasso e sim que ele possui limitações que devem ser 
+avaliadas e que se caso haja sentido deve-se migrar para a arquitetura de microsserviços. 
+A arquitetura de microsserviços é muito mais complexa e demanda um a curva de 
+aprendizado muito mais acentuada do que a arquitetura monolítica, por tanto ela não é uma",pt,relevant
+q13,in_corpus,Quais as vantagens da arquitetura de microsserviços em relação à monolítica?,ARQUITETURA DE MICROSSERVIÇOS - Melissa Conceição.pdf:9:1,"Não é indicado migrar para microsserviços se não há um sistema que seja complexo 
+para gerenciar, como por exemplo, a arquitetura monolítica. Com problemas de complexidade, 
+surgem dificuldades com a governança do projeto, pois a governança pode acabar deixando a 
+desejar. Mudanças de hábitos e culturas são pontos extremamente difíceis de se rem 
+concretizados, principalmente em empresas de grande porte ou equipes antigas que já t êm sua 
+forma de trabalho enraizada (FOWLER, 2017). 
+Com uma arquitetura de microsserviços também pode m surgir problemas com 
+segurança, ou seja, se os microsserviços não estiverem bem definidos, documentados e 
+estandardizados por meio de APIs seguras, surgem probl emas com a segurança, o que torna o 
+software sujeito a ataques.",pt,partially_relevant
+q13,in_corpus,Quais as vantagens da arquitetura de microsserviços em relação à monolítica?,ARQUITETURA DE MICROSSERVIÇOS.pdf:1:2,"Para entender o padrão arquitetural de microsserviços é necessário primeiro entender o 
+padrão ao qual ele se apresenta como alternativa, o monolítico. O padrão monolítico é uma 
+abordagem onde todos os contextos necessários para o funcionamento da aplicaç ão estão 
+encapsulados em uma única entidade indivisível que será executada em sua totalidade. A 
+abordagem monolítica não é pior ou melhor do que a abordagem de microsserviços, mas 
+possui um contexto diferente que se encaixa melhor em escopos menores e meno s complexos, 
+afinal não é necessário construir uma estrutura de microsserviços complexa e onerosa em 
+questões de desenvolvimento se a aplicação é pequena e simples. 
+O objetivo desse artigo é dissertar principalmente sobre a arquitetura de 
+microsserviços, mas também abordar um pouco da arquitetura monolítica a fins comparativos. 
+Para isso foram realizadas pesquisas bibliográficas em artigos, websites e livros.",pt,partially_relevant
+q14,in_corpus,Quais desafios surgem ao migrar de um monólito para microsserviços?,ARQUITETURA DE MICROSSERVIÇOS - Melissa Conceição.pdf:9:1,"Não é indicado migrar para microsserviços se não há um sistema que seja complexo 
+para gerenciar, como por exemplo, a arquitetura monolítica. Com problemas de complexidade, 
+surgem dificuldades com a governança do projeto, pois a governança pode acabar deixando a 
+desejar. Mudanças de hábitos e culturas são pontos extremamente difíceis de se rem 
+concretizados, principalmente em empresas de grande porte ou equipes antigas que já t êm sua 
+forma de trabalho enraizada (FOWLER, 2017). 
+Com uma arquitetura de microsserviços também pode m surgir problemas com 
+segurança, ou seja, se os microsserviços não estiverem bem definidos, documentados e 
+estandardizados por meio de APIs seguras, surgem probl emas com a segurança, o que torna o 
+software sujeito a ataques.",pt,relevant
+q14,in_corpus,Quais desafios surgem ao migrar de um monólito para microsserviços?,ARQUITETURA DE MICROSSERVIÇOS.pdf:9:2,"A arquitetura de microsserviços é muito mais complexa e demanda um a curva de 
+aprendizado muito mais acentuada do que a arquitetura monolítica, por tanto ela não é uma 
+arquitetura que deva ser utilizada por times inexperientes e imaturos. 
+Trabalhar com microsserviços é muito mais do que escrever código ou implementar 
+soluções lógicas, para que  um projeto de microsserviços prospere é necessário pensar em 
+aspectos de negócio, infraestrutura e até mesmo de equipe, caso contrário o projeto pode 
+fracassar por ter pontos que ainda não estão prontos para trabalhar com a arquitet ura de 
+microsserviços.",pt,relevant
+q14,in_corpus,Quais desafios surgem ao migrar de um monólito para microsserviços?,ARQUITETURA DE MICROSSERVIÇOS.pdf:9:1,"microsserviços de uma aplicação devem estar bem alinhadas para que não haja 
+problemas de governança e devem gerenciar bem os conflitos que houverem entre 
+os interesses de cada parte, caso contrário o mau relacionamento entre as equipes 
+será refletido no funcionamento do sistema.  
+ 
+5 CONSIDERAÇÕES FINAIS 
+ 
+Após a realização desse estudo é possível notar que a arquitetura de microsserviços 
+surgiu para sanar problemas e limitações que começaram a surgir  durante o uso da arquitetura 
+monolítica. Isso não quer dizer que todas as aplicações monolíticas apresentam  problemas ou 
+que este é um modelo fadado ao fracasso e sim que ele possui limitações que devem ser 
+avaliadas e que se caso haja sentido deve-se migrar para a arquitetura de microsserviços. 
+A arquitetura de microsserviços é muito mais complexa e demanda um a curva de 
+aprendizado muito mais acentuada do que a arquitetura monolítica, por tanto ela não é uma",pt,relevant
+q14,in_corpus,Quais desafios surgem ao migrar de um monólito para microsserviços?,ARQUITETURA DE MICROSSERVIÇOS.pdf:1:2,"Para entender o padrão arquitetural de microsserviços é necessário primeiro entender o 
+padrão ao qual ele se apresenta como alternativa, o monolítico. O padrão monolítico é uma 
+abordagem onde todos os contextos necessários para o funcionamento da aplicaç ão estão 
+encapsulados em uma única entidade indivisível que será executada em sua totalidade. A 
+abordagem monolítica não é pior ou melhor do que a abordagem de microsserviços, mas 
+possui um contexto diferente que se encaixa melhor em escopos menores e meno s complexos, 
+afinal não é necessário construir uma estrutura de microsserviços complexa e onerosa em 
+questões de desenvolvimento se a aplicação é pequena e simples. 
+O objetivo desse artigo é dissertar principalmente sobre a arquitetura de 
+microsserviços, mas também abordar um pouco da arquitetura monolítica a fins comparativos. 
+Para isso foram realizadas pesquisas bibliográficas em artigos, websites e livros.",pt,partially_relevant
+q15,in_corpus,O que é arquitetura orientada a serviços (SOA)?,Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços.pdf:14:0,"Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços 
+ 
+ 
+Vol.7, No. 3, 2010, p . 619-638 
+633  
+reforçar o alinhamento dos objetivos de TI em relação aos da organização, ajudando a 
+comunicar essa iniciativa de forma clara e trazendo respaldo para a manutenção dos 
+esforços despendidos. 
+A pesquisa demonstrou que não é regra que sejam necessários projetos vultosos 
+para alcançar resultados com SOA. Os projetos iniciais do caso estudado tinham escopo 
+e impacto reduzidos, mas neles foram criados serviços com alto potencial de 
+reutilização. Os projetos seguintes aproveitaram os serviços e benefícios (ex: definição 
+protocolos de comunicação com determinado sistema ou plataforma) gerados pelos 
+predecessores e permitiram a criação de novos serviços ou benefícios.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figura 1: visão da evolução de SOA pela sua construção gradual orientada a projetos",pt,partially_relevant
+q15,in_corpus,O que é arquitetura orientada a serviços (SOA)?,Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços.pdf:0:3,"e intransponível (Serman, 2007), sentimento motivado pela falta de atenção de praticantes e da 
+academia sobre os meios para sua construção. O trabalho visa trazer a gestão da carteira de 
+projetos de TI como opção para orientar o desenvolvimento de SOA. Para isso, realizou-se uma 
+revisão da literatura sobre SOA, incluindo estudos de caso sobre sua adoção. Também foi 
+executado um estudo de caso, no qual foram analisados os projetos de uma determinada 
+organização, focando-se na evolução de sua arquitetura de serviços. Os resultados mostram a 
+construção gradual de SOA no caso a partir da conclusão e sucessão dos projetos. Conclui-se 
+com uma proposta de processo de construção de SOA e as limitações e sugestões de pesquisas 
+futuras. 
+Palavras-chave: Arquitetura Orientada a Serviços (SOA), Web services, Gerência de Projetos, 
+Gestão de Carteira de Projetos, Integração de Sistemas. 
+ .",pt,partially_relevant
+q15,in_corpus,O que é arquitetura orientada a serviços (SOA)?,Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços.pdf:12:0,"Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços 
+ 
+ 
+Vol.7, No. 3, 2010, p . 619-638 
+631  
+DISCUSSÃO 
+ 
+As entrevistas trouxeram um conteúdo relevante sobre o desenvolvimento de 
+serviços a partir dos projetos que compuseram a amostra e a contribuição que a visão 
+orientada a serviços e direcionada pelos projetos trouxe para a organização. 
+Sobre as motivações que conduziram à adoção de SOA para o projeto, 
+destacaram-se nos relatos:  
+/square4 Aspectos técnicos : troca de informação pelos sistemas de forma 
+eficiente, configuração das soluções na forma de serviços, forte impacto da infra-
+estrutura tecnológica no negócio; 
+/square4 Aspectos metodológicos/organizacionais : processos fragmentados em 
+diferentes sistemas de informação; 
+/square4 Aspectos de negócio : transações em tempo real, necessidade de 
+escalabilidade e flexibilidade e de integração entre os próprios sistemas e os de clientes 
+e fornecedores.",pt,partially_relevant
+q15,in_corpus,O que é arquitetura orientada a serviços (SOA)?,Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços.pdf:6:0,"Orientação a projetos: uma proposta de desenvolvimento de uma arquitetura orientada a serviços 
+ 
+ 
+Vol.7, No. 3, 2010, p . 619-638 
+625  
+consultoria especializada para treinar a equipe na ferramenta. 
+Em seguida, com um maior domínio dessa equipe e algum apoio da fornecedora 
+da ferramenta de EAI, novos projetos da carteira da área de TI foram contemplados na 
+iniciativa. Requisitos de negócio ligados à fragmentação da informação por diversos 
+sistemas e possibilidade de reutilização de serviços foram critérios para seleção dos 
+projetos. 
+Em paralelo, foram concebidas algumas diretrizes e técnicas para a construção 
+da arquitetura orientada a serviços. Manuais e treinamentos foram elaborados para que 
+os conceitos e métodos fossem disseminados e assimilados por toda a equipe de 
+Informática da organização. 
+ 
+4.METODOLOGIA 
+ 
+O método empregado na pesquisa foi o de estudo de caso único incorporado 
+(Yin, 2003). Fundamenta-se a escolha do estudo de um caso pela sua natureza",pt,partially_relevant
+q16,in_corpus,Quais são os papéis definidos no Scrum?,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:5:0,"6 
+NUNES, R. D. A implantação das metodologias ágeis de desenvolvimento de software Scrum e Extreme 
+Programming (XP) 
+ 
+ForSci.: r. cient. IFMG, Formiga, v. 4, n.2, e00117, jul./dez. 2016. 
+ 
+ 
+auxiliar a equipe em dúvidas relativas ao produto em construção, e principalmente, com o 
+Product Backlog, que é uma lista de desejos com as funcionalidades a serem implementadas. 
+ Ainda na definição de P ressman (2006), o Scrum Team  realiza todo trabalho 
+operacional, e é composta por geralmente cinco a nove pessoas que decidem como o trabalho 
+é organizado e como as atribuições serão divididas. No Scrum Team, não há papéis definidos, 
+todos devem ser capazes de trocar as tarefas com outro membro, pois a idéia é que a equipe 
+seja polivalente e uniforme tecnicamente. 
+ O Scrum possui também quatro reuniões, ou cerimônias,  como são chamadas na 
+literatura. A primeira delas é a Sprint Planning, ou planejamento do Sprint, que é uma sessão",pt,relevant
+q16,in_corpus,Quais são os papéis definidos no Scrum?,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:10:1,"4.3.3 Jogo do planejamento 
+ 
+ Também conhecido como Planning Poker, é realizado por toda a equipe, exceto o PO, 
+cujo objetivo é estimar cada atividade do Sprint. 
+ Kniberg (2007) enfatiza a importância desta cerimônia no Scrum por viabilizar a 
+explanação do que se refere à atividade, e fazer com que questões sobre a mesma surjam 
+cedo, evitando assim, retrabalho em função de erros de interpretação. E para que os 
+envolvidos possam expressar sua estimativa, é utilizado um baralho, contendo cartas com os 
+números aceitos de estimativa. 
+ 
+4.3.4 Stand Up Meeting 
+ 
+ A Stand Up Meeting , ou reunião de pé, é uma prática tanto do Scrum, como do XP. 
+Kniberg (2007) baseado em su a experiência profissional recomenda que esta seja realizada 
+todos os dias no mesmo horário, no mesmo lugar, e que assim como T eles (2006), concorda 
+que deve ser breve, onde cada elemento da equipe limita -se a responder o que fez no dia",pt,partially_relevant
+q16,in_corpus,Quais são os papéis definidos no Scrum?,Metodologias Ágeis Extreme Programming e Scrum para o Desenvolvimento de Software.pdf:4:3,"desenvolvimento. No entanto, as dimensões em 
+Scrum diferem de XP.  
+ A Scrum divide o desenvolvimento em 
+iterações ( sprints ) de trinta dias. Equipes 
+pequenas, de até dez pessoas, são formadas por 
+projetistas, programadores, engenheiros e 
+gerentes de qualidade. Estas equipes trabalham 
+em cima de funcionalidades (os requisitos, em 
+outras palavras) definidas no início de cada sprint . 
+A equipe é responsável pelo desenvolvimento 
+desta funcionalidade.  
+ Na Scrum existem reuniões de 
+acompanhamento diárias. Nessas reuniões, que  
+são preferencialmente de curta duração 
+(aproximadamente quinze minutos), são 
+discutidos pontos como o que foi feito desde a 
+última reunião e o que precisa ser feito até a 
+próxima. As dificuldades encontradas e os fatores 
+de impedimento ( bottlenecks ) são identificados e 
+resolvidos. 
+ O ciclo de vida da Scrum é baseado em 
+três fases principais, divididas em sub-fases: 
+ 
+1. Pré-planejamento  (Pre-game phase ): os 
+requisitos são descritos em um",pt,partially_relevant
+q16,in_corpus,Quais são os papéis definidos no Scrum?,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:4:2,"complexos e foi originalmente formalizado para projetos de desenvolvimento de software, 
+mas funciona bem para qualquer escopo de trabalho inovador.  
+ Pressman (2006), explica que o Scrum é um modelo ágil de processo, desenvolvido 
+por Jeff Sut herland e por sua equipe no início da década de 1990, onde há um padrão de 
+processo em que ocorrem as tarefas de trabalho, chamado Sprint. O trabalho conduzido dentro 
+de um Sprint é adaptado ao problema em mãos, e freqüentemente modificado pela equipe 
+Scrum.  
+ De acordo com Pressman (2006), n o Scrum existem três papéis conhecidos como 
+Scrum Master , Product Owner  (PO) e o Scrum Team , onde o  Scrum Master  tem a 
+responsabilidade de manter a equipe ( Scrum Team ), focada no objetivo, evitando que 
+problemas de natureza não técnica interrompam suas atividades dentro do Sprint. O PO, como 
+sugerido pelo  nome, é o dono do produto a ser desenvolvido,  um usuário representante do",pt,relevant
+q17,in_corpus,Quais são as práticas do Extreme Programming (XP)?,Metodologias Ágeis Extreme Programming e Scrum para o Desenvolvimento de Software.pdf:2:2,"companhias de Tecnologia da Informação 
+trabalham e respondem a mudanças. Entre as 
+metodologias ágeis a mais conhecida é a 
+Extreme Programming . 
+ 
+ 
+Extreme Programming 
+ 
+A Extreme Programming (XP) é uma 
+metodologia ágil para equipes pequenas e 
+médias que desenvolvem software baseado em 
+requisitos vagos e que se modificam rapidamente 
+[3]. Dentre as principais diferenças da XP em 
+relação às outras metodologias estão: 
+ 
+• Feedback  constante 
+• Abordagem incremental 
+• A comunicação entre as pessoas é 
+encorajada.  
+ 
+O primeiro projeto a usar XP foi o C3, da 
+Chrysler. Após anos de fracasso utilizando 
+metodologias tradicionais, com o uso da XP o 
+projeto ficou pronto em pouco mais de um ano 
+[10].  
+ A maioria das regras da XP causa 
+polêmica à primeira vista e muitas não fazem 
+sentido se aplicadas isoladamente. É a sinergia 
+de seu conjunto que sustenta o sucesso de XP, 
+encabeçando uma verdadeira revolução no 
+desenvolvimento de software.",pt,relevant
+q17,in_corpus,Quais são as práticas do Extreme Programming (XP)?,Metodologias Ágeis Extreme Programming e Scrum para o Desenvolvimento de Software.pdf:5:0,"feitas reuniões para analisar o progresso 
+do projeto e demonstrar o software atual 
+para os clientes. Nesta fase são feitas as 
+etapas de integração, testes finais e 
+documentação.  
+ 
+Ferramentas de apoio 
+  
+Por serem metodologias relativamente 
+novas, existem poucas ferramentas disponíveis 
+que suportem o processo ágil de 
+desenvolvimento. Dentre as existentes, a maioria 
+suporta apenas a Extreme Programming  e ainda 
+estão em fase de pesquisa e desenvolvimento. A 
+mais conhecida é a XPlanner [12], que é uma 
+ferramenta de código livre usada para auxiliar o 
+planejamento da Extreme Programming . O 
+desenvolvimento desta ferramenta ainda está em 
+progresso, mas já existe uma versão estável para 
+o gerenciamento de estórias do usuário, 
+gerenciamento de tarefas, verificação de 
+progresso do projeto e gerenciamento das 
+métricas individuais e da equipe. Atualmente 
+existe suporte para vários idiomas, dentre eles o 
+francês, o espanhol, o chinês, o italiano, o alemão",pt,partially_relevant
+q17,in_corpus,Quais são as práticas do Extreme Programming (XP)?,Requisitos Testaveis com Behaviour Driven Development.pdf:0:3,"mais necessidade da entrega de produto de forma rápida e
+com qualidade (COSTAFILHO, 2006). O método típico para
+alcançar esses objetivos é o desenvolvimento de software
+ágil. Extreme Programming (XP) é uma das metodologias de
+desenvolvimento ágil, que como as demais, auxiliam no
+processo de desenvolvimento de software com requisitos
+superficiais e em constante mudança (BECK, 1999). Um dos
+princípios dessametodologiaétrabalho dealtaqualidade, qu e
+é sintetizado através do desenvolvimento orientado a teste s,
+doinglêsTest-DrivenDevelopment(TDD).
+O TDD, por sua parte, sugere que os testes de entrada e
+saída de valores do sistema, mais conhecidos como testes
+unitários, sejam escritos antes mesmo da codificação da
+funcionalidade. Desta forma, busca garantir que mais partes
+do sistema estejam com a cobertura de um teste e maior
+qualidade de escrita do software. Sua aplicação é simples,
+inicialmente se escreve o teste unitário sem a existência da",pt,relevant
+q17,in_corpus,Quais são as práticas do Extreme Programming (XP)?,DESENVOLVIMENTO ORIENTADO A TESTES EM SISTEMAS WEB.pdf:1:1,"testes, é que apenas são criados os testes para satisfazer o resultado de um 
+método ou função de um software. 
+Enquanto deve-se fazer com que o código satisfaça o requisito de um 
+teste e somente com o código necessário para tal, deixando um código 
+limpo, sendo este um dos princípios do TDD. 
+ 
+2.2 TDD, XP, Aliança Ágil  
+ 
+A primeira vez que foi falado sobre o conceito “Test, then code” (Teste, 
+então codifique) foi em 1987[4] em uma Lightning Talk (Palestra Rápida) e 
+após um período grande de tempo, em 1996 Kent Beck, Ron Jeffries and 
+Howard G. Cunningham[2]. Iniciaram a primeira versão do projeto XP 
+(Extreme Programming ou Programação  Extrema), onde descrevem 
+processos e metodologias para a criação de software de forma rápida e 
+suscetível à alterações de requisitos em qualquer etapa do projeto, focando 
+também na qualidade de código gerado. Posteriormente em 2001 Kent Beck 
+juntamente co m mais 16 outros desenvolvedores, produtores e consultores",pt,partially_relevant
+q18,in_corpus,O que é desenvolvimento orientado a testes (TDD)?,DESENVOLVIMENTO ORIENTADO A TESTES EM SISTEMAS WEB.pdf:10:0,"Dessa forma, se em algum momento algum código da estrutura de um 
+formulário ou botão for alterado, afetará os testes e quando rodado a suíte 
+de testes, mostrará todos os lugares que foram afetados. Assim o tempo de 
+debug é reduzido significativamente e torna um código de alta qualidade. 
+ 
+3 CONCLUSÃO 
+ 
+O tempo gasto na construção de testes e a curva de aprendizado 
+para uma aplicação correta utilizando TDD, é de certa forma um pouco 
+complexa inicialmente, mas os benefícios trazidos com sua utilização é 
+nítida, já que é possível criar todos os testes que uma aplic ação web 
+necessita, como Teste de Aceitação, Teste Funcional, Teste de Integração e 
+Teste Unitário. Ao utilizar TDD, o desenvolvedor consegue ter uma noção real 
+do fluxo de dados e os requisitos da aplicação, somente analisando os testes 
+escritos. Ainda to do o código da aplicação somente existirá se houver um 
+teste cobrindo seu esboço, dessa forma não haverá uma aplicação",pt,relevant
+q18,in_corpus,O que é desenvolvimento orientado a testes (TDD)?,UTILIZAÇÃO DA TÉCNICA DE DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO (BDD) NO LEVANTAMENTO DE REQUISITOS .pdf:3:0,"CEVERINO, Aparecida. NASCIMENTO, Fernando Paes. Utilização da técnica de 
+desenvolvimento orientado por comportamento (bdd) no levantamento de requisitos . Revista 
+Interdisciplinar Científica Aplicada, Blumenau, v.10, n.3, p.40-51, TRIII 2016. ISSN 1980-7031. 
+ 
+dúvidas frequentes de seus alunos. Como desenvolvedores, eles queriam saber por onde começar, o 
+que testar, o que não testar, e como entender porque seus testes deveriam falhar num primeiro 
+momento. Ao buscar estas respostas, foi que Dan North deu origem ao BDD. Ele começou a utilizar 
+a palavra “comportamento” no lugar de “teste” e verificou que essa palavra se encaixava 
+perfeitamente com o cenário. Com a ajuda de seu colega Chris Matts, os dois reformularam 
+algumas boas práticas já existentes, até ascender ao nível de uma nova técnica, que por fim 
+respondia as frequentes dúvidas dos alunos de TDD. 
+Para estabelecer o teor da técnica BDD, Chris Matts e Dan North escreveram:",pt,partially_relevant
+q18,in_corpus,O que é desenvolvimento orientado a testes (TDD)?,Requisitos Testaveis com Behaviour Driven Development.pdf:1:4,"verde, o código paraqueo testesejaválido deveserescrito da
+forma mais simples possível para observar a confirmação que
+o teste foi validado. E finalmente a terceira fase que é a
+refatoração, ouseja, analisartudo que foi codificado parae ste
+teste até então, adequando aos padrões de desenvolvimento
+adotadospelaequipe.
+Segundo BECK (2003), que é considerado o criador do
+TDD, a técnica auxilia na confiança do código produzido
+junto com a melhoria no design do código criado, visto que
+escrevero código paraque o teste não sejaválido de imediato
+pode deixar o código mais claro e sem poluição quanto aos
+outrosmétodosdedesenvolvimento.
+O BDD surgiu na dificuldade que seu idealizador teve em
+ensinar TDD para seus alunos. NORTH (2003) afirma que
+seus alunos tinham dúvidas relacionadas a o que testar,
+quando testar, o que significa quando um teste falha, ou seja,
+dúvidas relacionadas ao teste em si, não levando em
+consideração a aplicação da técnica e os benefícios que ela",pt,relevant
+q18,in_corpus,O que é desenvolvimento orientado a testes (TDD)?,Requisitos Testaveis com Behaviour Driven Development.pdf:1:5,"quando testar, o que significa quando um teste falha, ou seja,
+dúvidas relacionadas ao teste em si, não levando em
+consideração a aplicação da técnica e os benefícios que ela
+traz. Destaforma, NorthteveaideiadeaplicaroTDDvoltado
+ao negócio, com foco na produção de funcionalidades
+relevantes do produto a ser desenvolvido, nos valores do
+desenvolvimento ágil de software e remover a palavra teste,
+paraquenãoexistaconfusão.
+Um dos princípios do BDD é que a escrita dos nomes dos
+métodos sejam frases completas, com o máximo de
+informação possível de seu funcionamento. North observou
+esse comportamento com a utilização do aplicativo
+""Agiledox"", criado por STEVENSON (2003). O aplicativo
+converte o nome dos testes unitários codificados com o
+auxílio do framework JUnit, os escrevendo em texto,
+removendo a palavra “test” caso haja. Na figura 2 abaixo, é
+demostrado um exemplo de classe de teste que utiliza os
+nomesdosmétodoscomooBDDsugere.
+Figura2. Exemplodeclassedetestecomnomescompletos",pt,partially_relevant
+q19,in_corpus,O que é Behaviour Driven Development (BDD)?,UTILIZAÇÃO DA TÉCNICA DE DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO (BDD) NO LEVANTAMENTO DE REQUISITOS .pdf:0:1,"com baixa qualidade ou que não atende as necessidades do cliente, se deve a falta de efetividade no 
+processo de levantamento do requisito. A técnica BDD (do inglês, Behavior Driven Development, 
+ou em português, ""desenvolvimento orientado a comportamento"") é baseada em usuários, buscando 
+agregar valor de negócio, através de um vocabulário comum, possibilitando comum entendimento 
+entre TI(Tecnologia da Informação) e Negócio. Cria-se comportamentos baseados no usuário, 
+facilitando a compreensão de todos os envolvidos. Diante disso, este artigo é motivado a demonstrar 
+um formato de levantamento de requisitos alternativo aos métodos tradicionais. 
+ 
+Palavras-chave: Behavior Driven Development. Levantamento de Requisitos. Linguagem Ubíqua. 
+ 
+ABSTRACT: 
+Businesses and professionals have increasingly sought technical and development of methods to 
+assist them in greater effectiveness in requirements gathering, communication and customer",pt,relevant
+q19,in_corpus,O que é Behaviour Driven Development (BDD)?,UTILIZAÇÃO DA TÉCNICA DE DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO (BDD) NO LEVANTAMENTO DE REQUISITOS .pdf:2:3,"mantido. 
+ 
+ 
+3  BDD -DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO ( BEHAVIOUR 
+DRIVEN DEVELOPMENT) 
+ 
+Dan North (2006) idealizou o BDD enquanto ministrava cursos de TDD para alunos 
+desenvolvedores. Ao ministrar estes cursos ele percebeu, no entanto, que havia uma série de",pt,partially_relevant
+q19,in_corpus,O que é Behaviour Driven Development (BDD)?,UTILIZAÇÃO DA TÉCNICA DE DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO (BDD) NO LEVANTAMENTO DE REQUISITOS .pdf:2:2,"sistema; (2) tem de ser possível estimar o esforço necessário para a sua realização; (3) cada User 
+Story tem de ter a capacidade de ser testada com o intuito de verificar se está de acordo com as 
+expectativas comportamentais dos stakeholders e por último, (4) cada User Story é alvo de 
+priorização por parte dos stakeholders para que a equipe de desenvolvimento consiga focar nas User 
+Stories prioritárias antecipadamente. 
+Conforme Sampaio (2014), não existe uma formalização para a documentação de histórias e 
+é comum que seu registro seja descartado depois de sua implementação, porém, a prática de BDD 
+tem alcançado grande popularidade entre os times ágeis, e realizando os testes de aceitação de 
+maneira automatizada as histórias acabam sendo documentadas de uma forma em que seu registro é 
+mantido. 
+ 
+ 
+3  BDD -DESENVOLVIMENTO ORIENTADO POR COMPORTAMENTO ( BEHAVIOUR 
+DRIVEN DEVELOPMENT) 
+ 
+Dan North (2006) idealizou o BDD enquanto ministrava cursos de TDD para alunos",pt,partially_relevant
+q19,in_corpus,O que é Behaviour Driven Development (BDD)?,Maintaining Behaviour Driven Development Specifications: Challenges and Opportunities.pdf:1:7,"keywords “Behaviour Driven Development”, “Behavior Driven
+Development”, and “BDD”; we extracted the public email
+addresses of contributors from the resulting projects, up to
+and including the 5th page (10 results per page). (We selected
+1http://selectsurvey.net/
+2https://www.specsolutions.eu/news/bddaddict/
+176",en,not_relevant
+q20,in_corpus,Quais são os princípios SOLID?,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:2:1,"e estruturas de dados em classes e como estas devem ser interconectadas. Dentre os principais objetivos da abordagem do SOLID 
+estão: tolerância a mudanças; facilidade no entendimento por parte do grupo de desenvolvimento e padronização de componentes 
+para aplicação em múltiplos sistemas (Martin, 2020). SOLID é um acrônimo para cada um dos cinco princípios que fazem parte 
+desse grupo, exposto e descrito no Quadro 1.  
+ 
+Quadro 1 - Definições dos princípios que compõem o SOLID. 
+Nome Definição 
+Single Responsibility Principle 
+(Princípio da Responsabilidade Única) 
+O princípio de responsabilidade única define que uma classe deve ter 
+apenas uma única responsabilidade perante um ator, ou seja, deve conter 
+funções específicas e limitadas que atendam a demanda gerada pela 
+funcionalidade (Chebanyuk & Markov, 2016). 
+Open/Closed Principle 
+(Princípio do Aberto/Fechado) 
+O princípio do aberto/fechado defende a ideia de que as classes devem ser",pt,relevant
+q20,in_corpus,Quais são os princípios SOLID?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:48:2,"primeiro elemento da ﬁla e a propriedade ultimo que indica o último elemento da ﬁla. Caso
+primeiro e ultimo seja null, a ﬁla estará vazia. Além disso, para que nossa ﬁla seja reutili-
+zada em qualquer situação necessária, usaremos polimorﬁsmo paramétrico. O resultado será o
+tipo Fila apresentado abaixo.",pt,not_relevant
+q20,in_corpus,Quais são os princípios SOLID?,Programação Orientada a Objetos com C++.pdf:34:0,"Como somente os métodos desta classe tem acesso aos campos privados, a estrutura interna não 
+pode ser alterada por quem usa o conjunto, o que garante a consistência do conjunto. 
+Declaração de classes com a palavra reservada class 
+As classes podem ser declaradas usando-se a palavra reservada class no lugar de struct. A diferença 
+entre as duas opções é o nível de proteção caso nenhum dos especificadores de acesso seja usado. Os 
+membros de uma struct são públicos, enquanto que em uma class, os membros são privados: 
+struct A { 
+   int a;  // a é público 
+}; 
+ 
+class B { 
+   int a;  // a é privado 
+}; 
+Como as interfaces das classes devem ser as menores possíveis e devem ser também explícitas, as 
+declarações com a palavra class são mais usadas. Com class, somente os nomes explicitamente 
+declarados como private são exportados. 
+A partir de agora os exemplos vão ser feitos usando-se a palavra class. 
+Classes e funções friend",pt,not_relevant
+q20,in_corpus,Quais são os princípios SOLID?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:27:2,"• Uma disciplina poderá fazer parte de nenhum ou até muitos cursos; 
+• Cada disciplina deverá ser ministrada por apenas um professor, podendo o 
+professor ministrar uma ou muitas disciplinas diferentes; 
+• Um curso não poderá ter mais de 40 alunos, nem menos de 20 alunos 
+matriculados; 
+• Para cada turma de alunos deverá haver uma sala de aula; 
+• Um aluno poderá se matricular em nenhum ou até muitos cursos; 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1. Identificar as Classes e os Objetos;",pt,not_relevant
+q21,in_corpus,O que é Clean Architecture?,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:3:3,"camadas. 
+Suporta facilmente a aplicação de melhorias, correções e 
+expansões. 
+Requisitos de desempenho podem levar a quebra das regras de organização 
+em camadas. 
+Suportam o reuso de componentes de software.  Pode haver duplicação de funcionalidade e impedimentos em estruturar um 
+sistema através de camadas. 
+Facilidade de compreensão, leitura, manutenção e 
+desenvolvimento independente de funcionalidades. Overhead de implementação e desempenho. 
+Fonte: Dantas et al. (2021, p.4). 
+ 
+Clean Architecture 
+O Clean Architecture ou Arquitetura Limpa foi um modelo de organização e construção de sistemas proposta pelo blog 
+The Clean Code Blog (Uncle  Bob, 2012) escrita pelo engenheiro de software Robert C. Martin - também um dos autores do 
+Manifesto Ágil - no ano de 2012. O objetivo da Clean Architecture, como abordagem de composição de sistemas, é a de organizar 
+e estruturar códigos de programação para facilitar o desenvolvimento, implantação, manutenção e integração de regras de",pt,relevant
+q21,in_corpus,O que é Clean Architecture?,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:4:0,"Research, Society and Development, v. 11, n. 16, e335111637198, 2022 
+(CC BY 4.0) | ISSN 2525-3409 | DOI: http://dx.doi.org/10.33448/rsd-v11i16.37198 
+ 
+ 
+5 
+implementação de interfaces sem a necessida de de um código concreto. Dessa maneira os frameworks podem ser utilizados 
+como ferramenta de construção, ao invés de se tornar regra de negócio principal do projeto (Boukhary & Colmenares, 2019).   
+No modelo da Clean Architecture as respectivas camadas de  regras de negócios são independentes da interface de 
+usuário, bancos de dados e quaisquer ferramentas externas, seguindo a independência e proteção das regras de domínio. Através 
+deste é possível testar cada camada sem mesmo existir implementação em códigos das camadas mais externas. Sendo, portanto, 
+possível garantir que as regras de domínio, ou seja, as regras de negócio do sistema não sejam modificadas diretamente. Ademais",pt,relevant
+q21,in_corpus,O que é Clean Architecture?,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:0:4,"application of the search terms: clean architecture, mobile and software, of which four are aligned with the scope of the 
+study, covering aspects related to the concept of clean architecture and the development of mobile applications using 
+the SOLID approach , although of these, two are review articles, not considering the applicability of these concepts in 
+the construction of new applications, thus demonstrating the lack of scientific production. 
+Keywords: Mobile devices; Application; Architecture; SOLID; Software design. 
+ 
+Resumen  
+La gran demanda de servicios móviles requiere la adopción de un enfoque que cumpla con los  requisitos de ingeniería 
+específicos de las aplicaciones móviles. Entre estos requisitos está la creación de una arquitectura que separe las 
+responsabilidades en capas y que se adapte a los cambios y correcciones. Es en la fase arquitectónica que los",en,partially_relevant
+q21,in_corpus,O que é Clean Architecture?,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:10:4,"Computer Science. 49(1). 270-278.  
+ 
+Sommerville, I. Engenharia de Software. (9a ed). São Paulo, SP: Pearson Prentice Hall. 
+ 
+Sousa Júnior, J. C.,  Rocha, F. R. T.,  & Coelho, K. O.  (2020). Análise bibliométrica em frango e frango caipira/colonial.  Pesquisa, Sociedade e 
+Desenvolvimento, 9 (8), e773986354. https://doi.org/10.33448/rsd-v9i8.6354. 
+ 
+Uncle Bob. (2019). The Clean Coder Blog - The Clean Architecture. https://blog.cleancoder.com/uncle-bob/2012/08/13/ the-clean-architecture.html",pt,not_relevant
+q22,in_corpus,O que é um tipo abstrato de dados?,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:0:0,"Cap ´ ıtulo 12
+Tipos abstratos de dados
+Um Tipo Abstrato de Dados (TAD) 1 ´ e basicamente abstrair o dado que est´ a em
+mem´ oria pela deﬁni¸ c˜ ao de opera¸ c˜ oes abstratas que se preocupam fundamentalmente
+em o que fazer e n˜ ao em como fazer.
+O conjunto de opera¸ c˜ oes sobre os dados s˜ ao deﬁnidos em ter mos dos prot´ otipos
+das fun¸ c˜ oes e procedimentos, para os quais os c´ odigos que as implementam s˜ ao abso-
+lutamente irrelevantes em um primeiro momento.
+Evidentemente que em um segundo momento dever´ a haver c´ odi go escrito que ir´ a
+manipular os dados em sua forma concreta. Mas para o usu´ ario de um TAD o que
+importa ´ e apenas o uso das opera¸ c˜ oes sobre um dado abstrato.
+O tipo em si juntamente com os c´ odigos das fun¸ c˜ oes e proced imentos pode ser
+feita de v´ arias maneiras, mas na verdade, para quem usa, n˜ a o faz diferen¸ ca alguma,
+a n˜ ao ser o comportamento destas fun¸ c˜ oes e procedimentos.",pt,relevant
+q22,in_corpus,O que é um tipo abstrato de dados?,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,"16 Capítulo 2. Introdução a banco de dados relacional
+2.3 Lista de Exercícios
+1- O que é um banco de dados?
+2- Explique o que é um SGBD e cite exemplos.
+3- O que são DML, DCL, DDL e DQL? Cite exemplos.
+4- A internet pode ser considerada um banco de dados? Por quê?
+5- Descreva o que é uma chave primária.
+6- Descreva o que é chave estrangeira.
+7- Explique o que é atributo composto.
+8- Explique o que é atributo multivalorado.
+9- Cite a diferença entre chave primaria e chave estrangeira.
+10- Uma variável do tipo char armazena quais valores?
+11- Um atributo do tipo TIME é capaz de armazenar qual range de valor? E qual sua utilização?
+12- Qual o limite de valor de uma variável do tipo REAL?
+13- Qual tipo de variável em BD é capaz de armazenar um valor mair DOUBLE ou REAL?
+14- Qual a diferença entre Time, Year, DateTime e Date?
+15- O que é uma Entidade?
+16- Crie, no seu banco de dados, a Figura 2.4, insira os valores apresentados e em seguida",pt,not_relevant
+q22,in_corpus,O que é um tipo abstrato de dados?,Programação Orientada a Objetos com C++.pdf:16:1,"especificar de qual pilha o campo top deve ser testado (caso da função empty). Isto já foi dito na 
+chamada da função. 
+O paradigma da orientação a objetos 
+Esta seção apresenta cinco componentes chave do paradigma de orientação por objetos. As 
+componentes são objeto, mensagem, classe, instância e método. Eis as definições: 
+• objeto: é uma abstração encapsulada que tem um estado interno dado por uma lista de 
+atributos cujos valores são únicos para o objeto. O objeto também conhece uma lista de 
+mensagens que ele pode responder e sabe como responder cada uma. Encapsulamento e 
+abstração são definidos mais à frente; 
+• mensagem: é representada por um identificador que implica em uma ação a ser tomada pelo 
+objeto que a recebe. Mensagens podem ser simples ou podem incluir parâmetros que afetam 
+como o objeto vai responder à mensagem. A resposta também é influenciada pelo estado 
+interno do objeto;",pt,partially_relevant
+q22,in_corpus,O que é um tipo abstrato de dados?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:10:0,"11 
+Só serão definidos no objeto os atributos e métodos particulares desse objeto que 
+não são atribuídos aos outros objetos da mesma classe. 
+ 
+Chamamos de “ancestrais” às classes das quais as outras dependem e de 
+“descendentes” as classes originadas a partir de outra. No exemplo acima, a 
+classe “mamíferos” tem um ancestral (animais) e dois descendentes (cães e 
+gatos). Em cada descendente só é preciso descrever os atributos e métodos que 
+apresentam alteração em relação à descrição do ancestral, conforme a figura 5.
+ 
+ 
+ 
+               Atributos 
+ 
+ 
+               Métodos 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figura 5 – Hierarquia de classes 
+ 
+ 
+As classes são definições de como os objetos devem ser e não existem na 
+realidade. Somente os objetos têm existência. Usando o exemplo dos animais, 
+quando vamos mostrar nosso cachorro a alguém, não dizemos “esse é um cão”, e 
+sim “esse é o pluto”, ou “snoopy”. O que se pode ver não é uma classe de seres,",pt,not_relevant
+q23,in_corpus,Qual a diferença entre pilha e fila?,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:21:1,"samento futuro em alguns elementos que n˜ ao podemos fazer ag ora. Enﬁm, o uso ´ e
+variado mas quase sempre signiﬁcativo.
+Com esta motiva¸ c˜ ao, vamos considerar a existˆ encia de um tipo denominado pilha,
+mas, novamente, neste momento n˜ ao estamos interessados em saber como este tipo ´ e
+de fato implementado. Sabemos o que ´ euma pilha, e isso nos ´ e suﬁciente no momento.
+Declaramos ent˜ ao uma pilha de n´ umeros inteiros:
+var p: pilha;
+Primeiramente, vamos deﬁnir as interfaces, deixando a impl ementa¸ c˜ ao para um se-
+gundo momento. Por interfaces queremos dizer qual ´ e o compo rtamento das opera¸ c˜ oes
+que manipulam o TAD pilha.
+As ´ unicas opera¸ c˜ oes sobre pilhas s˜ ao deﬁnidas em termos dos prot´ otipos dos pro-
+cedimentos e fun¸ c˜ oes abaixo.
+procedure inicializar pilha ( var p: pilha) ;
+// Cria uma pilha vazia .
+function pilha vazia (p: pilha) : boolean;
+// Retorna true se a pilha esta vazia e false caso contrario .
+function pilha unitaria (p: pilha) : boolean;",pt,partially_relevant
+q23,in_corpus,Qual a diferença entre pilha e fila?,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:20:1,"elementos abaixo dele. Quando empilhamos pratos, colocamo s o pr´ oximo prato na
+pilha sobre o ´ ultimo. Quando retiramos cartas de um monte de baralho, sempre
+retiramos a carta que est´ a por cima de todas as outras.
+Uma pilha ´ e deﬁnida pelo seu topo, isto ´ e, pelo elemento que e st´ a por cima de
+todos os outros. Vejamos estes dois exemplos de pilhas de n´ u meros:
+pilha 1 pilha 2
+2
+8
+5 2
+5 1
+4 3
+A primeira tarefa ´ e deﬁnir qual ´ e o in´ ıcio da pilha, isto ´ e , se vamos encarar as
+pilhas de baixo pra cima ou de cima pra baixo. No exemplo acima, o topo da pilha
+da esquerda ´ e 2 ou ´ e 4? N´ os vamos deﬁnir agora que nossa vis˜ a o ´ e de que o topo ´ e o
+2. Assim, para efeitos l´ ogicos, as duas pilhas acima tem o topo igual ao elemento 2,
+embora elas sejam diferentes. Pensando na pilha de cartas de baralho, n˜ ao importa o
+tamanho do monte, o jogador que tirar a carta vai ter que se vir ar com um 2.",pt,relevant
+q23,in_corpus,Qual a diferença entre pilha e fila?,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:21:2,"// Cria uma pilha vazia .
+function pilha vazia (p: pilha) : boolean;
+// Retorna true se a pilha esta vazia e false caso contrario .
+function pilha unitaria (p: pilha) : boolean;
+// Retorna true se a pilha tem u m unico elemento .
+procedureempilhar (x: longint ; var p: pilha) ;
+// Insere x no inicio da pilha .
+function desempilhar ( var p: pilha) : longint ;
+// Retorna o elemento do inicio da pilha e o remove dela .
+function topo (p: pilha) : longint ;
+// Retorna o elemento do inicio da pilha , sem remove −lo .
+A fun¸ c˜ aopilha unitaria n˜ ao ´ e padr˜ ao. Mas n´ os entendemos que em alguns algo-
+ritmos ´ e ´ util saber se a pilha est´ a para acabar ou n˜ ao. Pen se no jogo de baralho,
+a decis˜ ao de um jogador pode ser diferente se ele percebe que a pilha de cartas vai
+acabar na jogada dele. Por isso manteremos esta fun¸ c˜ ao no n osso TAD.",pt,partially_relevant
+q23,in_corpus,Qual a diferença entre pilha e fila?,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:22:2,"Como o TAD pilha pode nos ajudar? ´E de fato muito simples: a cada valor
+lido, se ele for positivo empilhamos ele. Isto servir´ a para guardar a ordem em que
+os parˆ enteses foram abertos. Mas se o n´ umero lido for negat ivo signiﬁca que temos
+que saber se ele est´ a fechando o parˆ enteses do mesmo tipo de le ou ent˜ ao se estamos
+tentando fechar um parˆ enteses sem ele ter sido aberto.
+Ent˜ ao temos que desempilhar o topo e comparar os tipos: eles tem que ter o
+mesmo valor em m´ odulo! A ﬁgura 12.29 mostra este c´ odigo. Ao ﬁ nal, se a express˜ ao
+lida estiver bem formada com a pilha vazia signiﬁca que est´ a tudo certo. Se a pilha
+estiver com algum elemento ´ e porque sobraram alguns parˆ en teses abertos que n˜ ao
+foram fechados.",pt,partially_relevant
+q24,in_corpus,O que é a notação Big O?,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,"16 Capítulo 2. Introdução a banco de dados relacional
+2.3 Lista de Exercícios
+1- O que é um banco de dados?
+2- Explique o que é um SGBD e cite exemplos.
+3- O que são DML, DCL, DDL e DQL? Cite exemplos.
+4- A internet pode ser considerada um banco de dados? Por quê?
+5- Descreva o que é uma chave primária.
+6- Descreva o que é chave estrangeira.
+7- Explique o que é atributo composto.
+8- Explique o que é atributo multivalorado.
+9- Cite a diferença entre chave primaria e chave estrangeira.
+10- Uma variável do tipo char armazena quais valores?
+11- Um atributo do tipo TIME é capaz de armazenar qual range de valor? E qual sua utilização?
+12- Qual o limite de valor de uma variável do tipo REAL?
+13- Qual tipo de variável em BD é capaz de armazenar um valor mair DOUBLE ou REAL?
+14- Qual a diferença entre Time, Year, DateTime e Date?
+15- O que é uma Entidade?
+16- Crie, no seu banco de dados, a Figura 2.4, insira os valores apresentados e em seguida",pt,not_relevant
+q24,in_corpus,O que é a notação Big O?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:5:1,"mes que me deram o sentimento de pertencimento familiar e suporte durante toda minha gradu-
+ação. Estarão sempre em meu coração.
+Aos meus avós, Maria Gomes, Josué Barbosa, Iracema V asconcelos e Adriano
+Queiroz. Maria e Josué, de origem humilde e camponesa, nunca tiveram a oportunidade de
+estudar, mas batalharam muito para conseguir fornecer o necessário aos seus ﬁlhos. Minha gra-
+duação é também por eles e seus sonhos. Iracema e Adriano sempre foram pessoas de coração
+imenso que também buscaram dar o melhor aos ﬁlhos mostrando sempre gentileza e sabedo-
+ria. Além disso, sem meu avô Adriano, não existiria meu gosto pela leitura e curiosidade de
+aprender.
+Aos trabalhadores e trabalhadoras da área de ensino e tantas outras áreas que estão
+todos os dias lutando para construir um Brasil para sua classe.
+Aos amigos que me apoiaram nos momentos mais difíceis e me deram forças para
+eu continuar.",pt,not_relevant
+q24,in_corpus,O que é a notação Big O?,BANCOS DE DADOS RELACIONAIS.pdf:2:0,"AGRADECIMENTOS 
+ 
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+AoOProf.OBernice,OmeuOorientador,OpeloOapoioOnaOelaboraçãoOdesteO
+trabalho.O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O
+O",pt,not_relevant
+q24,in_corpus,O que é a notação Big O?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:10:1,"quando vamos mostrar nosso cachorro a alguém, não dizemos “esse é um cão”, e 
+sim “esse é o pluto”, ou “snoopy”. O que se pode ver não é uma classe de seres, 
+mas um cachorro específico, um objeto.
+ 
+ 
+ 
+ 
+Nome 
+Idade 
+Peso 
+Cor dos olhos 
+Comer 
+Dormir 
+Animais 
+Mamíferos 
+Cor dos pêlos 
+Comprimento 
+dos pêlos 
+ 
+Sentar 
+Amamentar 
+Aves 
+Cor das penas 
+Tamanho das 
+penas 
+ 
+Botar Ovo 
+Répteis 
+Tipo de 
+Escamas 
+Comprimento 
+da calda 
+ 
+Rastejar 
+Cães Gatos 
+ 
+ 
+Latir 
+Pegar a Bola 
+ 
+ 
+Miar 
+Subir na árvore",pt,not_relevant
+q25,in_corpus,Qual a complexidade de tempo da busca binária?,Programação Orientada a Objetos com C++.pdf:47:3,"Se a decisão estiver no módulo, este módulo deve saber sobre todos as possibilidades existentes. Tal 
+política pde levar a construção de módulos difíceis de gerenciar e sujeitos a constantes manutenções. 
+Deixar a decisão para o cliente não é melhor. Desta forma, o cliente é obrigado a especificar que T é 
+uma tabela do tipo A, B, etc. mas não é requerido a dizer mais nada: esta informação é suficiente para 
+determinar que variante de BUSCA deve ser utilizada. 
+A solução para o problema é introduzida pelas linguagens orientadas por objetos com o mecanismo 
+de herança em que o desenvolvimento é feito através da descentralização da arquitetura modular. Esta é 
+construída por sucessivos incrementos e modificações conectadas por relações bem definidas que 
+definem as versões corretas de BUSCA. Este mecanismo é chamado de Amarração Dinâmica (Late-
+Binding ou Dynamic binding ). 
+Semelhanças nos subcasos",pt,not_relevant
+q25,in_corpus,Qual a complexidade de tempo da busca binária?,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,"16 Capítulo 2. Introdução a banco de dados relacional
+2.3 Lista de Exercícios
+1- O que é um banco de dados?
+2- Explique o que é um SGBD e cite exemplos.
+3- O que são DML, DCL, DDL e DQL? Cite exemplos.
+4- A internet pode ser considerada um banco de dados? Por quê?
+5- Descreva o que é uma chave primária.
+6- Descreva o que é chave estrangeira.
+7- Explique o que é atributo composto.
+8- Explique o que é atributo multivalorado.
+9- Cite a diferença entre chave primaria e chave estrangeira.
+10- Uma variável do tipo char armazena quais valores?
+11- Um atributo do tipo TIME é capaz de armazenar qual range de valor? E qual sua utilização?
+12- Qual o limite de valor de uma variável do tipo REAL?
+13- Qual tipo de variável em BD é capaz de armazenar um valor mair DOUBLE ou REAL?
+14- Qual a diferença entre Time, Year, DateTime e Date?
+15- O que é uma Entidade?
+16- Crie, no seu banco de dados, a Figura 2.4, insira os valores apresentados e em seguida",pt,not_relevant
+q25,in_corpus,Qual a complexidade de tempo da busca binária?,Integraçao de Modelos de Linguagem de Grande Escala com a técnica RAG para a Simplificaçãao de Consultas a Manuais Automotivos.pdf:4:7,"7,01 segundos. Este tempo reflete o intervalo necess´ ario
+para processar e responder a uma requisi¸ c˜ ao de an´ alise
+de imagem usando a API da OpenAI. Adicionalmente, a
+dura¸ c˜ ao da opera¸ c˜ ao tamb´ em pode ser influenciada pela
+latˆ encia de rede, tempo de comunica¸ c˜ ao com os servidores
+da OpenAI e o tempo de processamento do servidor, que
+depende da disponibilidade dos recursos e da eficiˆ encia do
+modelo utilizado.",pt,not_relevant
+q25,in_corpus,Qual a complexidade de tempo da busca binária?,Banco de Dados - Relacionais e Não Relacionais.pdf:27:4,"8- Monte o modelo Entidade Relacionamento do texto abaixo:
+A empresa aérea mantém o cadastro dos aeroportos nos quais ela tem autorização de pouso,
+sendo mantido o código, nome, cidade, estado e país do aeroporto. Os voos partem de um aeroporto
+de origem e vão até um aeroporto de destino, e possuem um código, duração e hora de partida. Além",pt,not_relevant
+q26,in_corpus,O que é um grafo bipartido?,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:31:2,"O estudo dos emparelhamentos de um grafo ﬁca mais simples se o grafo não tem
+circuitos ímpares. Por isso (veja teorema
+3.5), a presente seção restringe a atenção a
+grafos bipartidos.
+Emparelhamentos que saturam um dos lados
+Em que condições um grafo bipartido tem um emparelhamento perfeito? Uma per-
+gunta um pouco mais geral e mais interessante: em que condições um grafo (U,W ) -
+bipartido admite um emparelhamento que satura U?
+www.cliqueapostilas.com.br",pt,partially_relevant
+q26,in_corpus,O que é um grafo bipartido?,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:35:1,"ces na parte superior da ﬁgura? V eja exercício 4.11.
+r r r r r r
+r r r r r r
+❆
+❆
+❆❆
+✁
+✁
+✁✁
+❅
+❅
+❅❅
+
+
+
+❆
+❆
+❆❆
+
+
+
+✁
+✁
+✁✁
+❆
+❆
+❆❆
+❅
+❅
+❅❅
+✑✑✑✑✑✑
+✁
+✁
+✁✁
+✑✑✑✑✑✑
+✁
+✁
+✁✁
+Figura 4.2: Encontre um emparelhamento máximo e uma
+cobertura mínima. V eja exercício 4.16.
+4.4 Emparelhamentos em grafos arbitrários
+Podemos tratar agora de emparelhamentos em grafos arbitrários (em particular , gra-
+fos não-bipartidos). A exemplo do que ﬁzemos na seção anterior , vamos iniciar o
+estudo com a caracterização de emparelhamentos perfeitos.
+Emparelhamentos perfeitos
+A caracterização de emparelhamentos perfeitos em grafos arbitrários exige uma ge-
+neralização não-trivial do teorema de Hall.
+www.cliqueapostilas.com.br",pt,partially_relevant
+q26,in_corpus,O que é um grafo bipartido?,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:26:2,"parágrafo da prova do teorema) do caráter não-bicolorível do grafo. O teorema é,
+portanto, uma boa caracterização de grafos bicoloríveis.
+Antes de encerrar a seção, é preciso fazer um esclarecimento sobre terminologia.
+Os termos “bipartido” e “bipartição” são freqüentemente usados como sinônimos
+de “bicolorível” e “bicoloração” respectivamente.
+9 Se {U,W } é uma bipartição do
+grafo, diz-se que o grafo é (U,W ) -bipartido.
+Exercícios
+E 3.17 Mostre que o grafo do cavalo (veja exemplo
+1.2) é bipartido.
+E 3.18 Mostre que o k-cubo (veja exemplo 1.4) é bicolorível.
+E 3.19 Mostre que toda grade (veja exemplo 1.7) é um grafo bicolorível.
+E 3.20 V eriﬁque se os grafos da ﬁgura 3.2 são bicoloríveis.
+9 A rigor , um grafo é bipartido somente se estiver munido de uma bicoloração ﬁxa (note que
+bicolorações não são únicas em geral). Essa bicoloração é a bipartição do grafo.
+www.cliqueapostilas.com.br",pt,relevant
+q26,in_corpus,O que é um grafo bipartido?,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:31:0,"4.3 Emparelhamentos em grafos bipartidos 39
+PR O VA: A desigualdade decorre da seguinte observação, simples mas funda-
+mental: para qualquer emparelhamento E e qualquer cobertura C tem-se
+|E| ≤ | C| .
+Para justiﬁcar essa relação basta observar que há uma injeção de E em C: a injeção
+leva cada aresta a em uma ponta de a que está em C (se a tiver ambas as pontas
+em C, escolha uma delas).
+Prova alternativa: considere o grafo H := ( V(G),E ) e observe que |E| ≤∑
+v∈C gH (v) ≤ |C|, onde a primeira desigualdade vale porque C é uma cobertura e
+a última porque E é um emparelhamento. □
+A prova da delimitação 4.1 tem a seguinte conseqüência: se |E| = |C| então
+E é um emparelhamento máximo (e C uma cobertura mínima). Portanto, para
+comprovar a maximalidade de um emparelhamento com k arestas basta exibir uma
+cobertura com k vértices. Como veremos adiante, um tal par equicardinal (E,C )
+existe em todo grafo bipartido. Infelizmente, para muitos grafos não-bipartidos,",pt,partially_relevant
+q27,in_corpus,O que é um caminho euleriano em um grafo?,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:0:2,"quem goste de enfatizar esse aspecto da deﬁnição dizendo que o grafo é “simples”.
+Muitas vezes é conveniente dar um nome ao grafo como um todo. Se o nome do
+1 A palavra “grafo” é um neologismo derivado da palavra graph em inglês. Ela foi usada pela
+primeira vez no sentido que nos interessa aqui pelo matemático inglês James Joseph Sylvester
+(  −  ).
+2 Além disso, suporemos quase sempre, tacitamente, que V ̸= ∅.
+8
+www.cliqueapostilas.com.br",pt,partially_relevant
+q27,in_corpus,O que é um caminho euleriano em um grafo?,Uma Introducao Sucinta aa Teoria dos Grafos.pdf:1:2,"grafo do bispo , o grafo do cavalo e o grafo da torre t–por– t. Quantos vértices e
+quantas arestas tem o grafo do cavalo 4 –por– 4 ?
+3 No tabuleiro usual, t vale 8 .
+www.cliqueapostilas.com.br",pt,partially_relevant
+q27,in_corpus,O que é um caminho euleriano em um grafo?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:10:1,"quando vamos mostrar nosso cachorro a alguém, não dizemos “esse é um cão”, e 
+sim “esse é o pluto”, ou “snoopy”. O que se pode ver não é uma classe de seres, 
+mas um cachorro específico, um objeto.
+ 
+ 
+ 
+ 
+Nome 
+Idade 
+Peso 
+Cor dos olhos 
+Comer 
+Dormir 
+Animais 
+Mamíferos 
+Cor dos pêlos 
+Comprimento 
+dos pêlos 
+ 
+Sentar 
+Amamentar 
+Aves 
+Cor das penas 
+Tamanho das 
+penas 
+ 
+Botar Ovo 
+Répteis 
+Tipo de 
+Escamas 
+Comprimento 
+da calda 
+ 
+Rastejar 
+Cães Gatos 
+ 
+ 
+Latir 
+Pegar a Bola 
+ 
+ 
+Miar 
+Subir na árvore",pt,not_relevant
+q27,in_corpus,O que é um caminho euleriano em um grafo?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:5:1,"mes que me deram o sentimento de pertencimento familiar e suporte durante toda minha gradu-
+ação. Estarão sempre em meu coração.
+Aos meus avós, Maria Gomes, Josué Barbosa, Iracema V asconcelos e Adriano
+Queiroz. Maria e Josué, de origem humilde e camponesa, nunca tiveram a oportunidade de
+estudar, mas batalharam muito para conseguir fornecer o necessário aos seus ﬁlhos. Minha gra-
+duação é também por eles e seus sonhos. Iracema e Adriano sempre foram pessoas de coração
+imenso que também buscaram dar o melhor aos ﬁlhos mostrando sempre gentileza e sabedo-
+ria. Além disso, sem meu avô Adriano, não existiria meu gosto pela leitura e curiosidade de
+aprender.
+Aos trabalhadores e trabalhadoras da área de ensino e tantas outras áreas que estão
+todos os dias lutando para construir um Brasil para sua classe.
+Aos amigos que me apoiaram nos momentos mais difíceis e me deram forças para
+eu continuar.",pt,not_relevant
+q28,in_corpus,O que é Retrieval-Augmented Generation (RAG)?,Evaluation of Retrieval-Augmented Generation: A Survey.pdf:8:0,"Evaluation of Retrieval-Augmented Generation: A Survey 9
+In summary, the creation and selection of datasets are crucial for evaluating RAG
+systems. Datasets tailored for specific metrics or tasks improve evaluation accuracy and
+guide the development of adaptable RAG systems for real-world information needs.
+3.3 Evaluation Metric ( How to quantify?)
+Navigating the intricate terrain of evaluating RAG systems necessitates a nuanced un-
+derstanding of the metrics that can precisely quantify the evaluation targets. However,
+creating evaluative criteria that align with human preferences and address practical con-
+siderations is challenging. Each component within the RAG systems requires a tailored
+evaluative approach that reflects its distinct functionalities and objectives.
+Retrieval Metrics Various targets can be evaluated with various metrics that corre-
+spond to the given datasets. This section will introduce several commonly used metrics",en,partially_relevant
+q28,in_corpus,O que é Retrieval-Augmented Generation (RAG)?,Large Language Models: A Survey.pdf:23:7,"lack of up-to-date knowledge or access to private or use-
+case-specific information. This is where retrieval augmented
+generation (RAG) comes into the picture [164]. RAG, illus-
+trated in figure 37, involves extracting a query from the input
+prompt and using that query to retrieve relevant information
+from an external knowledge source (e.g. a search engine or a
+knowledge graph, see figure 38 ). The relevant information is
+then added to the original prompt and fed to the LLM in order
+for the model to generate the final response. A RAG system
+includes three important components: Retrieval, Generation,
+Augmentation [165].",en,relevant
+q28,in_corpus,O que é Retrieval-Augmented Generation (RAG)?,Evaluation of Retrieval-Augmented Generation: A Survey.pdf:4:0,"Evaluation of Retrieval-Augmented Generation: A Survey 5
+Fig. 2: The Target modular of the Auepora.
+3.1 Evaluation Target ( What to Evaluate?)
+The combination of EOs and GTs in the RAG system can generate all possible targets,
+which is the fundamental concept of the Auepora (as shown in Figure 1). Once iden-
+tified, these targets can be defined based on a specific pair of EOs or EO with GT, as
+illustrated in Figure 2, and used to analyze all aspects of current RAG benchmarks.
+Retrieval The EOs are the relevant documents for evaluating the retrieval component
+depending on the query. Then we can construct two pairwise relationships for the re-
+trieval component, which are Relevant Documents ↔ Query, Relevant Documents ↔
+Documents Candidates.
+- Relevance (Relevant Documents ↔ Query) evaluates how well the retrieved docu-
+ments match the information needed expressed in the query. It measures the preci-
+sion and specificity of the retrieval process.",en,partially_relevant
+q28,in_corpus,O que é Retrieval-Augmented Generation (RAG)?,Retrieval-augmented generation for educational application: A systematic review.pdf:3:2,"terms in their titles, abstracts, or keywords. The search query used was 
+as follows:
+TS =  ((“retrieval augmented generation” OR  “retrieval-augmented 
+generation” OR  “retrieval-based generation” OR  “retrieval-augmented 
+models”) AND  (“education” OR  “teaching” OR  “student” OR  “class-
+room”)) 
+The search was carried out on 6 March 2025 and the publication pe-
+riod was restricted to 2020-2025, since RAG  was ﬁrst introduced as a 
+concept in 2020 (Lewis et al., 2020).
+3.2. Article screening phase
+To further ensure relevance at the intersection of RAG  and educa-
+tion, we reﬁned our selection by removing studies that do not fall within 
+the research domains of “Computer Science”, “Education & Educational 
+Research”, and “Engineering”. We  then applied exclusion criteria to im-
+prove the relevance and quality of the included studies. Studies were 
+excluded if they (1) only mentioned RAG  in discussions of future work",en,partially_relevant
+q29,in_corpus,Como funciona o Corrective RAG?,Integraçao de Modelos de Linguagem de Grande Escala com a técnica RAG para a Simplificaçãao de Consultas a Manuais Automotivos.pdf:1:3,"dos; a Se¸ c˜ ao 3 detalha a abordagem proposta; a Se¸ c˜ ao 4
+descreve o estudo de caso realizado para validar a arqui-
+tetura; a Se¸ c˜ ao 5 discute os principais resultados obtidos;
+e, finalmente, a Se¸ c˜ ao 6 apresenta as considera¸ c˜ oes finais
+e sugere caminhos para trabalhos futuros.
+2. TRABALHOS RELACIONADOS
+A integra¸ c˜ ao de LLMs com RAG est´ a emergindo em di-
+versas ´ areas, especialmente para aplica¸ c˜ oes que requerem
+compreens˜ ao contextual e gera¸ c˜ ao de respostas precisas
+(Yang et al., 2023; Maryamah et al., 2024). Essa tendˆ encia
+´ e sustentada por uma revis˜ ao abrangente da literatura e
+an´ alise de aplica¸ c˜ oes existentes, cujas contribui¸ c˜ oes influ-
+enciaram a arquitetura proposta neste estudo.
+No trabalho de Yang et al. (2023), ´ e apresentada uma
+abordagem que estende o RAG para a fala, visando prever
+a inten¸ c˜ ao por tr´ as da linguagem falada (SLU). Essa abor-
+dagem ´ e composta por dois componentes: um recuperador",pt,partially_relevant
+q29,in_corpus,Como funciona o Corrective RAG?,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:11:2,"ferramentas que pouparão tempo, e c onsequentemente, dinheiro. Segundo o autor, estas 
+ferramentas serão acionadas t oda vez que alguém atualiza r alguma funcionalidade. Neste 
+momento, o servidor de construção contínua , irá “acordar”, construir tudo desde o início em 
+um servidor compartilhado e realizar todos os testes, em caso de erro, todos são avisados.",pt,not_relevant
+q29,in_corpus,Como funciona o Corrective RAG?,PROGRAMAÇÃO ORIENTADA A OBJETOS: UMA VISÃO CONCEITUAL DOS ELEMENTOS DE MODELAGEM.pdf:29:1,"corremos o risco de criamos implementações diferentes para o mesmo cenário e 
+assim tornando a manutenção cada vez mais custosa e complexa.   
+ 
+Esse não é um recurso que OO proporciona n ativamente, é necessário 
+também que os fundamentos de polimorfismo, abstração e encapsulamento estejam 
+bastante claros a ponto de podermos construir algumas estruturas que podem ser 
+reutilizadas no sistema. 
+ 
+Antes do reuso tornar-se uma palavra chave dentro do paradigma de objetos, 
+no mundo da computação já existia o conceito de DRY – Don’t Repeat Yourself (não 
+repita a si mesmo), que representa muito bem o que queremos com reuso, que cada 
+conhecimento do sistema possua apenas uma única representação, e não  esteja 
+espalhado pelo projeto.",pt,not_relevant
+q29,in_corpus,Como funciona o Corrective RAG?,Integraçao de Modelos de Linguagem de Grande Escala com a técnica RAG para a Simplificaçãao de Consultas a Manuais Automotivos.pdf:1:4,"abordagem que estende o RAG para a fala, visando prever
+a inten¸ c˜ ao por tr´ as da linguagem falada (SLU). Essa abor-
+dagem ´ e composta por dois componentes: um recuperador
+e um gerador. O primeiro realiza uma busca na base de
+conhecimento dispon´ ıvel para obter frases e r´ otulos de
+inten¸ c˜ ao relevantes para a entrada de fala fornecida. J´ a
+o segundo componente associa as representa¸ c˜ oes de fala
+recuperadas a prompts textuais correspondentes e r´ otulos
+de inten¸ c˜ ao, orientando assim o decodificador SLU. Para
+avaliar a validade dessa abordagem, foram conduzidos
+experimentos com oito configura¸ c˜ oes diferentes, demons-
+trando que a integra¸ c˜ ao da base de conhecimento por meio
+do RAG aos modelos de reconhecimento de fala melhorou
+significativamente seus desempenhos. No entanto, o sis-
+tema desenvolvido n˜ ao foi disponibilizado em uma aplica-
+¸ c˜ ao web, lacuna que o presente artigo busca preencher.
+Em Maryamah et al. (2024), prop˜ oem-se um chatbot in-",pt,partially_relevant
+q30,in_corpus,Quais métricas são usadas para avaliar sistemas RAG?,INTRODUÇÃO A BANCO DE DADOS.pdf:97:1,"Após identificação da granularidade e das dimensões, é o momento de focalizar a tabela fato. 
+Para isso, começa-se definindo quais métricas ou fatos deseja-se avaliar no data warehouse. 
+Estes fatos são os números que serão analisados através das diferentes dimensões. A seleção 
+dos fatos para compor o modelo do data warehouse é relativamente simples: uma vez que a 
+área de negócios esteja definida, a lista de fatos a serem utilizados responde a questão: “O que 
+estamos avaliando?”. 
+O exemplo, representado pelas Figuras 1 e 4, ilustra em suas respectivas tabelas centrais, 
+quais são os valores relevantes para a análise do processo de pedidos. 
+Existem três tipos de métricas ou fatos, discutidos na próxima seção. 
+10.3.3 Os três tipos de métricas 
+As métricas mais  comuns são as completamente aditivas.  Diz-se que uma métrica é 
+completamente aditiva, quando faz sentido sumarizá-la adicionando seus valores ao longo de",pt,not_relevant
+q30,in_corpus,Quais métricas são usadas para avaliar sistemas RAG?,INTRODUÇÃO A BANCO DE DADOS.pdf:96:5,"dados fiquem bem definidas. No exemplo anteri or, de pedidos, nota-se que alguns exemplos 
+como a dimensão Tempo (Data) inclui os atribut os Ano, Trimestre, Mês e Data (que inclui o 
+dia), juntamente com outros atributos relacionados a uma data específica. Estes componentes 
+não foram colocados em uma série de tabelas progressivamente mais detalhadas. Em vez 
+disso, estão em uma única tabela que deixa cl ara a hierarquia. Por exemplo, enquanto que a 
+ocorrência do ano de 2004 possa aparecer na tabela 365 vezes, isto ficará invisível ao usuário. 
+Quando as métricas forem sumariadas por ano, apenas uma ocorrência de 2004 aparecerá no 
+relatório.  
+Um atributo muito importante da tabela dimensão é sua chave. A chave primária de uma tabela 
+dimensão dever ser sempre um atributo único e definido pelo sistema com um valor genérico. 
+Por questões de desempenho, não se utilizam chaves compostas por várias partes nem",pt,not_relevant
+q30,in_corpus,Quais métricas são usadas para avaliar sistemas RAG?,INTRODUÇÃO A BANCO DE DADOS.pdf:104:2,"possuem como chave primária, uma chave genérica gerada pelo sistema, da mesma forma que 
+o esquema Star clássico. Pode acontecer que uma métrica ocorra apenas para um 
+determinado nível de uma dimensão. Por exemplo, a métrica Preço existe unicamente no nível 
+Item da dimensão Produto. A Figura 12 retrata esta variação do Star, representando apenas a 
+dimensão Geografia, separada nos níveis de Região e de Cidade, e as tabelas fatos 
+associadas a estes níveis.",pt,not_relevant
+q30,in_corpus,Quais métricas são usadas para avaliar sistemas RAG?,INTRODUÇÃO A BANCO DE DADOS.pdf:97:2,"As métricas mais  comuns são as completamente aditivas.  Diz-se que uma métrica é 
+completamente aditiva, quando faz sentido sumarizá-la adicionando seus valores ao longo de 
+qualquer dimensão. No exemplo de pedidos, o valor do pedido, a margem, o custo e a 
+quantidade pedida são todas métricas completamente aditivas. Apesar de serem armazenadas 
+na tabela fato para um determinado produto, um cliente, um vendedor e uma data específica, 
+pode-se facilmente sumarizá-las da maneira que for de interesse. Para verificar os pedidos de 
+um determinado mês, basta adicionar os valores dos pedidos de todas as datas daquele mês. 
+O mesmo ocorre para verificar a margem obt ida para uma determinada categoria de produtos. 
+Basta adicionar os valores de margem para todos os produtos de uma determinada categoria. 
+As métricas completamente aditivas são bas tante úteis e poderosas, já que não existem 
+limitações em sua utilização. Po dem ser facilmente sumariadas para qualquer combinação de",pt,not_relevant
+q31,in_corpus,O que é alucinação em modelos de linguagem?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:16:1,"cada vez mais é necessário o entendimento do paradigma funcional.
+Logo, iremos explicar alguns dos principais conceitos do paradigma funcional, par-
+tindo da unidade elementar, que é a função, explorando as categorias que elas podem assumir
+em diferentes linguagens. Em seguida, apresentaremos imutabilidade, efeitos colaterais, casa-
+mento de padrões e uma classiﬁcação sobre diferentes formas de tipagem que uma linguagem
+funcional pode ter.
+2.1 Funções como alicerce
+Quando estuda um novo idioma, o estudante em um determinado momento deve en-
+tender como as frases podem ser estruturadas. Por exemplo, no português, uma frase aﬁrmativa
+comum segue a sequência de sujeito, predicado e objeto. Assim como na língua portuguesa,
+linguagens de programação têm regras que formalizam como os programas podem ser preen-
+chidos de signiﬁcados. Explorando um pouco mais a analogia, quando se entende como essas",pt,not_relevant
+q31,in_corpus,O que é alucinação em modelos de linguagem?,"Transformando a educação com Large Language Models (LLMs): beneficios, limitações e perspectivas.pdf:12:1","especialmente em contextos educacionais. 
+Por fim, os LLMs enfrentam desafios técnicos e culturais. Modelos 
+treinados com predominância de dados em inglês limitam sua aplicabilidade em 
+idiomas e culturas sub -representadas (Kwak; Pardos, 2024). Além disso, 
+ferramentas como ChatGPT frequentemente geram conteúdo fictício, conhecido 
+como ""alucinação"", comprometendo a confiabilidade de suas respostas 
+(Mohapatra et al. , 2023). Essas questões destacam a necessidade de 
+supervisão humana e capacitação de educadores para mediar o uso dessas  
+tecnologias, promovendo uma integração ética e eficaz nos contextos 
+educacionais (Eager; Brunton, 2023; Rahman; Watanobe, 2024). 
+ 
+3.4 PERSPECTIVAS FUTURAS PARA O USO DE LARGE LANGUAGE 
+MODELS NA EDUCAÇÃO 
+ 
+Eager e Brunton (2023) afirmam que o avanço acelerado das tecnologias 
+de IA apresenta incertezas e novas possibilidades para a educação, comparando 
+o processo a ""construir o avião enquanto o voamos"". Destacam a importância de",pt,relevant
+q31,in_corpus,O que é alucinação em modelos de linguagem?,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:3:3,"2000]. As linguagens funcionais estão pr óximas à matemática,  sendo, portanto, um 
+veículo ideal para o ensino dos princípios de programação em um curso introdutório. 
+Alguém pode argumentar que a matemática ta mbém  é tão difícil de aprender quanto 
+escrever programas procedurais. A isto podemos contra-argumentar lembrando que para 
+estudantes de computação isso não se aplica, pois a matemática já é um formalismo 
+incorporado à linguagem  e o conceito de função é fundamental para a modelagem de 
+problemas do mundo real. Assim, ao invés de o aluno ter dois novos desafios, conhecer 
+um modelo computacional e utilizar o computador, retardamos um deles, visto que os 
+primeiros passos serão dados usando um formalismo familiar. 
+Os currículos de  computação que adotam a linguagem funcional para seus 
+cursos introdutórios o fazem por diferentes  motivos, dentre eles , Glaser e Henderson 
+(1995) destacam três atributos compartilhados  por todas as linguagens funcionais: (i)",pt,not_relevant
+q31,in_corpus,O que é alucinação em modelos de linguagem?,"Transformando a educação com Large Language Models (LLMs): beneficios, limitações e perspectivas.pdf:2:1","bilhões de parâmetros, esses modelos são capazes de realizar uma ampla gama 
+de tarefas relacionadas à linguagem, desde tradução automática até assistência 
+na redação de textos (Essel et al., 2024; Skaar, 2024). Esses modelos não são 
+apenas ferramentas tecnológicas sofisticadas; possuem cara cterísticas únicas 
+que os tornam versáteis em diversos contextos. Misiejuk, Kaliisa e Scianna 
+(2024) descrevem-nos como ""canivetes suíços"" para aplicações relacionadas à 
+linguagem, devido à sua capacidade de adaptação a diferentes cenários, como 
+análise de dados textuais, resumo de informações e suporte ao aprendizado. 
+No contexto educacional, essa versatilidade revela -se particularmente 
+promissora. Pereira et al . (2024) destacam que os LLMs têm o potencial de 
+personalizar o aprendizado, adaptando conteúdos às necessidades específicas 
+dos alunos e apoiando educadores no planejamento e execução de estratégias 
+pedagógicas. Contudo, sua adoção enfrenta barreiras significativas. Kwak e",pt,partially_relevant
+q32,in_corpus,O que é a abordagem LLM-as-a-judge?,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:18:2,"O detalhe ´ e que o elemento 27 que estava na posi¸ c˜ ao 10 conti nua l´ a, mas, como o
+vetor agora tem tamanho 9 (pois um elemento foi removido) est e ´ ultimo 27 agora ´ e
+lixo de mem´ oria.
+Com rela¸ c˜ ao ao algoritmo de inser¸ c˜ ao de um elemento em um vetor ordenado,
+deve-se primeiro determinar a posi¸ c˜ ao correta de inser¸ c˜ ao, logo, um processo de busca
+deve ser feito, iniciando do come¸ co do vetor (posi¸ c˜ ao 1) a t´ e que seja encontrado um
+elemento maior que aquele que est´ a se inserindo. Para facil itar esta busca, usamos
+uma sentinela.
+Tomemos novamente como exemplo o vetor abaixo e consideremo s que vamos
+inserir o elemento 17.",pt,not_relevant
+q32,in_corpus,O que é a abordagem LLM-as-a-judge?,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:14:1,"vetor. Mas, se dermos sorte, o elemento pode estar no in´ ıcio do vetor e terminar bem
+r´ apido. Na m´ edia, espera-se que ele pare mais ou menos na met ade do vetor, isto ´ e,
+considerando-se uma distribui¸ c˜ ao uniforme dos elementos.
+Mas como o la¸ co faz dois testes, no caso do elemento n˜ ao ser e ncontrado ele ser´ a
+um pouco mais lento. Notem que o duplo teste no la¸ co ´ e necess´ ario pois deve parar
+ou porque achou o elemento ou porque o vetor terminou. Este segundo teste s´ o vai
+dar true uma ´ unica vez (quando o elemento n˜ ao est´ a presente no veto r), o que ´ e um
+desperd´ ıcio.
+Se pudesse haver garantia de que sempre o elemento procurado estivesse presente,
+ent˜ ao poder´ ıamos construir um teste simples, o que pode no s economizar alguma
+computa¸ c˜ ao. Esta garantia n˜ ao pode existir, certo? Mais ou menos. Digamos que o
+programador deliberadamente coloque o elemento no vetor. Ne ste caso, h´ a a garantia",pt,not_relevant
+q32,in_corpus,O que é a abordagem LLM-as-a-judge?,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:10:2,"elementos do conjunto, enquanto que com o contador o conjunt o permanece inalterado.
+A ´ ultima fun¸ c˜ ao serve para testar se dois conjuntos s˜ ao iguais e ´ e apresentada na
+ﬁgura 12.15. O algoritmo ´ e eﬁciente, linear, pois os vetore s est˜ ao ordenados.",pt,not_relevant
+q32,in_corpus,O que é a abordagem LLM-as-a-judge?,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:5:2,"celebridade, mas B ainda pode ser, por isso reinserimos B de volta no conjunto. Caso
+B n˜ ao conhe¸ caA, ent˜ aoA n˜ ao pode ser celebridade, mas B ainda pode ser, por isso
+reinserimos A de volta no conjunto.
+Se repetirmos este racioc´ ınio at´ e o conjunto ser unit´ ari o, ent˜ ao este elemento ´ e
+candidato a ser celebridade, pois ela pode n˜ ao estar presen te na festa. Toda esta
+opera¸ c˜ ao custa duas vezes o n´ umero de presentes e ´ e portanto linear.
+A ﬁgura 12.3 mostra os principais trechos do programa que imp lementa esta ideia.
+Ele considera que, previamente, todos os presentes foram in seridos no conjunto c e
+que existe uma fun¸ c˜ aoconhece que retorna true caso a conhe¸ cab na matriz m que
+tem dimens˜ aon, e false caso contr´ ario. Tamb´ em ´ e necess´ ario, previamente, inicializar
+o conjunto c antes de inserir os presentes.
+A ﬁgura 12.4 mostra o c´ odigo da fun¸ c˜ ao que faz o teste ﬁnal, isto ´ e, se o ´ unico",pt,not_relevant
+q33,in_corpus,Como bancos de dados vetoriais armazenam e recuperam embeddings?,BANCO DE DADOS NOSQL VS. BANCO DE DADOS RELACIONAL: Uma análise comparativa.pdf:3:0,"determinada empresa”. Este termo “persistente”, segundo o autor, consiste na permanência do registro 
+efetuado no banco de dados, onde o mesmo somente poderá ser removido quando ocorrer outra 
+requisição explícita ao sistema gerenciador do banco de dados, solicitando sua remoção. 
+Com base nos argumentos apresentados pelos autores, podemos então definir Banco de Dados 
+como uma coleção de dados auto descritiva, coerente e lógica, que possuem um significado implícito, 
+utilizando dados persistidos para representar aspectos do mundo real, visando promover apoio aos seus 
+usuários. E atualmente, é possível presenciarmos , em vários cenários e situações , a utilização de 
+sistemas eletrônicos e aplicações, que se torna ram responsáveis pelo gerenciamento destes bancos 
+dados, facilitando a organ ização, manipulação, consulta e outras necessidades que o usuário possa 
+precisar. Estes sistemas e aplicações são os chamados “Sistemas de Gerenciamento de Banco de 
+Dados”.",pt,not_relevant
+q33,in_corpus,Como bancos de dados vetoriais armazenam e recuperam embeddings?,"BANCOS DE DADOS NÃO-RELACIONAIS: UM NOVO
+PARADIGMA PARA ARMAZENAMENTO DE DADOS EM SISTEMAS
+DE ENSINO COLABORATIVO.pdf:9:1","5.4. Simples manipulação 
+Os bancos de dados não -relacionais em geral demonstram grande simplicidade na sua 
+manipulação e configuração. Um exemplo está no banco de dados MongoDB que utiliza o 
+formato JSON, trazendo mais facilidade ao desenvolvedor.  
+Dependendo da política de cada sistema, não é necessário manter especialistas em 
+bancos de dados para gerenciar bancos de dados não -relacionais. Devido à sua simplicidade, 
+os próprios desenvolvedores podem executar esta tarefa. 
+6. Conclusão 
+ Geralmente, entidades que decidem utilizar bancos de dados não -relacionais buscam 
+por um alto nível de escalabilidade para trabalhar com grandes volumes de dados e alta 
+disponibilidade afim de oferecer o menor tempo de resposta aos seus usuários. 
+Em sistemas de ensino colaborativos, onde novos dados são criados à todo instante e  
+necessitam destas características, como por tais e comunidades online e fóruns , abordagens",pt,not_relevant
+q33,in_corpus,Como bancos de dados vetoriais armazenam e recuperam embeddings?,Banco de Dados - Relacionais e Não Relacionais.pdf:0:0,"Banco de Dados -
+Relacionais e Não
+Relacionais
+V3/2021",pt,not_relevant
+q33,in_corpus,Como bancos de dados vetoriais armazenam e recuperam embeddings?,Programação Orientada a Objetos: Uma Abordagem com Java.pdf:89:2,"armazenadosno banco de dados(CallableStatement).
+Exemplo completo
+Esteexemplo ilustrao mecanismo básicoparauma aplicaçãoJava acessarum bancode dados.O
+objetivo é apresentaro conteúdoda seguinterelação,a tabela“notas”do banco de dados“poojava”:
+>javaPoojavaDB
+fname lname activ grd
+Joao Silva 1 6
+Joao Silva 2 7
+Pedro Souza 1 8
+Pedro Souza 2 5
+Maria Santos 1 7
+Maria Santos 2 8
+c
+
+2001 FEEC/UNICAMP 89",pt,not_relevant
+q34,in_corpus,O que são sistemas tutores inteligentes?,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:6:0,"• O poder computacional do paradigma funcional é idêntico ao dos outros paradigmas. 
+Apesar disso, ele ainda não é usado nas empresas por vários  aspectos. Destes 
+aspectos podemos citar: (i) no passado, programas escritos em linguagem funcionais 
+eram executados muito lentamente; (ii) a cultura de linguagens imperativas possui 
+muitos adeptos no mundo inteiro, o que inevitavelmente cria uma barreira à 
+introdução de um novo paradigma; (iii) há uma crença equivocada de que linguagens 
+funcionais são difíceis de aprender e só  servem para cons truir programas de 
+inteligência artificial;  
+• A ineficiência das linguagens funcionais em comparação às imperativas tem se 
+reduzido através de alguns mecanismos tais como: lazy evaluation, grafo de redução, 
+combinadores.  
+• Para fazer um programa que funciona (faz alguma coisa, não necessariamente o que 
+desejamos) é mais fácil fa zê-lo no paradigma imperativo. Para fazer um programa",pt,not_relevant
+q34,in_corpus,O que são sistemas tutores inteligentes?,Utilizando Programação Funcional em Disciplinas Introdutórias de Computação.pdf:4:3,"período dos cursos de Ciência da Comput ação e de Engenharia da Computação. Os 
+matriculados nessas di sciplinas introdutórias ingressam em  seus cursos todos os anos 
+via processo seletivo. Portanto, estão familiarizados com a notação matemática e 
+problemas geométricos. 
+ Neste ponto vale comentar sobre o perf il dos estudantes inscritos no curso. Em 
+geral, são estudantes que acabaram de conc luir o ensino médio. Mas, apesar disso, o 
+grupo é bastante heterogêneo. Em média, cer ca de 5% concluiu um curso técnico em 
+informática, 10% já teve algum contato com programação e a grande maioria (cerca de 
+98%) já utilizou o computador de alguma forma. 
+ Um curso introdutório para  esse perfil de estudante não poderia ser muito teórico 
+e nem utilizar uma linguagem de program ação que muitos já saberiam. Isto poderia 
+acentuar o desnível entre os estudantes, privilegiando os que já possuíam alguma 
+experiência. Portanto, a opção por linguagem funcional parecia bastante viável, uma vez",pt,not_relevant
+q34,in_corpus,O que são sistemas tutores inteligentes?,INTRODUÇÃO A BANCO DE DADOS.pdf:8:3,"recursos, entre outros. Tais aspectos são: 
+a) Os projetos Lógico e Funcional do Banco de Dados devem ser capazes de prever o volume 
+de informações armazenadas a curto, médio e longo prazo. Os projetos devem ter uma 
+grande capacidade de adaptação para os três casos mencionados; 
+b) Deve-se ter generalidade e alto grau de abstração de dados, possibilitando confiabilidade e 
+eficiência no armazenamento dos dados e permitindo a utiliz ação de diferentes tipos de 
+gerenciadores de dados através de linguagens de consultas padronizadas; 
+c) Projeto de uma interface ágil e com uma ""rampa ascendente"" para propiciar aprendizado 
+suave ao usuário, no intuito de minimizar o esforço cognitvo;",pt,not_relevant
+q34,in_corpus,O que são sistemas tutores inteligentes?,"Transformando a educação com Large Language Models (LLMs): beneficios, limitações e perspectivas.pdf:14:0","REVISTA CADERNO PEDAGÓGICO – Studies Publicações Ltda. 
+ISSN: 1983-0882 
+Page 15 
+REVISTA CADERNO PEDAGÓGICO – Studies Publicações e Editora Ltda., Curitiba, v.22, n.4, p. 01-20. 2025. 
+ 
+aprendizado mais personalizadas. Por meio de prompts bem elaborados, é 
+possível decompor conceitos complexos, fornecer feedback imediato e estimular 
+o pensamento crítico. Rahman e Watanobe (2023) exemplificam esse potencial, 
+mostrando como ferramentas como o ChatGPT podem planejar cursos, criar 
+conteúdos de aula e desenvolver exercícios. Rasul et al.  (2023) reforçam a 
+necessidade de uma integração cuidadosa dessas tecnologias, promovendo a 
+alfabetização em inteligência artificial e estratégias que fortaleçam os processos 
+de aprendizado. 
+Bratić et al. (2024) projetam um futuro onde ferramentas baseadas em IA 
+se tornem indispensáveis para a educação, destacando seu potencial para 
+transformar práticas educacionais além de aumentar a eficiência no",pt,partially_relevant
+q35,out_of_corpus,Qual a melhor receita de bolo de cenoura?,INTRODUÇÃO A BANCO DE DADOS.pdf:2:1,"7.1.2 Seqüência de Operações ...................................................................................... 51 
+7.1.3 Renomeando Atributos.......................................................................................... 52 
+7.1.4 Operações da Teoria dos Conjuntos..................................................................... 52 
+7.1.5 A Operação JOIN .................................................................................................. 55 
+7.1.6 Conjunto completo de Operações da Álgebra Relacional..................................... 57 
+7.1.7 A Operação DIVISION........................................................................................... 57 
+7.1.8 Operações Relacionais Adicionais........................................................................ 58 
+7.1.9 Funções de Agregação ......................................................................................... 58",pt,not_relevant
+q35,out_of_corpus,Qual a melhor receita de bolo de cenoura?,Banco de Dados - Relacionais e Não Relacionais.pdf:27:2,"mais medicamentos e pode requisitar exames. Um exame é identiﬁcado por seu número de série e
+tem anotados data de realização e descrição
+6- Monte o modelo Entidade Relacionamento do texto abaixo:
+Um reino possui um rei, cada rei tem nome e numeração, por exemplo (Dom João VI). Vários
+vassalos possuem um rei e vivem um reino, os vassalos possuem nomes e animais que os representam.
+Cada animal representa uma casa.
+7- Monte o modelo Entidade Relacionamento do texto abaixo:
+A Biblioteca Multimídia mantém um acervo de itens que podem ser livros, cds e dvds. Todos
+os itens possuem um código, título e descrição. Além disso, os livros possuem nome dos autores,
+assuntos, ano de publicação e editora; os cds possuem o nome da produtora, ano, músicas (nome
+e cantor); e os dvds possuem uma produtora, diretor e o nome dos atores principais. A biblioteca
+mantém o cadastro dos fornecedores de seus itens por código, nome, endereço e telefones. Os",pt,not_relevant
+q35,out_of_corpus,Qual a melhor receita de bolo de cenoura?,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,"16 Capítulo 2. Introdução a banco de dados relacional
+2.3 Lista de Exercícios
+1- O que é um banco de dados?
+2- Explique o que é um SGBD e cite exemplos.
+3- O que são DML, DCL, DDL e DQL? Cite exemplos.
+4- A internet pode ser considerada um banco de dados? Por quê?
+5- Descreva o que é uma chave primária.
+6- Descreva o que é chave estrangeira.
+7- Explique o que é atributo composto.
+8- Explique o que é atributo multivalorado.
+9- Cite a diferença entre chave primaria e chave estrangeira.
+10- Uma variável do tipo char armazena quais valores?
+11- Um atributo do tipo TIME é capaz de armazenar qual range de valor? E qual sua utilização?
+12- Qual o limite de valor de uma variável do tipo REAL?
+13- Qual tipo de variável em BD é capaz de armazenar um valor mair DOUBLE ou REAL?
+14- Qual a diferença entre Time, Year, DateTime e Date?
+15- O que é uma Entidade?
+16- Crie, no seu banco de dados, a Figura 2.4, insira os valores apresentados e em seguida",pt,not_relevant
+q35,out_of_corpus,Qual a melhor receita de bolo de cenoura?,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:75:2,"colunas (que ´ e metade do original) e tamb´ em o valor do novo p ixel de maior valor.
+Notem que o procedimento para se achar o maior pode ser facilme nte adaptado
+do programa da ﬁgura 10.9, modiﬁcado para se retornar um valo r do tipo integer e
+n˜ ao do tipo real, o que resulta na fun¸ c˜ ao da ﬁgura 10.26.
+Detectando bordas em arquivos PGM
+Pode parecer natural para usu´ arios de redes sociais, em esp ecial aqueles que nas-
+ceram no s´ eculo 21, observar que as fotograﬁas mostram retˆ angulos nos rostos das
+pessoas. Mas se vocˆ e acompanhou o nosso estudo at´ e agora co mo ´ e que ´ e poss´ ıvel
+identiﬁcar um rosto em uma matriz que s´ o tem n´ umeros?",pt,not_relevant
+q36,out_of_corpus,Quem ganhou a Copa do Mundo de 2002?,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:104:1,"s˜ ao de Curitiba (DDD 41) ou do Rio de Janeiro (DDD 21).
+Exemplo de entrada Sa´ ıda esperada
+Fulano
+41
+90001823
+Beltrano
+16
+98989876
+Sicrano
+21 Fulano
+96666666 Sicrano
+2. Acrescente o campo data_nascimento no tipo do exerc´ ıcio anterior. Este campo
+deve ser um registro contendo dia, mˆ es e ano, cada um deles se ndo um n´ umero
+inteiro. Considerarando que o vetor n˜ ao est´ a ordenado, fa ¸ ca um programa em
+Pascal que encontre e imprima o nome do cliente mais jovem.",pt,not_relevant
+q36,out_of_corpus,Quem ganhou a Copa do Mundo de 2002?,Banco de Dados - Relacionais e Não Relacionais.pdf:15:0,"16 Capítulo 2. Introdução a banco de dados relacional
+2.3 Lista de Exercícios
+1- O que é um banco de dados?
+2- Explique o que é um SGBD e cite exemplos.
+3- O que são DML, DCL, DDL e DQL? Cite exemplos.
+4- A internet pode ser considerada um banco de dados? Por quê?
+5- Descreva o que é uma chave primária.
+6- Descreva o que é chave estrangeira.
+7- Explique o que é atributo composto.
+8- Explique o que é atributo multivalorado.
+9- Cite a diferença entre chave primaria e chave estrangeira.
+10- Uma variável do tipo char armazena quais valores?
+11- Um atributo do tipo TIME é capaz de armazenar qual range de valor? E qual sua utilização?
+12- Qual o limite de valor de uma variável do tipo REAL?
+13- Qual tipo de variável em BD é capaz de armazenar um valor mair DOUBLE ou REAL?
+14- Qual a diferença entre Time, Year, DateTime e Date?
+15- O que é uma Entidade?
+16- Crie, no seu banco de dados, a Figura 2.4, insira os valores apresentados e em seguida",pt,not_relevant
+q36,out_of_corpus,Quem ganhou a Copa do Mundo de 2002?,Algoritmos e estrutura de dados - Tipos abstratos de dados.pdf:5:3,"o conjunto c antes de inserir os presentes.
+A ﬁgura 12.4 mostra o c´ odigo da fun¸ c˜ ao que faz o teste ﬁnal, isto ´ e, se o ´ unico
+elemento que sobrou no conjunto ´ e de fato a celebridade.",pt,not_relevant
+q36,out_of_corpus,Quem ganhou a Copa do Mundo de 2002?,CONCEITOS BÁSICOS DE PROGRAMAÇÃO ORIENTADA A OBJETOS.pdf:10:1,"quando vamos mostrar nosso cachorro a alguém, não dizemos “esse é um cão”, e 
+sim “esse é o pluto”, ou “snoopy”. O que se pode ver não é uma classe de seres, 
+mas um cachorro específico, um objeto.
+ 
+ 
+ 
+ 
+Nome 
+Idade 
+Peso 
+Cor dos olhos 
+Comer 
+Dormir 
+Animais 
+Mamíferos 
+Cor dos pêlos 
+Comprimento 
+dos pêlos 
+ 
+Sentar 
+Amamentar 
+Aves 
+Cor das penas 
+Tamanho das 
+penas 
+ 
+Botar Ovo 
+Répteis 
+Tipo de 
+Escamas 
+Comprimento 
+da calda 
+ 
+Rastejar 
+Cães Gatos 
+ 
+ 
+Latir 
+Pegar a Bola 
+ 
+ 
+Miar 
+Subir na árvore",pt,not_relevant
+q37,out_of_corpus,Como configurar um cluster Kubernetes na AWS com Terraform?,Banco de Dados - Relacionais e Não Relacionais.pdf:35:2,"dados. Por isso, é muito utilizado pelos desenvolvedores.
+MEMCACHED Este banco de dados não relacional também faz o armazenamento com chave-
+valor e usa um cache de memória distribuída. Geralmente, é utilizado para criar sites dinâmicos, pois
+acelera a abertura das páginas e diminui as buscas de dados de fontes externas.
+CASSANDRA Este banco de dados NoSQL foi desenvolvido no Facebook. Ele usa um banco
+de dados descentralizado, em que os dados são armazenados em vários datacenters. Ele é otimizado
+para cluster e fornece baixa latência em suas atualizações.
+HBASE O Hbase é um banco de dados que utiliza conjunto de linhas e colunas para armazenar
+as informações. Ele é utilizado em diferentes plataformas como o LinkedIn, Facebook e Spotify
+AMAZON DYNAMODBEste é um banco de dados NoSQL em nuvem, disponibilizado pela
+Amazon Web Service. Ele tem baixa latência, é rápido e ﬂexível, sendo o modelo ideal para
+aplicações móveis, jogos na web e soluções com internet das coisas.",pt,not_relevant
+q37,out_of_corpus,Como configurar um cluster Kubernetes na AWS com Terraform?,"BANCOS DE DADOS NÃO-RELACIONAIS: UM NOVO
+PARADIGMA PARA ARMAZENAMENTO DE DADOS EM SISTEMAS
+DE ENSINO COLABORATIVO.pdf:8:2","O Amazon Dynamo se destacou por causa da forma como o sistema escala. Cada nó no 
+cluster comunica com outros nós e faz ativamente parte da partição/replicação.  
+5.2 Alta disponibilidade 
+Um sistema de alta disponibilidade é um sistema capaz de resistir à falhas, cujo objetivo 
+é manter os serviços ativos o máximo de tempo possível.  Além de ser tolerante à falhas de 
+software, um sistema de banco de dados não relacional requer alto gerenciamento de memória 
+e processador para estar apto a responder à todas as requisições  com o menor tempo de 
+resposta possível.  
+5.3. Esquema Flexível",pt,not_relevant
+q37,out_of_corpus,Como configurar um cluster Kubernetes na AWS com Terraform?,ARQUITETURA DE MICROSSERVIÇOS.pdf:4:2,"(Microservice First) ou também é possível decompor uma aplicação monolítica já pronta em 
+microsserviços ( Monolith First ). Hoje já existem diversos padrões e estudos a respeito da 
+migração de uma arquitetura monolítica para uma arquitetura de microsserviços graças a 
+popularidade que a abordagem de microsserviços ganhou nos últimos anos com o avanço das 
+tecnologias de Cloud Computing.  
+Outra diferença notável entre a arquitetura monolítica e a arquitetura de 
+microsserviços está na camada de dados, um sistema m onolítico possui um único banco de 
+dados que centraliza os registros para todos os contextos do sistema, na arquitetura de 
+microsserviços, cada microsserviço possui o seu próprio banco de dados. 
+Embora teoricamente pareça uma diferença simples e de fácil c ompreensão, a 
+arquitetura de microsserviços na prática demanda mais tempo, energia e expertise tanto das 
+pessoas que desenvolvem quanto das pessoas que modelam a arquitetura  do sistema , fazer",pt,not_relevant
+q37,out_of_corpus,Como configurar um cluster Kubernetes na AWS com Terraform?,Estado da arte da pesquisa em: Clean Architecture e princípios de SOLID.pdf:8:1,"ambientes cloud estão as formas de processamento em tempo de design (interope rabilidade, privacidade, portabilidade, 
+segurança e consistência) e em tempo de execução (disponibilidade, escalabilidade, elasticidade, performance e adaptabilidade). 
+Cada um destes atributos pertence a uma parte de um sistema, nos quais, devem ser conduz idos individualmente por uma 
+arquitetura que comporte características relativas à sua função. Os autores levantam desafios relacionados à arquitetura em 
+ambientes cloud voltados para o desenvolvimento mobile, no quais, possibilitam serviços de computação e m larga escala para 
+usuários que usam dispositivos com capacidade de processamento e armazenamento limitada como smartphones. As soluções 
+para estes desafios, segundo o resultado que os autores descobriram, era a aplicação de uma arquitetura em camadas cuj as 
+responsabilidades sejam divididas para cada função específica e que cada camada possa ser expandida e modificada, obedecendo",pt,not_relevant
+q38,out_of_corpus,Como funciona o algoritmo de consenso Raft?,INTRODUÇÃO A BANCO DE DADOS.pdf:1:1,"1.1.4 Modelo Orientado a Objetos.................................................................................... 8 
+1.1.5 Sistemas Objeto-Relacionais .................................................................................. 9 
+1.2 ARQUITETURAS DE BANCO DADOS .................................................................................. 9 
+1.2.1 Introdução................................................................................................................ 9 
+1.2.2 Arquiteturas ........................................................................................................... 10 
+1.2.3 Resumo das arquiteturas de SGBDs .................................................................... 11 
+1.3 AMBIENTE DE IMPLEMENTAÇÃO CLIENTE-SERVIDOR....................................................... 12 
+2 DEFINIÇÃO GERAL....................................................................................................... 14",pt,not_relevant
+q38,out_of_corpus,Como funciona o algoritmo de consenso Raft?,Banco de Dados - Relacionais e Não Relacionais.pdf:27:4,"8- Monte o modelo Entidade Relacionamento do texto abaixo:
+A empresa aérea mantém o cadastro dos aeroportos nos quais ela tem autorização de pouso,
+sendo mantido o código, nome, cidade, estado e país do aeroporto. Os voos partem de um aeroporto
+de origem e vão até um aeroporto de destino, e possuem um código, duração e hora de partida. Além",pt,not_relevant
+q38,out_of_corpus,Como funciona o algoritmo de consenso Raft?,Análise das Respostas de LLMs em Relação ao ConteúdoIntrodutório de Programação: um Comparativo entre oChatGPT e o Gemini.pdf:21:2,"funções foram nomeadas tanto em inglês quanto em português, e seus nomes foram coesos em
+relação ao propósito de cada uma. No artigo anterior, foram 16 respostas usando funções com
+todas nomeadas em inglês. O Gemini fez uso de funções próprias apenas 5 vezes, sendo todas
+nomeadas em português e, assim como as nomeadas pelo ChatGPT, como nomes significativos
+e coesos. Como funções não é um dos assuntos introdutórios, é necessário que o aluno busque
+esse conhecimento para compreender as respostas fornecidas, alterando os códigos ou solicitando
+as alterações para adequar as soluções aos enunciados dos exercícios. É importante destacar que
+os LLMs são treinados com bases de códigos disponíveis em repositórios da Internet, com todos
+os níveis de conhecimento, portanto, esse comportamento de criar funções pode ser considerado
+comum, dependendo do contexto e da complexidade do exercício proposto.
+No geral, portanto, para os testes realizados para este artigo, o ChatGPT teve um aproveita-",pt,not_relevant
+q38,out_of_corpus,Como funciona o algoritmo de consenso Raft?,BANCOS DE DADOS RELACIONAIS.pdf:5:0,"SUMÁRIO 
+ 
+ 
+1.  INTRODUÇÃO ............................................................................................... 7 
+2.  BANCOS DE DADOS .................................................................................... 8 
+2.1.  PORQUE UTILIZÁ-LOS ................................................................................. 8 
+3.  SISTEMA DE BANCO DE DADOS ............................................................. 10  
+3.1.  DADOS ........................................................................................................ 10  
+3.2.  HARDWARE ................................................................................................ 11  
+3.3.  SOFTWARE ................................................................................................. 11  
+3.4.  USUÁRIOS .................................................................................................. 12  
+4.  ARQUITETURA DE SISTEMAS DE BANCO DE DADOS .......................... 13",pt,not_relevant
+q39,out_of_corpus,Qual a sintaxe de pattern matching em Rust?,Programação Orientada a Objetos com C++.pdf:45:0,"class Arquivo { 
+   FILE *file; 
+ public: 
+   Arquivo( char* nome ) { file=fopen(nome, “r”); } 
+   ~Arquivo()  { fclose(file); } 
+   char read() { return file?fgetc(file):EOF; } 
+   int aberto() { return file!=NULL; } 
+   operator FILE*() { return file; } 
+} 
+ 
+void main() 
+{ 
+   int i; 
+   Arquivo arq(“teste.c”); 
+   fscanf( (FILE*)arq, “%d”, &i ); 
+} 
+Exercício 6 - Classe Complex com operadores globais 
+Alterar a classe Complex para permitir expressões do tipo 1+c, onde c é complexo. 
+Exercício 7 - Calculadora RPN para complexos 
+Modificar a calculadora para operar com números complexos. 
+Exercício 8 - Classe String 
+Implementar uma classe String. A classe deve permitir comparações, concatenações, atribuições e 
+acesso a cada caracter, além de poder ser utilizada em funções como printf. O usuário desta classe não 
+precisa se preocupar com tamanho de memória alocado. Ou seja, se for necessário realocar memória",pt,not_relevant
+q39,out_of_corpus,Qual a sintaxe de pattern matching em Rust?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:32:0,"31
+Código-fonte 17 – JavaScript: Estrutura/comando switch case
+1 const nome = ""A"";
+2
+3 switch ( nome ) {
+4 case ""A"":
+5 console . log ("" nome = A"")
+6 break ;
+7 case ""B"":
+8 console . log ("" nome = B"");
+9 break ;
+10 case ""C"":
+11 console . log ("" nome = C"");
+12 break ;
+13 default :
+14 console . log ("" nome desconhecido "")
+15 }
+V ejamos que todos os exemplos tratados anteriormente, com exceção do Código-
+fonte 14, são comandos e realizam um passo de computação baseado na avaliação de uma
+condição que veriﬁca um determinado valor, como, por exemplo, se nome é igual a 2A2. O
+casamento de padrões ( pattern matching ) vai além, avaliando também a estrutura do objeto.
+Ao escrever let x = (1, 2, 3), nosso paradigma funcional vincula x a (1,2,3)
+fazendo uma igualdade verdadeira. Logo, fazendo let (a, 2, _) = (1, 2, 3), a lingua-
+gem veriﬁca se o lado esquerdo da igualdade tem a mesma estrutura do lado direito. V eja que",pt,partially_relevant
+q39,out_of_corpus,Qual a sintaxe de pattern matching em Rust?,Programação Orientada a Objetos com C++.pdf:5:0,"DGGETEVENT 92 
+APÊNDICE B - RESOLUÇÃO DOS EXERCÍCIOS 93  
+EXERCÍCIO 1 - CALCULADORA RPN COM CLASSES 93 
+STACK1.H 93 
+STACK1.CPP 93 
+CALC1.CPP 93 
+EXERCÍCIO 2 - CALCULADORA RPN COM NOVOS RECURSOS DE C++ 94 
+STACK2.H 94 
+STACK2.CPP 94 
+CALC2.CPP 94 
+EXERCÍCIO 3 - CALCULADORA RPN COM CONTROLE DE ACESSO 95 
+STACK3.H 95 
+STACK3.CPP 96 
+CALC3.CPP 96 
+EXERCÍCIO 4 - CALCULADORA RPN COM CONSTRUTORES 97 
+STACK4.H 97 
+CALC4.CPP 97 
+EXERCÍCIO 5 - CLASSE COMPLEX 98 
+COMPLEX1.H 98 
+COMPLEX1.CPP 98 
+TESTE1.CPP 99 
+EXERCÍCIO 6 - CLASSE COMPLEX COM OPERADORES GLOBAIS 99 
+COMPLEX2.H 99 
+COMPLEX2.CPP 100 
+TESTE2.CPP 100 
+EXERCÍCIO 7 - CALCULADORA RPN PARA COMPLEXOS 100 
+STACK5.H 100 
+CALC5.CPP 101 
+EXERCÍCIO 8 - CLASSE STRING 102 
+STRING.CPP 102 
+EXERCÍCIO 9 - CALCULADORA COMO UM OBJETO. CLASSE RPN 103 
+CALC6.CPP 103 
+EXERCÍCIO 10 - CLASSE LIST 104 
+LISTOBJ.H 104 
+LISTOBJ.CPP 105 
+TESTE4.CPP 105 
+EXECRÍCIO 11 - UMA APLICAÇÃO ORIENTADA A EVENTOS EM C 105 
+POE.C 105 
+EXERCÍCIO 12 - CLASSE APPLICATION 106",pt,not_relevant
+q39,out_of_corpus,Qual a sintaxe de pattern matching em Rust?,Programação Orientada a Objetos com C++.pdf:6:0,"APÊNDICE C - LEITURA RECOMENDADA 113  
+LIVROS DE C++ 113 
+LIVROS GERENCIAIS SOBRE OO 113 
+LIVROS SOBRE PROJETO OO 113",pt,not_relevant
+q40,false_premise,Por que bancos de dados NoSQL não suportam nenhum tipo de consulta?,Banco de Dados - Relacionais e Não Relacionais.pdf:3:2,"6.1 Banco de dados NOSQL 35
+6.1.1 Principais bancos de dados NoSQL . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+7 Referências . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39",pt,not_relevant
+q40,false_premise,Por que bancos de dados NoSQL não suportam nenhum tipo de consulta?,Banco de Dados - Relacionais e Não Relacionais.pdf:34:0,"6. BDs NoSQL
+Quando as pessoas usam o termo “banco de dados NoSQL”, geralmente o usam para se referir a
+qualquer banco de dados não relacional. Alguns dizem que o termo “NoSQL” signiﬁca “não SQL”,
+enquanto outros dizem que signiﬁca “não apenas SQL”.
+6.1 Banco de dados NOSQL
+Um erro muito comum é quando dizem que os bancos de dados não relacionais não armazenam
+bem dados de relacionamento. Eles podem armazenar dados de relacionamento, mas apenas os
+armazenam de maneira diferente dos bancos de dados relacionais. De fato, muitos consideram a
+modelagem relacionamentos nos bancos de dados NoSQL mais fácil do que nos bancos de dados
+SQL, porque os dados relacionados não precisam ser divididos entre as tabelas.
+Os modelos de dados NoSQL permitem por exemplo, que os dados relacionados sejam feitos
+em uma única estrutura de dados. Diferentemente dos bancos relacionais, a estrutura de dados
+não precisa ser deﬁnida previamente, portanto, em uma mesma “tabela” você pode ter dados com",pt,partially_relevant
+q40,false_premise,Por que bancos de dados NoSQL não suportam nenhum tipo de consulta?,Banco de Dados - Relacionais e Não Relacionais.pdf:36:0,"6.1 Banco de dados NOSQL 37
+Esses são os principais exemplos de bancos de dados NoSQL ou não-relacionais. O uso entre
+eles pode se diferenciar de acordo com as necessidades de cada negócio. Portanto, o mais indicado é
+buscar o auxílio de uma empresa especializada em soluções de armazenamento de bancos de dados.",pt,partially_relevant
+q40,false_premise,Por que bancos de dados NoSQL não suportam nenhum tipo de consulta?,Banco de Dados - Relacionais e Não Relacionais.pdf:35:0,"36 Capítulo 6. BDs NoSQL
+e valores. Esses valores podem ser qualquer tipo de dado, um texto, um número, um JSON e
+eles podem ser recuperados fazendo referência a sua chave, fazendo com que sua consulta
+seja muito simples. Esses bancos são ótimos para quando você precisa armazenar grandes
+quantidades de dados, mas não precisa executar consultas complexas neles. Os usos mais
+comuns são para armazenamento de dados em cache. Redis e DynanoDB são provavelmente
+os bancos mais populares desse tipo
+• Armazenando grandes volumes de dados sem estrutura deﬁnida. Um banco de dados NoSQL
+não limita os campos, diferente das colunas no SQL. Além disso, você pode adicionar novas
+propriedades conforme as necessidades dos negócios mudam, sem se preocupar com o impacto
+nas demais informações armazenadas.
+• Usando computação e armazenamento em nuvem. Com o avanço e barateamento dos serviços
+clouds, é possível usar bancos de dados NoSQL inicialmente pequenos, como eles são",pt,relevant
+q41,false_premise,Por que no Scrum não existe a figura do Product Owner?,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:8:2,"4.2 Equipes de trabalho 
+ 
+ Kniberg (2007) considera que muitas coisas se complicam quando se tem várias 
+equipes trabalhando no mesmo produto. Esse problema é universal e não tem nada a ver com 
+o Scrum. Assim sendo, o recomendável é que se trabalhe com equipes de a té onze pessoas, 
+pois um número maior poderia incidir na perda do controle e organização. 
+ Considerando o ponto de vista do autor, uma solução para pequenas empresas com um 
+número de desenvolvedores maior que isso, seria a divisão da equipe, assim como seu  
+treinamento, no intuito de instruir, e aumentar o foco naquilo que realmente interessa.",pt,partially_relevant
+q41,false_premise,Por que no Scrum não existe a figura do Product Owner?,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:4:2,"complexos e foi originalmente formalizado para projetos de desenvolvimento de software, 
+mas funciona bem para qualquer escopo de trabalho inovador.  
+ Pressman (2006), explica que o Scrum é um modelo ágil de processo, desenvolvido 
+por Jeff Sut herland e por sua equipe no início da década de 1990, onde há um padrão de 
+processo em que ocorrem as tarefas de trabalho, chamado Sprint. O trabalho conduzido dentro 
+de um Sprint é adaptado ao problema em mãos, e freqüentemente modificado pela equipe 
+Scrum.  
+ De acordo com Pressman (2006), n o Scrum existem três papéis conhecidos como 
+Scrum Master , Product Owner  (PO) e o Scrum Team , onde o  Scrum Master  tem a 
+responsabilidade de manter a equipe ( Scrum Team ), focada no objetivo, evitando que 
+problemas de natureza não técnica interrompam suas atividades dentro do Sprint. O PO, como 
+sugerido pelo  nome, é o dono do produto a ser desenvolvido,  um usuário representante do",pt,relevant
+q41,false_premise,Por que no Scrum não existe a figura do Product Owner?,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:5:0,"6 
+NUNES, R. D. A implantação das metodologias ágeis de desenvolvimento de software Scrum e Extreme 
+Programming (XP) 
+ 
+ForSci.: r. cient. IFMG, Formiga, v. 4, n.2, e00117, jul./dez. 2016. 
+ 
+ 
+auxiliar a equipe em dúvidas relativas ao produto em construção, e principalmente, com o 
+Product Backlog, que é uma lista de desejos com as funcionalidades a serem implementadas. 
+ Ainda na definição de P ressman (2006), o Scrum Team  realiza todo trabalho 
+operacional, e é composta por geralmente cinco a nove pessoas que decidem como o trabalho 
+é organizado e como as atribuições serão divididas. No Scrum Team, não há papéis definidos, 
+todos devem ser capazes de trocar as tarefas com outro membro, pois a idéia é que a equipe 
+seja polivalente e uniforme tecnicamente. 
+ O Scrum possui também quatro reuniões, ou cerimônias,  como são chamadas na 
+literatura. A primeira delas é a Sprint Planning, ou planejamento do Sprint, que é uma sessão",pt,relevant
+q41,false_premise,Por que no Scrum não existe a figura do Product Owner?,A IMPLANTAÇÃO DAS METODOLOGIAS ÁGEIS DE DESENVOLVIMENTO DE SOFTWARE SCRUME EXTREME PROGRAMMING (XP): UMA ALTERNATIVA PARA PEQUENAS EMPRESAS DO SETOR DE TECNOLOGIA DA INFORMAÇÃO.pdf:5:1,"O Scrum possui também quatro reuniões, ou cerimônias,  como são chamadas na 
+literatura. A primeira delas é a Sprint Planning, ou planejamento do Sprint, que é uma sessão 
+de trabalho facilitada e liderada pelo Scrum Master , sendo dividida em duas partes. Na 
+primeira parte o Product Owner apresenta e explica os itens de maior valor de negócio para o 
+time. E na segunda parte, o time irá estimar o tamanho e/ou a complexidade das tarefas. 
+ A segunda reunião, chamada de Sprint Review , é realizada depois de concluído o 
+Sprint, ond e o time apresentará para o PO o incremento de produto gerado nesta iteração. 
+Apenas tarefas 100% concluídas devem ser apresentadas. 
+ A terceira, conhecida como retrospectiva do Sprint, definida por Kniberg (2007) como 
+sendo um dos momentos mais importantes, pois nessa reunião todo o time realiza uma auto -
+reflexão e procura identificar no Sprint que acabou o que funcionou bem, o que não funcionou 
+bem, e o que pode ser melhorado.",pt,relevant
+q42,false_premise,Por que a busca binária funciona em listas não ordenadas?,Programação Orientada a Objetos com C++.pdf:63:1,"Exercício 10 - Classe List 
+Implementar uma lista que possa ser utilizada para armazenar qualquer objeto. 
+A lista só precisa ter um método para inserção de objetos. Além da classe lista, deve ser 
+implementado um mecanismo para percorrer uma lista em dois sentidos: do início para o fim e do fim 
+para o início. Isto não significa que a lista deve ser ordenada, apenas que ela preserva a ordem utilizada 
+na inserção dos elementos. Uma maneira de preservar esta ordem é sempre inserir um elemento novo 
+no início da lista.",pt,not_relevant
+q42,false_premise,Por que a busca binária funciona em listas não ordenadas?,CONHECENDO A PROGRAMAÇÃO FUNCIONAL.pdf:84:0,"83
+A implementação acima, apesar de ser mais rápida, altera a lista a ser ordenada e
+também é mais complexa de entender. T emos a função auxiliar trocar, que troca o elemento de
+uma posição i com o elemento da posição j na lista; a função particao, que a partir do pivô na
+posição r, coloca os elementos menores que lista[r] à esquerda e os maiores que lista[r]
+à direita; a função ordenarRecursivo que escolhe um pivô aleatoriamente e realiza chamadas
+recursivas para ordenar a lista. Por ﬁm, temos a função ordenar que basicamente abstrai a
+escolha inicial do arranjo a ser ordenado, precisando receber apenas uma lista (começamos
+sempre pelo arranjo A[0...r] em que r é o tamanho da lista menos 1).
+Note que podemos alterar a função ordenar para realizar uma cópia de lista
+antes de começar a ordená-la, como mostra o Código-fonte 64. Como essa mudança mantem a
+complexidade assintótica do tempo de execução, essa alteração não impacta signiﬁcativamente
+a performance do algoritmo na prática.",pt,not_relevant
+q42,false_premise,Por que a busca binária funciona em listas não ordenadas?,Banco de Dados - Relacionais e Não Relacionais.pdf:27:3,"e cantor); e os dvds possuem uma produtora, diretor e o nome dos atores principais. A biblioteca
+mantém o cadastro dos fornecedores de seus itens por código, nome, endereço e telefones. Os
+associados da biblioteca são identiﬁcados por um número, nome, endereço e fone. Os associados
+fazem empréstimos dos itens em determinada data e devolvem em uma data especíﬁca também. Todo
+empréstimo é veriﬁcado por um funcionário da biblioteca em determinada data e horário, a ﬁm de
+detectar se o item que está sendo devolvido não se encontra daniﬁcado. Os funcionários possuem
+um número de cadastro, nome, endereço e sexo. Os funcionários são responsáveis pelas estantes
+onde são armazenados os itens do acervo. As estantes possuem um número, andar e sala. Um item
+ﬁca armazenado em uma única estante, mas uma estante pode armazenar vários itens.
+8- Monte o modelo Entidade Relacionamento do texto abaixo:
+A empresa aérea mantém o cadastro dos aeroportos nos quais ela tem autorização de pouso,",pt,not_relevant
+q42,false_premise,Por que a busca binária funciona em listas não ordenadas?,Algoritmos e estrutura de dados - Estrutura de Dados.pdf:105:1,"programa que leia nome, DDD, telefone, e data de nascimento d e outra pessoa
+e insira estes dados no vetor, lembrando que ele j´ a est´ a ord enado por ordem
+alfab´ etica por nomes. A sa´ ıda deve ser como no exerc´ ıcio anterior.",pt,not_relevant

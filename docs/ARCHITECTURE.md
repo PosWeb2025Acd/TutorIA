@@ -12,7 +12,7 @@ flowchart LR
 
     rag -- "similarity search" --> chroma
     rag -- "users, checkpoints,<br/>question_and_answer" --> pg[("Postgres")]
-    rag -- "llama3.1:8b" --> ollama["Ollama (:11434)"]
+    rag -- "llama3.1:8b" --> ollama["Ollama (:11434, host :11435)"]
 
     judge["judge/ (evaluation loop)"] -- "unjudged Q&A / evaluation" --> pg
     judge -- "deepseek-r1:8b" --> ollama
@@ -127,7 +127,7 @@ flowchart TD
 1. **Routing** (`__router_choice__`): llama3.1 classifies the question and returns JSON `{"choice": "vectorstore" | "llm"}`. Computer science, programming and technology questions go to the vector store.
 2. **Retrieval** (`__retrieve_context__`): `vector_store.as_retriever()` uses LangChain's default plain similarity search with `k=4`. Chroma embeds the question with the same `all-mpnet-base-v2` model and returns the 4 closest chunks. `sources` is set to their chunk ids.
 3. **Context evaluation** (`__retrieved_context_evaluator_llm__`, default): `grade_documents_llm` makes **one LLM call per chunk**, asking whether the chunk is `relevant`, `partially_relevant` or `not_relevant` to the question. This is a lenient keyword-style check meant to drop wrong retrievals.
-   (The alternative JEV evaluator is selected with `CONTEXT_EVALUATOR=jev` and is out of scope here; see [JEV_CONTEXT_EVALUATOR.md](JEV_CONTEXT_EVALUATOR.md).)
+   (The alternative JEV evaluator is selected with `CONTEXT_EVALUATOR=jev` and is out of scope here; see [jev-context-evaluator/JEV_CONTEXT_EVALUATOR.md](jev-context-evaluator/JEV_CONTEXT_EVALUATOR.md).)
 4. **Filtering** (`filter_graded_documents`): keeps `relevant` chunks followed by `partially_relevant` ones and discards the rest. `sources` is narrowed to the kept ids. `has_relevant_documents` is true only if **at least one chunk is fully relevant**: partially relevant chunks are used as extra context but can't unlock an answer on their own.
 5. **Answer** (`__generate_answer__`):
    - If there's no relevant chunk, it returns the canned Portuguese refusal with no sources.
@@ -192,6 +192,8 @@ sequenceDiagram
 - Auth: `@token_required_as_param` validates `Authorization: Bearer <jwt>`, checks the user still exists, and passes the decoded payload as the first positional arg to the view. Stack `@admin_validate` beneath it for admin-only endpoints.
 - Responses are built manually with `Response(json.dumps(...), mimetype="application/json")` and carry a `status: "success"|"error"` field, with error text under `erro`.
 - Controllers return `(success: bool, data, message)` tuples; repositories take a psycopg connection (rows as dicts via `dict_row`).
+- LLM availability is not a startup requirement: `rag`/`judge` only wait for `ollama` to *start*, so login and pages work while Ollama is down. Routes that call the LLM catch `LLM_UNAVAILABLE_ERRORS` (`rag/rag_graph/models.py`) and return `503` with a Portuguese `erro`, which the frontend shows as-is. The `ollama` service has a Docker healthcheck (local API + `eth0` present, catching the case where the container starts detached from the compose network); it is informational only — check `docker compose ps` — and `init.sh` waits on it before pulling models.
+- Ollama ports: `rag` and `judge` use `OLLAMA_URL=http://ollama-tutoria:11434`, the container port on the compose network. The service is published on the host as `11435` so it doesn't collide with an Ollama installed on the machine, which listens on `11434`. That collision made the container start fail with `failed to bind host port 0.0.0.0:11434/tcp: address already in use`, and retrying after stopping the host service left it running with no network (`unhealthy`, with `rag` failing DNS on `ollama-tutoria` and answering `503`). If a container is in that state, or another service holds `11435`, free the port and run `docker compose up -d --force-recreate ollama`.
 
 ## Database
 
