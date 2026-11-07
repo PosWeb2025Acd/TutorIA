@@ -207,6 +207,7 @@ What to know when reading the data:
 - **`used` means the chunk reached the answer context.** In a refusal every chunk has `used=false`, including `partially_relevant` ones kept by the filter.
 - **`probability` is `NULL` for the LLM**, which only returns a label. Evaluator-specific fields, such as JEV's `probabilities` or the LLM's `raw_label`, are in `details`.
 - **Recording is best effort.** A failure is logged as `Falha ao registrar a avaliação de contexto` and the student still gets the answer.
+- **`content` can differ from the stored chunk by NUL bytes.** Some PDFs leave `\x00` in the extracted text, which Postgres rejects, so the repository removes them when saving.
 - **Some turns have no record:** the `llm` route skips evaluation, and a turn that fails (invalid LLM JSON, Ollama down) has no Q&A row to attach to. The LLM record also has no reasoning, because the grader prompt asks for a label only.
 
 Useful queries:

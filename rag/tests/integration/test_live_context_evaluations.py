@@ -78,3 +78,13 @@ def test_evaluator_filter(conn, question_answer_id):
 def test_evaluation_needs_an_existing_question_and_answer(conn):
     with pytest.raises(psycopg.errors.ForeignKeyViolation):
         repository.create_context_evaluation(conn, -1, EVALUATION)
+
+def test_chunk_with_nul_byte_is_saved(conn, question_answer_id):
+    chunk = {**EVALUATION["chunks"][0], "content": "armazenados\x00no banco", "details": {"raw_label": "RELE\x00VANT"}}
+
+    context_evaluation_id = repository.create_context_evaluation(conn, question_answer_id, {**EVALUATION, "chunks": [chunk]})
+
+    evaluation = next(item for item in repository.get_context_evaluations_on_db(conn, 1) if item["id"] == context_evaluation_id)
+    assert evaluation["chunks"][0]["content"] == "armazenadosno banco"
+    assert evaluation["chunks"][0]["details"] == {"raw_label": "RELEVANT"}
+

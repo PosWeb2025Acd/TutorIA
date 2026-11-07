@@ -44,6 +44,23 @@ def test_create_inserts_the_evaluation_and_each_chunk():
     assert chunk_rows[0][7].obj == {"score": 1.9}
     cursor.close.assert_called_once()
 
+def test_create_removes_nul_bytes_that_postgres_rejects():
+    cursor = MagicMock()
+    cursor.fetchone.return_value = {"id": 7}
+    chunk = {**EVALUATION["chunks"][0], "content": "armazenados\x00no banco", "label": "rele\x00vant", "details": {"raw_label": "RELE\x00VANT", "items": ["a\x00b"]}}
+    evaluation = {**EVALUATION, "config": {"prompt": "pro\x00mpt"}, "fallback_error": "er\x00ro", "chunks": [chunk]}
+
+    repository.create_context_evaluation(connection_with(cursor), 42, evaluation)
+
+    run_params = cursor.execute.call_args.args[1]
+    assert run_params[2].obj == {"prompt": "prompt"}
+    assert run_params[3] == "erro"
+    row = cursor.executemany.call_args.args[1][0]
+    assert row[3:5] == ("armazenadosno banco", "relevant")
+    assert row[7].obj == {"raw_label": "RELEVANT", "items": ["ab"]}
+    # O registro original, que está no estado do grafo, não é alterado
+    assert chunk["content"] == "armazenados\x00no banco"
+
 def test_create_does_not_persist_the_question_nor_commit():
     cursor = MagicMock()
     cursor.fetchone.return_value = {"id": 7}

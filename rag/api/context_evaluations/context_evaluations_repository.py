@@ -4,11 +4,26 @@ from db.postgres import get_postgres_connection
 
 PAGE_SIZE = 10
 
+def _without_nul_bytes(value):
+    """
+    O Postgres não aceita NUL (0x00) em TEXT nem em JSONB, e a extração de alguns PDFs deixa esse caractere nos chunks.
+    """
+
+    if isinstance(value, str):
+        return value.replace("\x00", "")
+    if isinstance(value, dict):
+        return {key: _without_nul_bytes(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_without_nul_bytes(item) for item in value]
+
+    return value
+
 def create_context_evaluation(db_connection, question_answer_id, evaluation):
     """
     Insere a avaliação e seus chunks. Não faz commit: quem abre a conexão controla a transação.
     """
 
+    evaluation = _without_nul_bytes(evaluation)
     cursor = db_connection.cursor()
     try:
         cursor.execute(
