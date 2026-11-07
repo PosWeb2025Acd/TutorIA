@@ -12,7 +12,7 @@ flowchart LR
 
     rag -- "similarity search" --> chroma
     rag -- "users, checkpoints,<br/>question_and_answer" --> pg[("Postgres")]
-    rag -- "llama3.1:8b" --> ollama["Ollama (:11434)"]
+    rag -- "llama3.1:8b" --> ollama["Ollama (:11434, host :11435)"]
 
     judge["judge/ (evaluation loop)"] -- "unjudged Q&A / evaluation" --> pg
     judge -- "deepseek-r1:8b" --> ollama
@@ -193,6 +193,7 @@ sequenceDiagram
 - Responses are built manually with `Response(json.dumps(...), mimetype="application/json")` and carry a `status: "success"|"error"` field, with error text under `erro`.
 - Controllers return `(success: bool, data, message)` tuples; repositories take a psycopg connection (rows as dicts via `dict_row`).
 - LLM availability is not a startup requirement: `rag`/`judge` only wait for `ollama` to *start*, so login and pages work while Ollama is down. Routes that call the LLM catch `LLM_UNAVAILABLE_ERRORS` (`rag/rag_graph/models.py`) and return `503` with a Portuguese `erro`, which the frontend shows as-is. The `ollama` service has a Docker healthcheck (local API + `eth0` present, catching the case where the container starts detached from the compose network); it is informational only — check `docker compose ps` — and `init.sh` waits on it before pulling models.
+- Ollama ports: `rag` and `judge` use `OLLAMA_URL=http://ollama-tutoria:11434`, the container port on the compose network. The service is published on the host as `11435` so it doesn't collide with an Ollama installed on the machine, which listens on `11434`. That collision made the container start fail with `failed to bind host port 0.0.0.0:11434/tcp: address already in use`, and retrying after stopping the host service left it running with no network (`unhealthy`, with `rag` failing DNS on `ollama-tutoria` and answering `503`). If a container is in that state, or another service holds `11435`, free the port and run `docker compose up -d --force-recreate ollama`.
 
 ## Database
 

@@ -73,7 +73,9 @@ services:
     container_name: tutoria_ollama
     hostname: ollama-tutoria
     ports:
-      - "11434:11434"
+      # Porta 11435 no host para não conflitar com um Ollama instalado na máquina, que usa a 11434.
+      # rag e judge acessam pela rede do compose (http://ollama-tutoria:11434), sem usar esta porta
+      - "11435:11434"
     volumes:
       - ollama_data:/root/.ollama
     deploy:

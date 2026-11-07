@@ -30,7 +30,7 @@ if docker ps -q --no-trunc | grep -q "$OLLAMA_CONTAINER_ID"; then
     docker compose exec -it $OLLAMA_SERVICE ollama pull $LLM_JUDGE_MODEL
     printf "LLM $LLM_JUDGE_MODEL pulled successfully."
 else
-    printf "Ollama container is not running. Check if is a service running at the port 11434."
+    printf "Ollama container is not running. Check if another service is using port 11435 on the host."
 fi
 
 if docker ps -q --no-trunc | grep -q "$RAG_CONTAINER_ID"; then

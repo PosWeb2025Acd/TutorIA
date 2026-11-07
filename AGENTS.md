@@ -20,6 +20,8 @@ docker compose logs -f rag   # services: rag, judge, frontend, db, ollama
 
 After wiping the DB volume, re-run the checkpointer setup: `docker compose exec rag /app/scripts/init_checkpointer.sh`.
 
+The Ollama container is published on host port `11435`, so it can coexist with an Ollama installed on the machine (`11434`). Services inside compose still use `OLLAMA_URL=http://ollama-tutoria:11434`. If `docker compose ps` shows `ollama` as `unhealthy`, see "Ollama ports" in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 Frontend (`app/`, Create React App): `npm start`, `npm run build`, `npm test` (react-scripts/Jest; no tests exist yet). No linter is configured.
 
 ## Testing
